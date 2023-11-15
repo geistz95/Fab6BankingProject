@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -12,6 +13,7 @@ public class Customer {
      * Set of Addresses
      */
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
