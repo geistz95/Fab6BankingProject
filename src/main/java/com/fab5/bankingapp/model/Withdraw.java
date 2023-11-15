@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 
 @Entity
 public class Withdraw {
+
+
     /**
      * Long id
      * String type
