@@ -10,6 +10,13 @@ import java.util.List;
 
 @Repository
 
+
+public interface AccountRepository extends CrudRepository<Account, Long> {
+
+    List<Account> findByCustomerId(Long customerId);
+
+}
+=======
 public interface AccountRepository extends CrudRepository<Account, Long>{
 
     List<Account> findByCustomerId(Long customerId);
@@ -19,3 +26,4 @@ public interface AccountRepository extends CrudRepository<Account, Long>{
 
 public interface AccountRepository extends CrudRepository<Account, Long> {
 }
+

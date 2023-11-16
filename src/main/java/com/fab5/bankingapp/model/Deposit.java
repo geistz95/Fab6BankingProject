@@ -5,7 +5,7 @@ import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
@@ -39,6 +39,7 @@ public class Deposit implements Serializable {
 
     @Column
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotEmpty
     @JoinColumn(name="accountID",nullable = false)
     private Long payee_id;
 
