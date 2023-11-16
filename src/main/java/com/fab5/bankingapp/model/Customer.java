@@ -1,7 +1,5 @@
 package com.fab5.bankingapp.model;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -13,7 +11,6 @@ public class Customer {
      * Set of Addresses
      */
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -23,8 +20,9 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Address> addresses;
+    @OneToMany( cascade = CascadeType.ALL)
+    @JoinColumn(name ="customer_id")
+    private Set<Address> addresses ;
 
 
     public Long getId() {
