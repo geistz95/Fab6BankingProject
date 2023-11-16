@@ -1,8 +1,9 @@
 package com.fab5.bankingapp.controller;
 
-
 import com.fab5.bankingapp.model.Bill;
+import com.fab5.bankingapp.exceptions.BillNotFoundException;
 import com.fab5.bankingapp.service.BillService;
+import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @Controller
-public class BillController {
+public class BillController implements IDValidation<BillNotFoundException> {
     @Autowired
     private BillService billService;
     @GetMapping("/bills/{billId}")
@@ -45,5 +46,8 @@ public class BillController {
     @DeleteMapping("/bills/{billId}")
     public ResponseEntity<?> deleteBill(@PathVariable Long id){
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    @Override
+    public void verifyID(Long id) throws BillNotFoundException {
     }
 }
