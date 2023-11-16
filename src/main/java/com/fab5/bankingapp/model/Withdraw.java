@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 public class Withdraw {
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -111,6 +112,7 @@ public class Withdraw {
 
 
 }
+
     /**
      * Long id
      * String type enum
