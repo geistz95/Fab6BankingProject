@@ -39,7 +39,7 @@ public class DepositService {
     }
 
     public void deleteDeposit(Deposit deposit){
-        depositRepository.delete((deposit))
+        depositRepository.delete(deposit);
     }
 
     public void deleteDepositByID(Long id){
