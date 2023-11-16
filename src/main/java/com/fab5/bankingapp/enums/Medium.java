@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 public enum Medium {
     //Specifies how the transaction is being handled. Balance or Rewards
-    BALANCE("balance"),REWARDS("rewards");
+    BALANCE("BALANCE"),REWARDS("REWARDS");
 
     private final String medium;
 
