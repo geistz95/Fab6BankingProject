@@ -14,12 +14,14 @@ public class Withdraw {
 
 
     @Column
+    @Enumerated(EnumType.STRING)
     private String type = TransactionType.WITHDRAW.getString();
 
     @Column
     private String transaction_date;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private String status;
 
     @Column
@@ -28,6 +30,7 @@ public class Withdraw {
     private Long payerId;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private String medium;
 
     @Column

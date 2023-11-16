@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WithdrawRepository extends CrudRepository<Withdraw, Long> {
+
     Iterable<Withdraw> findByAccount(Long accountId);
 }
