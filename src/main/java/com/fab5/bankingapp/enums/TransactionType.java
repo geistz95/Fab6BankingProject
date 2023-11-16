@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 
 
 public enum TransactionType {
-    DEPOSIT("deposit"), WITHDRAW("withdraw"),P2P("p2p");
+    DEPOSIT("DEPOSIT"), WITHDRAW("WITHDRAW"),P2P("P2P");
     //Specifies type of transaction P2P, Deposit, Withdraw
 
     private final String string;
