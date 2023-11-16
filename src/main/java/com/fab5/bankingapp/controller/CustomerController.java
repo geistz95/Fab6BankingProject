@@ -1,7 +1,9 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.service.CustomerService;;
+import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,19 @@ import java.util.Optional;
 
 @RequestMapping("/customers")
 @RestController
-public class CustomerController {
+public class CustomerController implements IDValidation<CustomerNotFoundException> {
+
     @Autowired
     private CustomerService customerService;
+
+    @Override
+    public void verifyID(Long id) throws CustomerNotFoundException {
+        Optional<Customer> checkCustomer = customerService.getCustomerByAccountId(id);
+        if(checkCustomer.isEmpty()) {
+            throw new CustomerNotFoundException(id);
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
@@ -52,4 +64,6 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 }
