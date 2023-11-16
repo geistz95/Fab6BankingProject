@@ -11,6 +11,7 @@ public class Withdraw {
     @Column
     private Long id;
 
+
     @Column
     private String type = TransactionType.WITHDRAW.getString();
 
@@ -43,10 +44,6 @@ public class Withdraw {
         this.payeeId = payeeId;
         this.amount = amount;
         this.description = description;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public Long getId() {
@@ -97,26 +94,23 @@ public class Withdraw {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Withdraw{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", transaction_date='" + transaction_date + '\'' +
-                ", status='" + status + '\'' +
-                ", payeeId=" + payeeId +
-                ", amount=" + amount +
-                ", description='" + description + '\'' +
-                '}';
+    public String getType() {
+        return type;
     }
+
+
+}
     /**
      * Long id
-     * String type
+     * String type enum
      * String transaction_date
-     * String status
+     * String status enum
      * Long payee_id
-     * String medium
+     * String medium enum
      * Double amount
      * String description
      */
-}
+
+
+
+
