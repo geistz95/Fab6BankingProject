@@ -35,7 +35,12 @@ public class DepositService {
 
     public void editDeposit(Deposit deposit, Long id){
         Deposit oldDeposit = depositRepository.findById(id).get();
-        oldDeposit=deposit;
+        oldDeposit.setAmount(deposit.getAmount());
+        oldDeposit.setDescription(deposit.getDescription());
+        oldDeposit.setStatus(deposit.getStatus());
+        oldDeposit.setPayee_id(deposit.getPayee_id());
+        oldDeposit.setTranscation_date(deposit.getTranscation_date());
+        depositRepository.save(oldDeposit);
     }
 
     public void deleteDeposit(Deposit deposit){
@@ -45,5 +50,7 @@ public class DepositService {
     public void deleteDepositByID(Long id){
         depositRepository.deleteById(id);
     }
+
+    public Iterable<Deposit> getAllDepositsByCustomerID(Long id){return depositRepository.findAllDepositsByCustomerID(id);}
 
 }
