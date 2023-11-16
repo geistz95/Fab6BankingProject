@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.model;
 
 import com.fab5.bankingapp.enums.Medium;
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
@@ -26,13 +27,15 @@ public class Deposit implements Serializable {
     private Long depositId;
 
     @Column
-    private String type = TransactionType.DEPOSIT.getString();
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
     @Column
     private String transcation_date;
 
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
 
     @Column
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,7 +43,8 @@ public class Deposit implements Serializable {
     private Long payee_id;
 
     @Column
-    private String medium;
+    @Enumerated(EnumType.STRING)
+    private Medium medium;
 
     @Column
     private Double amount;
@@ -51,7 +55,7 @@ public class Deposit implements Serializable {
     public Deposit() {
     }
 
-    public Deposit(Long depositId, String type, String transcation_date, String status, Long payee_id, String medium, Double amount, String description) {
+    public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description) {
         this.depositId = depositId;
         this.type = type;
         this.transcation_date = transcation_date;
@@ -70,10 +74,13 @@ public class Deposit implements Serializable {
         this.depositId = depositId;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
 
     public String getTranscation_date() {
         return transcation_date;
@@ -83,17 +90,6 @@ public class Deposit implements Serializable {
         this.transcation_date = transcation_date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setStatus(Medium s){
-        this.status=s.getMedium();
-    }
 
     public Long getPayee_id() {
         return payee_id;
@@ -103,13 +99,6 @@ public class Deposit implements Serializable {
         this.payee_id = payee_id;
     }
 
-    public String getMedium() {
-        return medium;
-    }
-
-    public void setMedium(String medium) {
-        this.medium = medium;
-    }
 
     public Double getAmount() {
         return amount;
@@ -126,4 +115,22 @@ public class Deposit implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
+
+
 }
