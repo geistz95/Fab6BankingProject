@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### UNIQUE SQLDATABASES ### 
+src/main/resources/application.properties
