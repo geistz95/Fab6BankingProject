@@ -1,12 +1,14 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.Medium;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class Deposit {
+public class Deposit implements Serializable {
     /**
      * Long id
      * String type
@@ -87,6 +89,10 @@ public class Deposit {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setStatus(Medium s){
+        this.status=s.getMedium();
     }
 
     public Long getPayee_id() {
