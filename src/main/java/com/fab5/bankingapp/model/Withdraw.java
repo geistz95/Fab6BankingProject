@@ -3,11 +3,13 @@ package com.fab5.bankingapp.model;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Withdraw {
   
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
