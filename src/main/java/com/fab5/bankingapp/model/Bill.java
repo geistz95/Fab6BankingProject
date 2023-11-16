@@ -22,6 +22,7 @@ public class Bill {
     private Long billId;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private String status;
 
     @Column
