@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-@Controller
+@RestController
 public class DepositController {
     @Autowired
     private DepositService depositService;
@@ -44,9 +44,9 @@ public class DepositController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/customers/{customerID}/{depositID}")
-    public ResponseEntity<?> getAllCustomerDeposits(@PathVariable Long customerID, Long depositID){
-        return new ResponseEntity<>(depositService.getAllCustomerDeposits(customerID,depositID),HttpStatus.OK);
+    @GetMapping("/customers/{customerID}/deposits")
+    public ResponseEntity<?> getAllCustomerDeposits(@PathVariable Long customerID){
+        return new ResponseEntity<>(depositService.getAllDepositsByCustomerID(customerID),HttpStatus.OK);
     }
 
 }
