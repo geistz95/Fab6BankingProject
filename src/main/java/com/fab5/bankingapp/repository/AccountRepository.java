@@ -9,21 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-
-
 public interface AccountRepository extends CrudRepository<Account, Long> {
-
     List<Account> findByCustomerId(Long customerId);
-
 }
-=======
-public interface AccountRepository extends CrudRepository<Account, Long>{
 
-    List<Account> findByCustomerId(Long customerId);
-
-
-
-
-public interface AccountRepository extends CrudRepository<Account, Long> {
-}
 
