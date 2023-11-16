@@ -1,9 +1,6 @@
 package com.fab5.bankingapp.controller;
 
-<<<<<<< HEAD
 import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
-=======
->>>>>>> development
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.service.WithdrawService;
 import com.fab5.bankingapp.validation.IDValidation;
