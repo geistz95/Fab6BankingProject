@@ -46,7 +46,19 @@ public class Deposit {
     @Column
     private String description;
 
+    public Deposit() {
+    }
 
+    public Deposit(Long depositId, String type, String transcation_date, String status, Long payee_id, String medium, Double amount, String description) {
+        this.depositId = depositId;
+        this.type = type;
+        this.transcation_date = transcation_date;
+        this.status = status;
+        this.payee_id = payee_id;
+        this.medium = medium;
+        this.amount = amount;
+        this.description = description;
+    }
 
     public Long getDepositId() {
         return depositId;
@@ -60,9 +72,6 @@ public class Deposit {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getTranscation_date() {
         return transcation_date;
