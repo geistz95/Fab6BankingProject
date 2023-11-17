@@ -22,7 +22,7 @@ public class CustomerController implements IDValidation<CustomerNotFoundExceptio
 
     @Override
     public void verifyID(Long id) throws CustomerNotFoundException {
-        Optional<Customer> checkCustomer = customerService.getCustomerByAccountId(id);
+        Optional<Customer> checkCustomer = customerService.getCustomerById(id);
         if(checkCustomer.isEmpty()) {
             throw new CustomerNotFoundException(id);
         }

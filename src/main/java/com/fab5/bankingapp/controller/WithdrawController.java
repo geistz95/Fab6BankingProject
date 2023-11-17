@@ -21,7 +21,10 @@ public class WithdrawController implements IDValidation<WithdrawNotFoundExceptio
 
     @Override
     public void verifyID(Long id) throws WithdrawNotFoundException {
-
+        Optional<Withdraw> checkWithdraw = withdrawService.getWithdrawById(id);
+        if (checkWithdraw.isEmpty()) {
+            throw new WithdrawNotFoundException(id);
+        }
     }
 
     @GetMapping(value = "/accounts/{accountId}/withdrawals")
