@@ -37,7 +37,7 @@ public class Deposit implements Serializable {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
-    @Column
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotEmpty
     @JoinColumn(name="accountID",nullable = false)
