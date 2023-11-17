@@ -1,9 +1,15 @@
 package com.fab5.bankingapp.model;
 
-import javax.persistence.Entity;
+import com.fab5.bankingapp.enums.Medium;
+import com.fab5.bankingapp.enums.TransactionStatus;
+import com.fab5.bankingapp.enums.TransactionType;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class Deposit {
+public class Deposit implements Serializable {
     /**
      * Long id
      * String type
@@ -14,4 +20,117 @@ public class Deposit {
      * Double amount
      * String description
      */
+
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long depositId;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+
+    @Column
+    private String transcation_date;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+
+    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="accountID",nullable = false)
+    private Long payee_id;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Medium medium;
+
+    @Column
+    private Double amount;
+
+    @Column
+    private String description;
+
+    public Deposit() {
+    }
+
+    public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description) {
+        this.depositId = depositId;
+        this.type = type;
+        this.transcation_date = transcation_date;
+        this.status = status;
+        this.payee_id = payee_id;
+        this.medium = medium;
+        this.amount = amount;
+        this.description = description;
+    }
+
+    public Long getDepositId() {
+        return depositId;
+    }
+
+    public void setDepositId(Long depositId) {
+        this.depositId = depositId;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public String getTranscation_date() {
+        return transcation_date;
+    }
+
+    public void setTranscation_date(String transcation_date) {
+        this.transcation_date = transcation_date;
+    }
+
+
+    public Long getPayee_id() {
+        return payee_id;
+    }
+
+    public void setPayee_id(Long payee_id) {
+        this.payee_id = payee_id;
+    }
+
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
+
+
 }

@@ -1,12 +1,45 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+    public List<Customer> getAllCustomers() {
+        return (List<Customer>) customerRepository.findAll();
+    }
+
+    // Get customer by ID
+    public Optional<Customer> getCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    // Create a new customer
+    public Customer createCustomer(Customer customer) {
+        // You might want to validate data before saving
+        return customerRepository.save(customer);
+    }
+    public Customer updateCustomer(Long id, Customer updatedCustomer) {
+        return customerRepository.findById(id)
+                .map(existingCustomer -> {
+                    existingCustomer.setFirstName(updatedCustomer.getFirstName());
+                    existingCustomer.setLastName(updatedCustomer.getLastName());
+                    // Update other fields as needed
+                    return customerRepository.save(existingCustomer);
+                })
+                .orElse(null); // Handle the case where the customer with the given id is not found
+    }
+    public void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
+    }
 }
+
+
