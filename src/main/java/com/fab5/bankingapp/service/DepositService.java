@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.CustomerRepository;
@@ -21,13 +22,13 @@ public class DepositService {
     public void verifyDepositID(Long id){
         Optional<Deposit> checkDeposit = depositRepository.findById(id);
         if(checkDeposit.isEmpty()){
-            throw new DepositNotFoundException();
+            throw new DepositNotFoundException(id);
         }
     }
 
     public void verifyCustomerID(Long customerID){
         if(customerRepository.existsById(customerID)){
-            throw new CustomerDoesNotExistException();
+            throw new CustomerNotFoundException(customerID);
         }
     }
 
