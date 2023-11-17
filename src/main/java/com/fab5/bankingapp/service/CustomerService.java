@@ -40,6 +40,10 @@ public class CustomerService {
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
+    public Iterable<Customer> getCustomerByAccountId(Long id){
+        return customerRepository.findCustomerByAccountId(id);
+
+    }
 }
 
 
