@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
+
 import javax.persistence.*;
 
 @Entity
@@ -23,7 +25,7 @@ public class Bill {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private String status;
+    private TransactionStatus status;
 
     @Column
     private String payee;
@@ -46,15 +48,15 @@ public class Bill {
     @Column
     private Double payment_amount;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Column
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BILL_ID")
     private String account_id;
 
     public Bill (){
 
     }
-    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, String account_id) {
+
+    public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount) {
         this.billId = billId;
         this.status = status;
         this.payee = payee;
@@ -64,7 +66,6 @@ public class Bill {
         this.reccuring_date = reccuring_date;
         this.upcoming_payment_date = upcoming_payment_date;
         this.payment_amount = payment_amount;
-        this.account_id = account_id;
     }
 
     public Long getBillId() {
@@ -75,11 +76,11 @@ public class Bill {
         this.billId = billId;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
