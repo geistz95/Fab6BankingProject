@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.model;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,6 +24,8 @@ public class Customer {
     @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name ="customer_id")
     private Set<Address> addresses ;
+    @OneToMany(mappedBy = "customer")
+    private List<Account> account;
 
 
     public Long getId() {
