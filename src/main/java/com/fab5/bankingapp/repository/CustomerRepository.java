@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-    Optional<Customer> findByAccountId(Long accountId);
+   // Optional<Customer> findById(Long accountId);;
+   Iterable<Customer> findCustomerByAccountId(Long accountId);
 }
