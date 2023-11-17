@@ -1,8 +1,7 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.CustomerDoesNotExistException;
+import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
-import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.CustomerRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class DepositService {
+
     @Autowired
     private DepositRepository depositRepository;
     @Autowired
@@ -22,10 +22,19 @@ public class DepositService {
     public void verifyDepositID(Long id){
         Optional<Deposit> checkDeposit = depositRepository.findById(id);
         if(checkDeposit.isEmpty()){
-            throw new DepositNotFoundException();
+            throw new DepositNotFoundException(id);
         }
     }
+
+    public void verifyCustomerID(Long customerID){
+        if(customerRepository.existsById(customerID)){
+            throw new CustomerNotFoundException(customerID);
+        }
+    }
+
+
     public Optional<Deposit> getDepositByID(Long id){
+        verifyDepositID(id);
         return depositRepository.findById(id);
     }
 
@@ -34,6 +43,7 @@ public class DepositService {
     }
 
     public void editDeposit(Deposit deposit, Long id){
+        verifyDepositID(id);
         Deposit oldDeposit = depositRepository.findById(id).get();
         oldDeposit.setAmount(deposit.getAmount());
         oldDeposit.setDescription(deposit.getDescription());
@@ -43,14 +53,14 @@ public class DepositService {
         depositRepository.save(oldDeposit);
     }
 
-    public void deleteDeposit(Deposit deposit){
+    public void deleteDeposit(Deposit deposit, Long id){
+        verifyDepositID(id);
         depositRepository.delete(deposit);
     }
 
-    public void deleteDepositByID(Long id){
-        depositRepository.deleteById(id);
+    public Iterable<Deposit> getAllDepositsByCustomerID(Long customerId){
+        verifyCustomerID(customerId);
+        return depositRepository.findAllDepositsByCustomerID(customerId);
     }
-
-    public Iterable<Deposit> getAllDepositsByCustomerID(Long id){return depositRepository.findAllDepositsByCustomerID(id);}
 
 }

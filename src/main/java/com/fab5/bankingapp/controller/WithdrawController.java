@@ -1,20 +1,31 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.service.WithdrawService;
+import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 
-@RestController
-public class WithdrawController {
+@Controller
+public class WithdrawController implements IDValidation<WithdrawNotFoundException> {
     @Autowired
     private WithdrawService withdrawService;
+
+    @Override
+    public void verifyID(Long id) throws WithdrawNotFoundException {
+        Optional<Withdraw> checkWithdraw = withdrawService.getWithdrawById(id);
+        if (checkWithdraw.isEmpty()) {
+            throw new WithdrawNotFoundException(id);
+        }
+    }
 
     @GetMapping(value = "/accounts/{accountId}/withdrawals")
     public Iterable<Withdraw> getAllWithdrawals(@PathVariable Long accountId){
