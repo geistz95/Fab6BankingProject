@@ -19,7 +19,13 @@ import java.util.Optional;
 public class AccountController implements IDValidation<AccountNotFoundException> {
     @Autowired
     private AccountService accountService;
-  
+    @Override
+    public void verifyID(Long id) throws AccountNotFoundException {
+        Optional<Account> checkAccount = accountService.getAccountById(id);
+        if (checkAccount.isEmpty()) {
+            throw new AccountNotFoundException(id);
+        }
+    }
     @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
@@ -82,9 +88,4 @@ public class AccountController implements IDValidation<AccountNotFoundException>
         }
     }
 
-
-    @Override
-    public void verifyID(Long id) throws AccountNotFoundException {
-
-    }
 }

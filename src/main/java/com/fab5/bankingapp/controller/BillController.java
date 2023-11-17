@@ -13,11 +13,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Controller
 public class BillController implements IDValidation<BillNotFoundException> {
     @Autowired
     private BillService billService;
+
+    @Override
+    public void verifyID(Long id) throws BillNotFoundException {
+        Optional<Bill> checkBill = billService.getBillsById(id);
+        if(checkBill.isEmpty()) {
+            throw new BillNotFoundException(id);
+        }
+    }
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillsById(@PathVariable Long id){
         return new ResponseEntity<>(billService.getBillsById(id), HttpStatus.OK);
@@ -44,10 +53,8 @@ public class BillController implements IDValidation<BillNotFoundException> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @DeleteMapping("/bills/{billId}")
-    public ResponseEntity<?> deleteBill(@PathVariable Long id){
+    public ResponseEntity<?> deleteBill(@PathVariable Long id) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-    @Override
-    public void verifyID(Long id) throws BillNotFoundException {
     }
 }
