@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class AccountController implements IDValidation<AccountNotFoundException> {
     @Autowired
     private AccountService accountService;
@@ -31,7 +31,7 @@ public class AccountController implements IDValidation<AccountNotFoundException>
         this.accountService = accountService;
     }
 
-    @GetMapping
+    @GetMapping("/accounts")
     public ResponseEntity<Iterable<Account>> getAllAccounts() {
         Iterable<Account> accounts = accountService.getAllAccounts();
         return new ResponseEntity<>(accounts, HttpStatus.OK);
