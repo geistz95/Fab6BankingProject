@@ -77,7 +77,7 @@ public class AccountController implements IDValidation<AccountNotFoundException>
     }
 
 
-    @GetMapping("/{accountId}")
+    @DeleteMapping("/accounts/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long accountId) {
         Optional<Account> account = accountService.deleteAccount(accountId);
 
