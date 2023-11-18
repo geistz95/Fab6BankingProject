@@ -9,4 +9,6 @@ public class DepositNotFoundException extends NoSuchElementFoundException{
     public DepositNotFoundException(Long depositId) {
         super("Deposit with id " + depositId + " not found");
     }
+
+
 }
