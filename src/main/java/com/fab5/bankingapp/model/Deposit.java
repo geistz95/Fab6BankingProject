@@ -5,7 +5,7 @@ import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
@@ -37,8 +37,7 @@ public class Deposit implements Serializable {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
-    @Column
-    @ManyToOne(fetch = FetchType.LAZY)
+
     @JoinColumn(name="accountID",nullable = false)
     private Long payee_id;
 
@@ -52,10 +51,14 @@ public class Deposit implements Serializable {
     @Column
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name="account_id")
+    private Account account;
+
     public Deposit() {
     }
 
-    public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description) {
+    public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description, Account account) {
         this.depositId = depositId;
         this.type = type;
         this.transcation_date = transcation_date;
@@ -64,6 +67,7 @@ public class Deposit implements Serializable {
         this.medium = medium;
         this.amount = amount;
         this.description = description;
+        this.account=account;
     }
 
     public Long getDepositId() {
@@ -132,5 +136,11 @@ public class Deposit implements Serializable {
         this.medium = medium;
     }
 
+    public Account getAccount() {
+        return account;
+    }
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

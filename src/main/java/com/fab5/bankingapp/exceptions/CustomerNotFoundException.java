@@ -4,11 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class DepositNotFoundException extends NoSuchElementFoundException{
+public class CustomerNotFoundException extends NoSuchElementFoundException{
 
-    public DepositNotFoundException(Long depositId) {
-        super("Deposit with id " + depositId + " not found");
+    public CustomerNotFoundException(Long customerId) {
+        super("Customer with ID " + customerId + " not found");
     }
-
 
 }

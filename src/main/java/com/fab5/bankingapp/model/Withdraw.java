@@ -1,34 +1,41 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.Medium;
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Withdraw {
   
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
 
     @Column
-    private String type = TransactionType.WITHDRAW.getString();
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
     @Column
     private String transaction_date;
 
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
 
-    @Column
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="accountID",nullable = false)
+    @JoinColumn(name="account_ID",nullable = false)
     private Long payerId;
 
     @Column
-    private String medium;
+    @Enumerated(EnumType.STRING)
+    private Medium medium;
 
     @Column
     private Double amount;
@@ -39,7 +46,7 @@ public class Withdraw {
     public Withdraw() {
     }
 
-    public Withdraw(Long id, String type, String transaction_date, String status, Long payerId, String medium, Double amount, String description) {
+    public Withdraw(Long id, TransactionType type, String transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description) {
         this.id = id;
         this.type = type;
         this.transaction_date = transaction_date;
@@ -66,13 +73,6 @@ public class Withdraw {
         this.transaction_date = transaction_date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public Long getPayerId() {
         return payerId;
@@ -82,11 +82,27 @@ public class Withdraw {
         this.payerId = payeeId;
     }
 
-    public String getMedium() {
+    public Medium getMedium() {
         return medium;
     }
 
-    public void setMedium(String medium) {
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public void setMedium(Medium medium) {
         this.medium = medium;
     }
 
@@ -106,9 +122,7 @@ public class Withdraw {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
+
 
 
 }
