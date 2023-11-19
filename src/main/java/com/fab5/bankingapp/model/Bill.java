@@ -49,12 +49,12 @@ public class Bill {
     @OneToMany(cascade = CascadeType.ALL)
     @Column
     @JoinColumn(name = "BILL_ID")
-    private String account_id;
+    private Long account_id;
 
     public Bill (){
 
     }
-    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, String account_id) {
+    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Long account_id) {
         this.billId = billId;
         this.status = status;
         this.payee = payee;
@@ -139,11 +139,11 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public String getAccount_id() {
+    public Long getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(String account_id) {
+    public void setAccount_id(Long account_id) {
         this.account_id = account_id;
     }
 }
