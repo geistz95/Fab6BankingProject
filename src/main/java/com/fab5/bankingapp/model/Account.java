@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Account {
+public class Account implements Model{
     /**
      * Variables include
      *
@@ -30,6 +30,9 @@ public class Account {
 
     @Column
     private String nickname;
+
+    @Column
+    private String name;
     @Column
     @Value("0")
     private Integer rewards;
@@ -45,13 +48,22 @@ public class Account {
 
     }
 
-    public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer) {
+    public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer, String name) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
         this.rewards = rewards;
         this.balance = balance;
         this.customer = customer;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
