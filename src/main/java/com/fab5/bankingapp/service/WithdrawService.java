@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.service;
 
 import com.fab5.bankingapp.model.Withdraw;
+import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,9 @@ import java.util.Optional;
 public class WithdrawService {
     @Autowired
     private WithdrawRepository withdrawRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     public Iterable<Withdraw> getAllWithdrawalsByAccount(Long id){
         return withdrawRepository.findByAccount(id);
