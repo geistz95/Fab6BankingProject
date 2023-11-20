@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.service.CustomerService;;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class CustomerController implements IDValidation<CustomerNotFoundException> {
+public class CustomerController implements IDValidation<CustomerNotFoundException, AccountNotFoundException> {
 
     @Autowired
     private CustomerService customerService;
