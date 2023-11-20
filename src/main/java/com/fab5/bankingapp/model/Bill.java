@@ -50,13 +50,17 @@ public class Bill {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BILL_ID")
-    private String account_id;
+    private Long account_id;
 
     public Bill (){
 
     }
+<<<<<<< HEAD
+    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Long account_id) {
+=======
 
     public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount) {
+>>>>>>> development
         this.billId = billId;
         this.status = status;
         this.payee = payee;
@@ -140,11 +144,11 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public String getAccount_id() {
+    public Long getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(String account_id) {
+    public void setAccount_id(Long account_id) {
         this.account_id = account_id;
     }
 }
