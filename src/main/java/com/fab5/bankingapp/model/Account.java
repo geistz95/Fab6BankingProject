@@ -42,19 +42,33 @@ public class Account {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToMany(mappedBy = "account")
+    private List<Bill> bills;
 
     public Account(){
 
     }
 
-    public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer, String name) {
+//    public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer, String name) {
+//        this.id = id;
+//        this.type = type;
+//        this.nickname = nickname;
+//        this.rewards = rewards;
+//        this.balance = balance;
+//        this.customer = customer;
+//        this.name = name;
+//    }
+
+
+    public Account(Long id, AccountType type, String nickname, String name, Integer rewards, Double balance, Customer customer, List<Bill> bills) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
+        this.name = name;
         this.rewards = rewards;
         this.balance = balance;
         this.customer = customer;
-        this.name = name;
+        this.bills = bills;
     }
 
     public String getName() {
@@ -111,5 +125,13 @@ public class Account {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
     }
 }
