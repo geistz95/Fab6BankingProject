@@ -48,6 +48,11 @@ public class Bill {
     @Column
     private Double payment_amount;
 
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "BILL_ID")
+    private Long account_id;
+
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
