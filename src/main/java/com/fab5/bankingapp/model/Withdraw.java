@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Withdraw {
+public class Withdraw implements Model{
   
     @Id
     @NotNull
