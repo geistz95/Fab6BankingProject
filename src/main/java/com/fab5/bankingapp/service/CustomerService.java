@@ -2,6 +2,7 @@ package com.fab5.bankingapp.service;
 
 import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Customer;
+import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.CustomerRepository;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,14 @@ public class CustomerService implements IDValidation<CustomerNotFoundException> 
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Override
     public void verifyID(Long id) throws CustomerNotFoundException {
 
     }
+
     public List<Customer> getAllCustomers() {
         return (List<Customer>) customerRepository.findAll();
     }
