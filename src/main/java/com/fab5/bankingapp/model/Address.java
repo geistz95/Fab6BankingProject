@@ -3,7 +3,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Address {
+public class Address implements Model {
     /**
      * Long id
      * String streetName
