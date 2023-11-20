@@ -15,18 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class CustomerController implements IDValidation<CustomerNotFoundException, AccountNotFoundException> {
+public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Override
-    public void verifyID(Long id) throws CustomerNotFoundException {
-        Optional<Customer> checkCustomer = customerService.getCustomerById(id);
-        if(checkCustomer.isEmpty()) {
-            throw new CustomerNotFoundException(id);
-        }
-    }
 
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomers() {

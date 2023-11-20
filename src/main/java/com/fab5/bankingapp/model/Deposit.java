@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
-public class Deposit implements Model {
+public class Deposit implements Serializable {
     /**
      * Long id
      * String type
