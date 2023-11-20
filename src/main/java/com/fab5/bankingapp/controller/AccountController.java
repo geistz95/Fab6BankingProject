@@ -18,23 +18,10 @@ import java.util.Optional;
 import java.util.Optional;
 
 @RestController
-public class AccountController implements IDValidation<AccountNotFoundException, CustomerNotFoundException> {
+public class AccountController {
     @Autowired
     private AccountService accountService;
-    @Override
-    public void verifyID1(Long id) throws AccountNotFoundException {
-        Optional<Account> checkAccount = accountService.getAccountById(id);
-        if (checkAccount.isEmpty()) {
-            throw new AccountNotFoundException(id);
-        }
-    }
 
-    public void verifyID2(Long id) throws CustomerNotFoundException {
-        Optional<Customer> checkAccount = accountService.getAccountById(id);
-        if (checkAccount.isEmpty()) {
-            throw new AccountNotFoundException(id);
-        }
-    }
     @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
