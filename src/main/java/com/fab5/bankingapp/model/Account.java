@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Account {
+public class Account implements Model{
     /**
      * Variables include
      *
