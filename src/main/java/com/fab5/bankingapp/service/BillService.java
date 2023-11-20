@@ -18,7 +18,7 @@ public class BillService implements IDValidation<BillNotFoundException> {
 
     @Override
     public void verifyID(Long id) throws BillNotFoundException {
-
+        //
     }
     public Optional<Bill> getBillsById (Long id){
         return billRepository.findById(id);
