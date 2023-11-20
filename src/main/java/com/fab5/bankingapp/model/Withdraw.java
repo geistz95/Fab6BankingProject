@@ -29,7 +29,7 @@ public class Withdraw {
     private TransactionStatus status;
 
 
-    @JoinColumn(name="accountID",nullable = false)
+    @Column
     private Long payerId;
 
     @Column
