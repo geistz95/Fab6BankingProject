@@ -1,13 +1,15 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
+import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
-import com.fab5.bankingapp.repository.CustomerRepository;
+import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,7 +18,7 @@ public class DepositService {
     @Autowired
     private DepositRepository depositRepository;
     @Autowired
-    private CustomerRepository customerRepository;
+    private AccountRepository accountRepository;
 
 
     public void verifyDepositID(Long id){
@@ -25,12 +27,13 @@ public class DepositService {
             throw new DepositNotFoundException(id);
         }
     }
-
-    public void verifyCustomerID(Long customerID){
-        if(customerRepository.existsById(customerID)){
-            throw new CustomerNotFoundException(customerID);
+    public void verifyAccountId(Long id){
+        Optional<Account> checkAccount = accountRepository.findById(id);
+        if(checkAccount.isEmpty()){
+            throw new AccountNotFoundException(id);
         }
     }
+
 
 
     public Optional<Deposit> getDepositByID(Long id){
@@ -58,9 +61,9 @@ public class DepositService {
         depositRepository.delete(deposit);
     }
 
-    public Iterable<Deposit> getAllDepositsByCustomerID(Long customerId){
-        verifyCustomerID(customerId);
-        return depositRepository.findAllDepositsByCustomerID(customerId);
+    public List<Deposit> getAllDepositsByCustomerID(Long accountID){
+        verifyAccountId(accountID);
+        return depositRepository.findAllDepositsByAccountID(accountID);
     }
 
 }

@@ -29,8 +29,7 @@ public class Withdraw {
     private TransactionStatus status;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="account_ID",nullable = false)
+    @JoinColumn(name="accountID",nullable = false)
     private Long payerId;
 
     @Column
@@ -43,10 +42,14 @@ public class Withdraw {
     @Column
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name="account_id")
+    private Account account;
+
     public Withdraw() {
     }
 
-    public Withdraw(Long id, TransactionType type, String transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description) {
+    public Withdraw(Long id, TransactionType type, String transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
         this.id = id;
         this.type = type;
         this.transaction_date = transaction_date;
@@ -55,6 +58,15 @@ public class Withdraw {
         this.medium = medium;
         this.amount = amount;
         this.description = description;
+        this.account = account;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Long getId() {
