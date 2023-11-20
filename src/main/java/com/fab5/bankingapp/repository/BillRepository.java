@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BillRepository  extends JpaRepository<Bill, Long> {
-    @Query(value = "accounts.*\n" +
+    @Query(value = "SELECT bills.*\n" +
             "FROM bills\n" +
             "JOIN accounts ON bills.account_id = accounts.account_id\n" +
             "WHERE accounts.account_id = ?1", nativeQuery = true )
