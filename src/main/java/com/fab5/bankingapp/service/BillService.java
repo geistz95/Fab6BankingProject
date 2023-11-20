@@ -35,7 +35,7 @@ public class BillService {
         originalBill.setReccuring_date(bill.getReccuring_date());
         originalBill.setUpcoming_payment_date(bill.getUpcoming_payment_date());
         originalBill.setPayment_amount(bill.getPayment_amount());
-        originalBill.setAccount_id(bill.getAccount_id());
+        originalBill.setAccount(bill.getAccount());
         billRepository.save(originalBill);
 
     }
