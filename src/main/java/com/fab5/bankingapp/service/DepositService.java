@@ -5,7 +5,9 @@ import com.fab5.bankingapp.exceptions.DepositNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
+import com.fab5.bankingapp.repository.CustomerRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
+import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +15,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DepositService {
+public class DepositService implements IDValidation<DepositNotFoundException> {
 
     @Autowired
     private DepositRepository depositRepository;
     @Autowired
     private AccountRepository accountRepository;
 
+    @Override
+    public void verifyID(Long id) throws DepositNotFoundException {
 
+    }
     public void verifyDepositID(Long id){
         Optional<Deposit> checkDeposit = depositRepository.findById(id);
         if(checkDeposit.isEmpty()){
@@ -33,8 +38,6 @@ public class DepositService {
             throw new AccountNotFoundException(id);
         }
     }
-
-
 
     public Optional<Deposit> getDepositByID(Long id){
         verifyDepositID(id);
@@ -61,7 +64,7 @@ public class DepositService {
         depositRepository.delete(deposit);
     }
 
-    public List<Deposit> getAllDepositsByCustomerID(Long accountID){
+    public List<Deposit> getAllDepositsByAccountID(Long accountID){
         verifyAccountId(accountID);
         return depositRepository.findAllDepositsByAccountID(accountID);
     }
