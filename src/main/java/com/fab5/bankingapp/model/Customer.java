@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Customer {
+public class Customer implements Model {
     /**
      * Long customerID
      * String firstName
