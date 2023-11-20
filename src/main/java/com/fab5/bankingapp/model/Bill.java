@@ -5,7 +5,7 @@ import com.fab5.bankingapp.enums.TransactionStatus;
 import javax.persistence.*;
 
 @Entity
-public class Bill {
+public class Bill implements Model {
     /**
      * Long billid
      * String status
