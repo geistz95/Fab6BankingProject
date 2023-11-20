@@ -17,17 +17,10 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-public class BillController implements IDValidation<BillNotFoundException, AccountNotFoundException> {
+public class BillController {
     @Autowired
     private BillService billService;
 
-    @Override
-    public void verifyID(Long id) throws BillNotFoundException {
-        Optional<Bill> checkBill = billService.getBillsById(id);
-        if(checkBill.isEmpty()) {
-            throw new BillNotFoundException(id);
-        }
-    }
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillsById(@PathVariable Long id){
         return new ResponseEntity<>(billService.getBillsById(id), HttpStatus.OK);

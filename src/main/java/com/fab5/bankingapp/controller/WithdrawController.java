@@ -16,17 +16,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.Optional;
 
 @Controller
-public class WithdrawController implements IDValidation<WithdrawNotFoundException, AccountNotFoundException> {
+public class WithdrawController {
     @Autowired
     private WithdrawService withdrawService;
-
-    @Override
-    public void verifyID(Long id) throws WithdrawNotFoundException {
-        Optional<Withdraw> checkWithdraw = withdrawService.getWithdrawById(id);
-        if (checkWithdraw.isEmpty()) {
-            throw new WithdrawNotFoundException(id);
-        }
-    }
 
     @GetMapping(value = "/accounts/{accountId}/withdrawals")
     public Iterable<Withdraw> getAllWithdrawals(@PathVariable Long accountId){

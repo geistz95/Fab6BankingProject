@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.repository.AccountRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -12,11 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService {
+public class AccountService implements IDValidation<AccountNotFoundException> {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Override
+    public void verifyID(Long id) throws AccountNotFoundException {
 
+    }
 
     @Autowired
     public AccountService(AccountRepository accountRepository) {
@@ -77,4 +82,5 @@ public class AccountService {
         account.ifPresent(accountRepository::delete);
         return account;
     }
+
 }
