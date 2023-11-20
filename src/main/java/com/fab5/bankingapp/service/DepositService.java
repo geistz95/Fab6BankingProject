@@ -5,6 +5,7 @@ import com.fab5.bankingapp.exceptions.DepositNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
+import com.fab5.bankingapp.repository.CustomerRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class DepositService {
     private DepositRepository depositRepository;
     @Autowired
     private AccountRepository accountRepository;
+
 
 
     public void verifyDepositID(Long id){
@@ -61,7 +63,7 @@ public class DepositService {
         depositRepository.delete(deposit);
     }
 
-    public List<Deposit> getAllDepositsByCustomerID(Long accountID){
+    public List<Deposit> getAllDepositsByAccountID(Long accountID){
         verifyAccountId(accountID);
         return depositRepository.findAllDepositsByAccountID(accountID);
     }
