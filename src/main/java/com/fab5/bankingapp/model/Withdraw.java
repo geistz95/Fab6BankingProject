@@ -30,7 +30,7 @@ public class Withdraw {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="account_ID",nullable = false)
+    @JoinColumn(name="account_id",nullable = false)
     private Long payerId;
 
     @Column

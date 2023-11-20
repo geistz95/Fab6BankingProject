@@ -51,6 +51,7 @@ public class Bill {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BILL_ID")
     private Long account_id;
+
     @ManyToOne
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
