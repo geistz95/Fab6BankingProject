@@ -38,7 +38,7 @@ public class Deposit implements Serializable {
     private TransactionStatus status;
 
 
-    @JoinColumn(name="accountID",nullable = false)
+    @Column
     private Long payee_id;
 
     @Column

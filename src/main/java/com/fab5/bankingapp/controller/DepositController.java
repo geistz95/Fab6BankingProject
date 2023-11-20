@@ -19,16 +19,9 @@ import java.net.URI;
 import java.util.Optional;
 
 @Controller
-public class DepositController implements IDValidation<DepositNotFoundException, CustomerNotFoundException> {
+public class DepositController {
     @Autowired
     private DepositService depositService;
-    @Override
-    public void verifyID(Long id) throws DepositNotFoundException {
-        Optional<Deposit> checkDeposit = depositService.getDepositByID(id);
-        if(checkDeposit.isEmpty()){
-            throw new DepositNotFoundException(id);
-        }
-    }
 
     @PostMapping("/deposits")
     public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposit deposit) {
@@ -42,19 +35,16 @@ public class DepositController implements IDValidation<DepositNotFoundException,
 
     @GetMapping("/deposits/{accountID}/{depositID}")
     public ResponseEntity<?> getDeposit(@PathVariable Long accountsID, @PathVariable Long depositID){
-        verifyID(depositID);
         return new ResponseEntity<>(depositService.getDepositByID(depositID), HttpStatus.OK);
     }
 
     @DeleteMapping("/deposits/{depositID}")
     public ResponseEntity<?> deleteDeposit(@PathVariable Long depositID){
-        verifyID(depositID);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/deposits/{depositID}")
     public ResponseEntity<?> editDeposit(@Valid @RequestBody Deposit deposit,@PathVariable Long depositID){
-        verifyID(depositID);
         depositService.editDeposit(deposit,depositID);
         return new ResponseEntity<>(HttpStatus.OK);
     }
