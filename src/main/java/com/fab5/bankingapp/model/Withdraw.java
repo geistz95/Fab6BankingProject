@@ -29,8 +29,7 @@ public class Withdraw {
     private TransactionStatus status;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="account_id",nullable = false)
+    @JoinColumn(name="accountID",nullable = false)
     private Long payerId;
 
     @Column
