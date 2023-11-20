@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Withdraw {
+public class Withdraw implements Model{
   
     @Id
     @NotNull
@@ -29,7 +29,7 @@ public class Withdraw {
     private TransactionStatus status;
 
 
-    @JoinColumn(name="accountID",nullable = false)
+    @Column
     private Long payerId;
 
     @Column
