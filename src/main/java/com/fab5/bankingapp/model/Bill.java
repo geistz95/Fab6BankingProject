@@ -55,12 +55,9 @@ public class Bill {
     public Bill (){
 
     }
-<<<<<<< HEAD
-    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Long account_id) {
-=======
 
     public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount) {
->>>>>>> development
+
         this.billId = billId;
         this.status = status;
         this.payee = payee;
