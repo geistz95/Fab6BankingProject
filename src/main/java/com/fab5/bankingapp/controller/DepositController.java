@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.service.DepositService;
@@ -12,16 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
 @Controller
-public class DepositController implements IDValidation<DepositNotFoundException> {
+public class DepositController implements IDValidation<DepositNotFoundException, CustomerNotFoundException> {
     @Autowired
     private DepositService depositService;
     @Override
-    public void verifyID(Long id) throws DepositNotFoundException{
+    public void verifyID(Long id) throws DepositNotFoundException {
         Optional<Deposit> checkDeposit = depositService.getDepositByID(id);
         if(checkDeposit.isEmpty()){
             throw new DepositNotFoundException(id);

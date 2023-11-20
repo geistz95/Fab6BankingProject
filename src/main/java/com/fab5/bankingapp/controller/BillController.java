@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.model.Bill;
 import com.fab5.bankingapp.exceptions.BillNotFoundException;
 import com.fab5.bankingapp.service.BillService;
@@ -16,7 +17,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-public class BillController implements IDValidation<BillNotFoundException> {
+public class BillController implements IDValidation<BillNotFoundException, AccountNotFoundException> {
     @Autowired
     private BillService billService;
 
