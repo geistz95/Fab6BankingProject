@@ -4,6 +4,7 @@ import com.fab5.bankingapp.enums.AccountType;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -38,6 +39,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
 
     public Account(){
 
