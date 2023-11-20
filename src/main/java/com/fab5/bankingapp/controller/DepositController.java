@@ -50,8 +50,8 @@ public class DepositController {
     }
 
     @GetMapping("/customers/{customerID}/deposits")
-    public ResponseEntity<?> getAllCustomerDeposits(@PathVariable Long customerID){
-        return new ResponseEntity<>(depositService.getAllDepositsByCustomerID(customerID),HttpStatus.OK);
+    public ResponseEntity<?> getAllCustomerDeposits(@PathVariable Long accountID){
+        return new ResponseEntity<>(depositService.getAllDepositsByAccountID(accountID),HttpStatus.OK);
     }
 
     
