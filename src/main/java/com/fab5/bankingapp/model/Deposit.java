@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
-public class Deposit implements Serializable {
+public class Deposit implements Model {
     /**
      * Long id
      * String type
@@ -38,7 +38,7 @@ public class Deposit implements Serializable {
     private TransactionStatus status;
 
 
-    @JoinColumn(name="accountID",nullable = false)
+    @Column
     private Long payee_id;
 
     @Column
