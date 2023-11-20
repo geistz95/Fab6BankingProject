@@ -1,22 +1,39 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Withdraw;
+import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.WithdrawRepository;
+import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
-public class WithdrawService {
+public class WithdrawService implements IDValidation<WithdrawNotFoundException> {
     @Autowired
     private WithdrawRepository withdrawRepository;
+  
+    @Autowired
+    private AccountRepository accountRepository;
+
+
+    @Override
+    public void verifyID(Long id) throws WithdrawNotFoundException {
+        Optional<Withdraw> checkWithdraw = withdrawRepository.findById(id);
+        if(checkWithdraw.isEmpty()) {
+            throw new WithdrawNotFoundException(id);
+        }
+    }
 
     public Iterable<Withdraw> getAllWithdrawalsByAccount(Long id){
         return withdrawRepository.findByAccount(id);
     }
 
     public Optional<Withdraw> getWithdrawById(Long id){
+        verifyID(id);
         return withdrawRepository.findById(id);
     }
 
@@ -37,4 +54,5 @@ public class WithdrawService {
     public void deleteWithdrawById(Long id){
         withdrawRepository.deleteById(id);
     }
+
 }
