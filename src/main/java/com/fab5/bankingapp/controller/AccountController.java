@@ -3,6 +3,7 @@ package com.fab5.bankingapp.controller;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Account;
+import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.service.AccountService;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,15 @@ public class AccountController implements IDValidation<AccountNotFoundException,
     @Autowired
     private AccountService accountService;
     @Override
-    public void verifyID(Long id) throws AccountNotFoundException {
+    public void verifyID1(Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountService.getAccountById(id);
+        if (checkAccount.isEmpty()) {
+            throw new AccountNotFoundException(id);
+        }
+    }
+
+    public void verifyID2(Long id) throws CustomerNotFoundException {
+        Optional<Customer> checkAccount = accountService.getAccountById(id);
         if (checkAccount.isEmpty()) {
             throw new AccountNotFoundException(id);
         }
