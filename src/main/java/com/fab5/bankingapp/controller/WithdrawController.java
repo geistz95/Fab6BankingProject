@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.service.WithdrawService;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.Optional;
 
 @Controller
-public class WithdrawController implements IDValidation<WithdrawNotFoundException> {
+public class WithdrawController implements IDValidation<WithdrawNotFoundException, AccountNotFoundException> {
     @Autowired
     private WithdrawService withdrawService;
 
