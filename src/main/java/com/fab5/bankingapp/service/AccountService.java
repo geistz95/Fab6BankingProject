@@ -8,6 +8,7 @@ import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
+import com.fab5.bankingapp.repository.CustomerRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
     public void verifyID1(Long id) throws AccountNotFoundException {

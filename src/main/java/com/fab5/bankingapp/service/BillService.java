@@ -10,7 +10,11 @@ import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.BillRepository;
+
+import com.fab5.bankingapp.repository.CustomerRepository;
+
 import com.fab5.bankingapp.validation.IDValidation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,9 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
 
     @Autowired
     private BillRepository billRepository;
+
+    private AccountRepository accountRepository;
+    private CustomerRepository customerRepository;
 
     @Override
     public void verifyID1(Long id) throws BillNotFoundException {
