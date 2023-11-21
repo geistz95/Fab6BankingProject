@@ -56,15 +56,18 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
         return billRepository.findById(id);
     }
     public Iterable<Bill> getAllBillsFromAccountId(Long id){
+        verifyID2(id);
         return billRepository.findByAccountId(id);
     }
     public Iterable<Bill> getAllBillsFromCustomerId(Long id){
+        verifyIDCustomer(id);
         return billRepository.findByCustomerId(id);
     }
     public void createBill(Bill bill){
         billRepository.save(bill);
     }
     public void updateBill(Bill bill, Long id){
+        verifyID1(id);
         Bill originalBill = billRepository.findById(id).get();
         originalBill.setStatus(bill.getStatus());
         originalBill.setPayee(bill.getPayee());
@@ -80,6 +83,7 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
 
     }
     public void deleteBillById(Long id){
+        verifyID1(id);
         billRepository.deleteById(id);
     }
 

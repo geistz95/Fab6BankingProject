@@ -52,14 +52,17 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
     }
 
     public Optional<Account> getAccountById(Long accountId) {
+        verifyID1(accountId);
         return accountRepository.findById(accountId);
     }
 
     public List<Account> getAccountsByCustomerId(Long customerId) {
+        verifyID2(customerId);
         return accountRepository.findByCustomerId(customerId);
     }
 
     public Account createAccount(Account account, Long customerId) {
+        verifyID2(customerId);
         return accountRepository.save(account);
     }
 
@@ -71,6 +74,7 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
 
 
     public Optional<Account> updateAccount(Long accountId, Account newAccount) {
+        verifyID1(accountId);
         Optional<Account> existingAccount = accountRepository.findById(accountId);
 
         if (existingAccount.isPresent()) {
@@ -97,6 +101,7 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
 
 
     public Optional<Account> deleteAccount(Long accountId) {
+        verifyID1(accountId);
         Optional<Account> account = accountRepository.findById(accountId);
         account.ifPresent(accountRepository::delete);
         return account;
