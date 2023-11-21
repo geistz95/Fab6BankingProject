@@ -33,7 +33,7 @@ public class DepositController {
 
     @GetMapping("/deposits/{accountID}/{depositID}")
     public ResponseEntity<?> getDeposit(@PathVariable Long accountsID, @PathVariable Long depositID){
-        return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID).get());
+        return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID));
     }
 
     @DeleteMapping("/deposits/{depositID}")
