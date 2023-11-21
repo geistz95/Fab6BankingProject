@@ -1,25 +1,57 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.BillNotFoundException;
+import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
+import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Bill;
+import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.BillRepository;
+
+import com.fab5.bankingapp.repository.CustomerRepository;
+
 import com.fab5.bankingapp.validation.IDValidation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class BillService implements IDValidation<BillNotFoundException> {
+public class BillService implements IDValidation<BillNotFoundException, AccountNotFoundException> {
+
     @Autowired
     private BillRepository billRepository;
 
-    @Override
-    public void verifyID(Long id) throws BillNotFoundException {
+    private AccountRepository accountRepository;
+    private CustomerRepository customerRepository;
 
+    @Override
+    public void verifyID1(Long id) throws BillNotFoundException {
+        Optional<Bill> checkBill = billRepository.findById(id);
+        if(checkBill.isEmpty()){
+            throw new BillNotFoundException(id);
+        }
     }
+
+    @Override
+    public void verifyID2(Long id) throws AccountNotFoundException {
+        Optional<Account> checkAccount = accountRepository.findById(id);
+        if(checkAccount.isEmpty()){
+            throw new AccountNotFoundException(id);
+        }
+    }
+
+    public void verifyIDCustomer(Long id) throws CustomerNotFoundException {
+        Optional<Customer> checkCustomer = customerRepository.findById(id);
+        if(checkCustomer.isEmpty()){
+            throw new CustomerNotFoundException(id);
+        }
+    }
+
     public Optional<Bill> getBillsById (Long id){
         return billRepository.findById(id);
     }
