@@ -44,7 +44,12 @@ public class DepositService implements IDValidation<DepositNotFoundException> {
         return depositRepository.findById(id);
     }
 
-    public void createDeposit(Deposit deposit){
+    public void createDeposit(Account account,Deposit deposit){
+        Optional<Account> a = accountRepository.findById(account.getId());
+        if(a.isEmpty()) {
+            throw new AccountNotFoundException(account.getId());
+        }
+        //Below code will handle adding
         depositRepository.save(deposit);
     }
 
@@ -59,9 +64,9 @@ public class DepositService implements IDValidation<DepositNotFoundException> {
         depositRepository.save(oldDeposit);
     }
 
-    public void deleteDeposit(Deposit deposit, Long id){
+    public void deleteDepositByID(Long id){
         verifyDepositID(id);
-        depositRepository.delete(deposit);
+        depositRepository.deleteById(id);
     }
 
     public List<Deposit> getAllDepositsByAccountID(Long accountID){
