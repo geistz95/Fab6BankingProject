@@ -36,7 +36,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
 
     @Override
     public void verifyID2(Long id) throws AccountNotFoundException {
-        Optional<Customer> checkAccount = accountRepository.findById(id);
+        Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
             throw new AccountNotFoundException(id);
         }
@@ -49,6 +49,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
 
     // Get customer by ID
     public Optional<Customer> getCustomerById(Long customerId) {
+        verifyID1(customerId);
         return customerRepository.findById(customerId);
     }
 
@@ -58,6 +59,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
         return customerRepository.save(customer);
     }
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
+        verifyID1(id);
         return customerRepository.findById(id)
                 .map(existingCustomer -> {
                     existingCustomer.setFirstName(updatedCustomer.getFirstName());
@@ -68,9 +70,11 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
                 .orElse(null); // Handle the case where the customer with the given id is not found
     }
     public void deleteCustomer(Long id) {
+        verifyID1(id);
         customerRepository.deleteById(id);
     }
     public Iterable<Customer> getCustomerByAccountId(Long id){
+        verifyID2(id);
         return customerRepository.findCustomerByAccountId(id);
 
     }

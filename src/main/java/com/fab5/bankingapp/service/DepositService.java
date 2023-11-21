@@ -59,7 +59,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         depositRepository.save(oldDeposit);
     }
     public void deleteDepositByID(Long id){
-        verifyDepositID(id);
+        verifyID1(id);
         depositRepository.deleteById(id);
     }
 

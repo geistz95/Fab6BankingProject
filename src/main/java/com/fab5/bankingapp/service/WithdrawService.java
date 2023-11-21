@@ -40,6 +40,7 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     }
 
     public Iterable<Withdraw> getAllWithdrawalsByAccount(Long id){
+        verifyID2(id);
         return withdrawRepository.findByAccount(id);
     }
 
@@ -64,6 +65,7 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     }
 
     public void deleteWithdrawById(Long id){
+        verifyID1(id);
         withdrawRepository.deleteById(id);
     }
 
