@@ -1,8 +1,10 @@
 package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Withdraw;
+import com.fab5.bankingapp.service.TransactionService;
 import com.fab5.bankingapp.service.WithdrawService;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class WithdrawController {
     @Autowired
     private WithdrawService withdrawService;
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping(value = "/accounts/{accountId}/withdrawals")
     public Iterable<Withdraw> getAllWithdrawals(@PathVariable Long accountId){
@@ -33,11 +37,16 @@ public class WithdrawController {
 
     @PostMapping(value = "/accounts/{accountId}/withdrawals")
     public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdraw withdrawal){
-        withdrawal = withdrawService.createWithdraw(withdrawal);
+//        withdrawal = withdrawService.createWithdraw(withdrawal);
+        try{
+            transactionService.processWithdraw(withdrawal);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().path("/{id}").buildAndExpand(withdrawal.getId()).toUri());
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        }catch (InsufficientFundsException e){
+            return new ResponseEntity<>("Insufficient Funds in Account", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping(value = "/withdrawals/{withdrawalId}")
