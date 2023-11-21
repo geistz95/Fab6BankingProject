@@ -47,7 +47,8 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
         this.accountRepository = accountRepository;
     }
 
-    public Iterable<Account> getAllAccounts() {
+    public List<Account> getAllAccounts() {
+
         return accountRepository.findAll();
     }
 
