@@ -21,6 +21,9 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     @Autowired
     private AccountActivityRepository accountActivityRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Override
     public void verifyID1(Long id) throws AccountActivityNotFoundException {
         Optional<AccountActivity> checkAccountActivity = accountActivityRepository.findById(id);
