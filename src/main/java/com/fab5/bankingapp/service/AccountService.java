@@ -85,7 +85,6 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
             accountToUpdate.setCustomer(newAccount.getCustomer());
             accountToUpdate.setType(newAccount.getType());
             accountToUpdate.setRewards(newAccount.getRewards());
-            accountToUpdate.setName(newAccount.getName());
             accountToUpdate.setNickname(newAccount.getNickname());
 
             // Save the updated account
