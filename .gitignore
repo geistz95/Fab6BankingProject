@@ -6,6 +6,7 @@ target/
 
 ### UNIQUE SQLDATABASES ###
 src/main/resources/application.properties
+!src/main/resources/data.sql
 pom.xml
 
 ### STS ###
