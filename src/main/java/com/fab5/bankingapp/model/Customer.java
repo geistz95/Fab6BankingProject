@@ -27,6 +27,16 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Account> account;
 
+    public Customer() {
+    }
+
+    public Customer(Long id, String firstName, String lastName, Set<Address> addresses, List<Account> account) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addresses = addresses;
+        this.account = account;
+    }
 
     public Long getId() {
         return id;
@@ -58,6 +68,14 @@ public class Customer {
 
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<Account> getAccount() {
+        return account;
+    }
+
+    public void setAccount(List<Account> account) {
+        this.account = account;
     }
 
     @Override

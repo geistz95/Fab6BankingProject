@@ -47,7 +47,8 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
         this.accountRepository = accountRepository;
     }
 
-    public Iterable<Account> getAllAccounts() {
+    public List<Account> getAllAccounts() {
+
         return accountRepository.findAll();
     }
 
@@ -85,7 +86,6 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
             accountToUpdate.setCustomer(newAccount.getCustomer());
             accountToUpdate.setType(newAccount.getType());
             accountToUpdate.setRewards(newAccount.getRewards());
-            accountToUpdate.setName(newAccount.getName());
             accountToUpdate.setNickname(newAccount.getNickname());
 
             // Save the updated account

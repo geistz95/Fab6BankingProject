@@ -16,7 +16,7 @@ import java.net.URI;
 
 import static com.fab5.bankingapp.response.DepositResponse.*;
 
-@Controller
+@RestController
 public class DepositController {
     @Autowired
     private DepositService depositService;
