@@ -1,14 +1,10 @@
 package com.fab5.bankingapp.controller;
-
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
+import com.fab5.bankingapp.response.CustomerResponse;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.service.CustomerService;;
-import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,45 +17,45 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/customers")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    public ResponseEntity<Object> getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return CustomerResponse.getAllCustomersBuilder(HttpStatus.OK, customers);
     }
 
     // Get customer by ID
     @GetMapping("/customers/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
         Optional<Customer> customer = customerService.getCustomerById(id);
-        return customer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return customer.map(value -> CustomerResponse.getCustomerBuilder(HttpStatus.OK, value))
+                .orElseGet(() -> CustomerResponse.getCustomerBuilder(HttpStatus.NOT_FOUND, null));
     }
 
     // Create a new customer
     @PostMapping("/customers")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
         Customer createdCustomer = customerService.createCustomer(customer);
-        return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+        return CustomerResponse.createdCustomerBuilder(HttpStatus.CREATED, createdCustomer);
     }
 
     // Update an existing customer
     @PutMapping("/customers/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+    public ResponseEntity<Object> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         Customer updated = customerService.updateCustomer(id, updatedCustomer);
         if (updated != null) {
-            return new ResponseEntity<>(updated, HttpStatus.OK);
+            return CustomerResponse.updateCustomerBuilder(HttpStatus.ACCEPTED);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return CustomerResponse.updateCustomerBuilder(HttpStatus.NOT_FOUND);
         }
     }
     @DeleteMapping("/customers/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return CustomerResponse.deleteCustomerBuilder(HttpStatus.NO_CONTENT);
     }
-    @GetMapping ("/accounts/{accountId}/customer")
-    public Iterable<Customer> getCustomerByAccounts(@PathVariable Long accountId) {
-        return customerService.getCustomerByAccountId(accountId);
-
+    @GetMapping("/accounts/{accountId}/customer")
+    public ResponseEntity<Object> getCustomerByAccounts(@PathVariable Long accountId) {
+        Iterable<Customer> customers = customerService.getCustomerByAccountId(accountId);
+        return CustomerResponse.getAllCustomersBuilder(HttpStatus.OK, (List<Customer>) customers);
     }
 }
 

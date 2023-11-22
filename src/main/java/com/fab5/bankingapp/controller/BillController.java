@@ -3,6 +3,7 @@ package com.fab5.bankingapp.controller;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.model.Bill;
 import com.fab5.bankingapp.exceptions.BillNotFoundException;
+import com.fab5.bankingapp.response.BillResponse;
 import com.fab5.bankingapp.service.BillService;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.fab5.bankingapp.response.BillResponse.*;
 
 import java.net.URI;
 import java.util.Optional;
@@ -23,7 +25,7 @@ public class BillController {
 
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillsById(@PathVariable Long id){
-        return new ResponseEntity<>(billService.getBillsById(id), HttpStatus.OK);
+        return BillResponse.getBillBuilder(HttpStatus.OK,billService.getBillsById(id));
     }
     @GetMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?> getBillsForSpecificAccount(@PathVariable Long accountId){
@@ -39,16 +41,16 @@ public class BillController {
         URI newPollUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bill.getBillId()).toUri();
         responseHeader.setLocation(newPollUri);
         billService.createBill(bill);
-        return new ResponseEntity(bill,responseHeader,HttpStatus.CREATED);
+        return BillResponse.createdBillBuilder(HttpStatus.OK, bill);
     }
     @PutMapping("/bills/{billId}")
     public ResponseEntity<?> updateBill(@RequestBody Bill bill, @PathVariable Long id){
         billService.updateBill(bill, id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return BillResponse.putBillBuilder(HttpStatus.OK);
     }
     @DeleteMapping("/bills/{billId}")
     public ResponseEntity<?> deleteBill(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return BillResponse.deleteBillBuilder(HttpStatus.NO_CONTENT);
 
     }
 }

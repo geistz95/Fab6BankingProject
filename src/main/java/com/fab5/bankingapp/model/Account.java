@@ -32,8 +32,6 @@ public class Account {
     private String nickname;
 
     @Column
-    private String name;
-    @Column
     @Value("0")
     private Integer rewards;
     @Column
@@ -61,24 +59,16 @@ public class Account {
 //    }
 
 
-    public Account(Long id, AccountType type, String nickname, String name, Integer rewards, Double balance, Customer customer, List<Bill> bills) {
+    public Account(Long id, AccountType type, String nickname, Integer rewards, Double balance, Customer customer, List<Bill> bills) {
         this.id = id;
         this.type = type;
         this.nickname = nickname;
-        this.name = name;
         this.rewards = rewards;
         this.balance = balance;
         this.customer = customer;
         this.bills = bills;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
