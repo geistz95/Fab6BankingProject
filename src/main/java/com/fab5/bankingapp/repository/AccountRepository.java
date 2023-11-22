@@ -17,8 +17,8 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-       @Query(value = "select a.* where account a join customer c on a.customer_id = c.id where c.id = ?1", nativeQuery = true)
-
+       @Query(value = "SELECT a.* FROM account a JOIN customer c ON a.customer_id = c.id WHERE c.id = ?1", nativeQuery = true)
+//       @Query(value = "SELECT c.* FROM customer c JOIN account a ON c.id = a.customer_id WHERE a.id = :accountId", nativeQuery = true)
     List<Account> findByCustomerId(Long customerId);
 
 
