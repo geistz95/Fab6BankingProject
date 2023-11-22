@@ -77,8 +77,6 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
         originalBill.setReccuring_date(bill.getReccuring_date());
         originalBill.setUpcoming_payment_date(bill.getUpcoming_payment_date());
         originalBill.setPayment_amount(bill.getPayment_amount());
-        originalBill.setAccount(bill.getAccount());
-        originalBill.setCustomer(bill.getCustomer());
         billRepository.save(originalBill);
 
     }

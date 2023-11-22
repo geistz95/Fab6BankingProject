@@ -24,6 +24,8 @@ public class Customer {
     @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name ="customer_id")
     private Set<Address> addresses ;
+
+
     @OneToMany(mappedBy = "customer")
     private List<Account> account;
 
@@ -70,13 +72,13 @@ public class Customer {
         this.addresses = addresses;
     }
 
-    public List<Account> getAccount() {
-        return account;
-    }
-
-    public void setAccount(List<Account> account) {
-        this.account = account;
-    }
+//    public List<Account> getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(List<Account> account) {
+//        this.account = account;
+//    }
 
     @Override
     public String toString() {

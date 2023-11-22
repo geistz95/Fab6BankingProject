@@ -34,7 +34,7 @@ public class AccountController {
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);
     }
 
-    @GetMapping("/{accountId}")
+    @GetMapping("/accounts/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId) {
         Optional<Account> account = accountService.getAccountById(accountId);
         return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
@@ -53,7 +53,7 @@ public class AccountController {
         return AccountResponse.createdAccountBuilder(HttpStatus.CREATED, createdAccount);
     }
 
-    @PutMapping("/{accountId}")
+    @PutMapping("/accounts/{accountId}")
     public ResponseEntity<Object> updateAccount(@PathVariable Long accountId, @RequestBody Account account) {
         Optional<Account> updatedAccount = accountService.updateAccount(accountId, account);
         return updatedAccount
