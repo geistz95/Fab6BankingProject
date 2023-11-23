@@ -40,7 +40,7 @@ public class Bill {
     private String payment_date;
 
     @Column
-    private String reccuring_date;
+    private String recurring_date;
 
     @Column
     private String upcoming_payment_date;
@@ -71,7 +71,7 @@ public class Bill {
         this.nickName = nickName;
         this.creation_date = creation_date;
         this.payment_date = payment_date;
-        this.reccuring_date = reccuring_date;
+        this.recurring_date = reccuring_date;
         this.upcoming_payment_date = upcoming_payment_date;
         this.payment_amount = payment_amount;
         this.account = account;
@@ -142,12 +142,12 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public String getReccuring_date() {
-        return reccuring_date;
+    public String getRecurring_date() {
+        return recurring_date;
     }
 
-    public void setReccuring_date(String reccuring_date) {
-        this.reccuring_date = reccuring_date;
+    public void setRecurring_date(String reccuring_date) {
+        this.recurring_date = reccuring_date;
     }
 
     public String getUpcoming_payment_date() {

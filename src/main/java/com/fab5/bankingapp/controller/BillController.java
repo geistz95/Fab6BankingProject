@@ -24,8 +24,8 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/bills/{billId}")
-    public ResponseEntity<?> getBillsById(@PathVariable Long id){
-        return BillResponse.getBillBuilder(HttpStatus.OK,billService.getBillsById(id));
+    public ResponseEntity<?> getBillsById(@PathVariable Long billId){
+        return BillResponse.getBillBuilder(HttpStatus.OK,billService.getBillsById(billId));
     }
 
     @GetMapping("/accounts/{accountId}/bills")
@@ -45,12 +45,12 @@ public class BillController {
         return BillResponse.createdBillBuilder(HttpStatus.OK, bill);
     }
     @PutMapping("/bills/{billId}")
-    public ResponseEntity<?> updateBill(@RequestBody Bill bill, @PathVariable Long id){
-        billService.updateBill(bill, id);
+    public ResponseEntity<?> updateBill(@RequestBody Bill bill, @PathVariable Long billId){
+        billService.updateBill(bill, billId);
         return BillResponse.putBillBuilder(HttpStatus.OK);
     }
     @DeleteMapping("/bills/{billId}")
-    public ResponseEntity<?> deleteBill(@PathVariable Long id) {
+    public ResponseEntity<?> deleteBill(@PathVariable Long billId) {
         return BillResponse.deleteBillBuilder(HttpStatus.NO_CONTENT);
 
     }
