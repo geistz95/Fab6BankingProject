@@ -27,6 +27,7 @@ public class BillController {
     public ResponseEntity<?> getBillsById(@PathVariable Long id){
         return BillResponse.getBillBuilder(HttpStatus.OK,billService.getBillsById(id));
     }
+
     @GetMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?> getBillsForSpecificAccount(@PathVariable Long accountId){
         return new ResponseEntity<>(billService.getAllBillsFromAccountId(accountId), HttpStatus.OK);
