@@ -31,7 +31,7 @@ public class Deposit implements Serializable {
     private TransactionType type;
 
     @Column
-    private String transcation_date;
+    private String transaction_date;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -61,7 +61,7 @@ public class Deposit implements Serializable {
     public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description, Account account) {
         this.depositId = depositId;
         this.type = type;
-        this.transcation_date = transcation_date;
+        this.transaction_date = transcation_date;
         this.status = status;
         this.payee_id = payee_id;
         this.medium = medium;
@@ -86,12 +86,12 @@ public class Deposit implements Serializable {
         this.type = type;
     }
 
-    public String getTranscation_date() {
-        return transcation_date;
+    public String getTransaction_date() {
+        return transaction_date;
     }
 
-    public void setTranscation_date(String transcation_date) {
-        this.transcation_date = transcation_date;
+    public void setTransaction_date(String transcation_date) {
+        this.transaction_date = transcation_date;
     }
 
 

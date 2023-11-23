@@ -13,7 +13,7 @@ public class Customer {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customer_id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -32,20 +32,20 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String firstName, String lastName, Set<Address> addresses, List<Account> account) {
-        this.id = id;
+    public Customer(Long customer_id, String firstName, String lastName, Set<Address> addresses, List<Account> account) {
+        this.customer_id = customer_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = addresses;
         this.account = account;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCustomer_id() {
+        return customer_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCustomer_id(Long id) {
+        this.customer_id = id;
     }
 
     public String getFirstName() {
@@ -83,7 +83,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + id +
+                "id=" + customer_id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", addresses=" + addresses +
