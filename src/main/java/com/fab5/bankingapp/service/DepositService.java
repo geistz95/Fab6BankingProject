@@ -74,6 +74,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         oldDeposit.setTransaction_date(deposit.getTransaction_date());
         //We use transactionService here to edit the bank information here and save the information
         transactionService.changeDeposit(deposit,oldDeposit);
+        depositRepository.save(oldDeposit);
     }
     public void deleteDepositByID(Long id){
         verifyID1(id);

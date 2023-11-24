@@ -3,11 +3,9 @@ package com.fab5.bankingapp.service;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.BillNotFoundException;
 import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Bill;
 import com.fab5.bankingapp.model.Customer;
-import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.BillRepository;
 
@@ -74,7 +72,7 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
         originalBill.setNickName(bill.getNickName());
         originalBill.setCreation_date(bill.getCreation_date());
         originalBill.setPayment_date(bill.getPayment_date());
-        originalBill.setReccuring_date(bill.getReccuring_date());
+        originalBill.setRecurring_date(bill.getRecurring_date());
         originalBill.setUpcoming_payment_date(bill.getUpcoming_payment_date());
         originalBill.setPayment_amount(bill.getPayment_amount());
         billRepository.save(originalBill);
