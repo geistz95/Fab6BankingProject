@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
 import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
@@ -80,7 +81,9 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         verifyID1(id);
         verifyID2(depositRepository.findById(id).get().getAccount().getId());
         transactionService.deleteDeposit(id);
-        depositRepository.deleteById(id);
+        Deposit deposit = depositRepository.findById(id).get();
+        deposit.setStatus(TransactionStatus.CANCELLED);
+        depositRepository.save(deposit);
     }
 
     public List<Deposit> getAllDepositsByAccountID(Long accountID){
