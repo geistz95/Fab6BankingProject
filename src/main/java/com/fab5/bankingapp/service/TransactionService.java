@@ -36,7 +36,7 @@ public class TransactionService {
     @Transactional
     public void changeWithdrawal(Withdraw withdrawal, Withdraw oldWithdrawal){
         Account account = withdrawal.getAccount();
-        account.setBalance(account.getBalance()+withdrawal.getAmount()-oldWithdrawal.getAmount());
+        account.setBalance(account.getBalance()-withdrawal.getAmount()+oldWithdrawal.getAmount());
         accountRepository.save(account);
     }
 
