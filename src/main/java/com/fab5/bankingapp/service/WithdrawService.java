@@ -22,6 +22,8 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
   
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private TransactionService transactionService;
 
     @Override
     public void verifyID1(Long id) throws WithdrawNotFoundException {
@@ -60,8 +62,12 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
         withdrawRepository.save(withdraw);
     }
 
-    public Withdraw createWithdraw(Withdraw withdraw){
-        return withdrawRepository.save(withdraw);
+    public void createWithdraw(Long accountId, Withdraw withdraw){
+        verifyID2(accountId);
+        Optional<Account> a = accountRepository.findById(accountId);
+        withdraw.setAccount(a.get());
+        withdrawRepository.save(withdraw);
+        transactionService.processWithdraw(withdraw);
     }
 
     public void deleteWithdrawById(Long id){
