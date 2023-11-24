@@ -3,6 +3,9 @@ package com.fab5.bankingapp.model;
 import com.fab5.bankingapp.enums.Medium;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -22,7 +25,7 @@ public class Deposit implements Serializable {
      */
 
     @Id
-    @NotNull
+    @Column(name = "deposit_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositId;
 
@@ -31,7 +34,7 @@ public class Deposit implements Serializable {
     private TransactionType type;
 
     @Column
-    private String transcation_date;
+    private String transaction_date;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -53,21 +56,23 @@ public class Deposit implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="account_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Account account;
-
-    public Deposit() {
-    }
 
     public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description, Account account) {
         this.depositId = depositId;
         this.type = type;
-        this.transcation_date = transcation_date;
+        this.transaction_date = transcation_date;
         this.status = status;
         this.payee_id = payee_id;
         this.medium = medium;
         this.amount = amount;
         this.description = description;
-        this.account=account;
+        this.account = account;
+    }
+
+    public Deposit() {
     }
 
     public Long getDepositId() {
@@ -86,14 +91,21 @@ public class Deposit implements Serializable {
         this.type = type;
     }
 
-    public String getTranscation_date() {
-        return transcation_date;
+    public String getTransaction_date() {
+        return transaction_date;
     }
 
-    public void setTranscation_date(String transcation_date) {
-        this.transcation_date = transcation_date;
+    public void setTransaction_date(String transaction_date) {
+        this.transaction_date = transaction_date;
     }
 
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
 
     public Long getPayee_id() {
         return payee_id;
@@ -103,6 +115,13 @@ public class Deposit implements Serializable {
         this.payee_id = payee_id;
     }
 
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
 
     public Double getAmount() {
         return amount;
@@ -120,22 +139,6 @@ public class Deposit implements Serializable {
         this.description = description;
     }
 
-    public TransactionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TransactionStatus status) {
-        this.status = status;
-    }
-
-    public Medium getMedium() {
-        return medium;
-    }
-
-    public void setMedium(Medium medium) {
-        this.medium = medium;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -143,4 +146,6 @@ public class Deposit implements Serializable {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+
 }

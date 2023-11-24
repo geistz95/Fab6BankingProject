@@ -64,6 +64,8 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
 
     public Account createAccount(Account account, Long customerId) {
         verifyID2(customerId);
+        Customer editCustomer = customerRepository.findById(customerId).get();
+        account.setCustomer(editCustomer);
         return accountRepository.save(account);
     }
 
