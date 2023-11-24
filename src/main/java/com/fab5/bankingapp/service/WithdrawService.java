@@ -53,12 +53,14 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
 
     public void updateWithdraw(Long id, Withdraw withdraw){
         verifyID1(id);
+        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
         Withdraw existingWithdrawal = withdrawRepository.findById(id).get();
         existingWithdrawal.setAmount(withdraw.getAmount());
         existingWithdrawal.setDescription(withdraw.getDescription());
         existingWithdrawal.setMedium(withdraw.getMedium());
         existingWithdrawal.setStatus(withdraw.getStatus());
         existingWithdrawal.setTransaction_date(withdraw.getTransaction_date());
+        transactionService.changeWithdrawal(withdraw, existingWithdrawal);
         withdrawRepository.save(withdraw);
     }
 
@@ -72,6 +74,8 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
 
     public void deleteWithdrawById(Long id){
         verifyID1(id);
+        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
+        transactionService.deleteWithdrawal(id);
         withdrawRepository.deleteById(id);
     }
 
