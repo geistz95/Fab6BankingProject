@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.InvalidPropertiesFormatException;
 
 import static com.fab5.bankingapp.response.DepositResponse.*;
 
@@ -22,17 +23,17 @@ public class DepositController {
     private DepositService depositService;
 
     @PostMapping("/accounts/{accountId}/deposits")
-    public ResponseEntity<?> createDeposit(@PathVariable Account account ,@Valid @RequestBody Deposit deposit) {
+    public ResponseEntity<?> createDeposit(@PathVariable Long accountId ,@Valid @RequestBody Deposit deposit){
         HttpHeaders responseHeader = new HttpHeaders();
         //This next line builds the URI link from the deposit
         URI newPollUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(deposit.getDepositId()).toUri();
         responseHeader.setLocation(newPollUri);
-        depositService.createDeposit(account,deposit);
+        depositService.createDeposit(accountId,deposit);
         return createdDepositBuilder(HttpStatus.CREATED, deposit);
     }
 
     @GetMapping("/deposits/{accountID}/{depositID}")
-    public ResponseEntity<?> getDeposit(@PathVariable Long accountsID, @PathVariable Long depositID){
+    public ResponseEntity<?> getDeposit(@PathVariable Long accountID, @PathVariable Long depositID){
         return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID).get());
     }
 
@@ -48,10 +49,12 @@ public class DepositController {
         return putDepositBuilder(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/customers/{customerID}/deposits")
-    public ResponseEntity<?> getAllCustomerDeposits(@PathVariable Long accountID){
+    @GetMapping("/accounts/{accountID}/deposits")
+    public ResponseEntity<?> getAllAccountDeposits(@PathVariable Long accountID){
+//        System.out.println("Hello World!");
         return getAllDepositsBuilder(HttpStatus.OK, depositService.getAllDepositsByAccountID(accountID));
     }
 
-    
+    //things to do : P2P Handling, Bill Handling
+
 }
