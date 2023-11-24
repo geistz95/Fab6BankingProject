@@ -14,14 +14,14 @@ public class AccountActivity {
 
     private Long accountId;
     private String activityType;
-    private BigDecimal amount;
+    private Double amount;
     private LocalDateTime timestamp;
 
     public AccountActivity(){
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, BigDecimal amount, LocalDateTime timestamp) {
+    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, LocalDateTime timestamp) {
         this.activityId = activityId;
         this.accountId = accountId;
         this.activityType = activityType;
@@ -53,11 +53,11 @@ public class AccountActivity {
         this.activityType = activityType;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
