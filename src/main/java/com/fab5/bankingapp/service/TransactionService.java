@@ -34,6 +34,19 @@ public class TransactionService {
         withdrawRepository.save(withdraw);
         accountRepository.save(account);
     }
+    @Transactional
+    public void changeWithdrawal(Withdraw withdrawal, Withdraw oldWithdrawal){
+        Account account = withdrawal.getAccount();
+        account.setBalance(account.getBalance()+withdrawal.getAmount()-oldWithdrawal.getAmount());
+        accountRepository.save(account);
+    }
+
+    @Transactional
+    public void deleteWithdrawal(Long id) {
+        Withdraw withdrawal = withdrawRepository.findById(id).get();
+        Account account = withdrawal.getAccount();
+        account.setBalance(account.getBalance()+withdrawal.getAmount());
+    }
 
     @Transactional
     public void processDeposit(Deposit deposit){

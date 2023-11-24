@@ -41,7 +41,7 @@ public class WithdrawController {
 
     @PostMapping(value = "/accounts/{accountId}/withdrawals")
     public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdraw withdrawal){
-//        withdrawal = withdrawService.createWithdraw(withdrawal);
+        withdrawService.createWithdraw(accountId, withdrawal);
         try{
             transactionService.processWithdraw(withdrawal);
         HttpHeaders responseHeaders = new HttpHeaders();
