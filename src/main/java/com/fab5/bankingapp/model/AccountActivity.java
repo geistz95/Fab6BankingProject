@@ -15,13 +15,13 @@ public class AccountActivity {
     private Long accountId;
     private String activityType;
     private Double amount;
-    private LocalDateTime timestamp;
+    private String timestamp;
 
     public AccountActivity(){
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, LocalDateTime timestamp) {
+    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, String timestamp) {
         this.activityId = activityId;
         this.accountId = accountId;
         this.activityType = activityType;
@@ -61,11 +61,11 @@ public class AccountActivity {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
