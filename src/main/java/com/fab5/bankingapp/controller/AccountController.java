@@ -7,6 +7,8 @@ import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.response.AccountResponse;
 import com.fab5.bankingapp.service.AccountService;
 import com.fab5.bankingapp.validation.IDValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,12 @@ import java.util.Optional;
 import java.util.Optional;
 
 @RestController
+//@RequestMapping("/api/account")
 public class AccountController {
     @Autowired
     private AccountService accountService;
+
+    private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     public AccountController(AccountService accountService) {
@@ -30,42 +35,70 @@ public class AccountController {
 
     @GetMapping("/accounts")
     public ResponseEntity<Object> getAllAccounts() {
+        logger.info("Fetching all accounts");
         List<Account> accounts = accountService.getAllAccounts();
+        logger.info("Returning all accounts");
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);
     }
 
     @GetMapping("/accounts/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId) {
+        logger.info("Fetching account by ID: {}", accountId);
         Optional<Account> account = accountService.getAccountById(accountId);
+        logger.info("Returning account by ID: {}", accountId + "'s status");
         return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
+//         if (account != null) {
+//        logger.info("Returning account under ID: {}", accountId);
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, account), HttpStatus.OK);
+//        } else {
+//            logger.warn("Account Not Found");
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND);
+//        }
+
     }
 
     @GetMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Object> getAccountsByCustomerId(@PathVariable Long customerId) {
+        logger.info("Fetching account by customer ID: {}", customerId);
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
+        logger.info("Accounts under: {}", customerId);
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);
     }
 
     @PostMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Object> createAccount(@PathVariable Long customerId, @RequestBody Account account) {
+        logger.info("Creating account for ID: {}", customerId);
         Account createdAccount = accountService.createAccount(account, customerId);
+        logger.info("Account created successfully");
         return AccountResponse.createdAccountBuilder(HttpStatus.CREATED, createdAccount);
     }
 
     @PutMapping("/accounts/{accountId}")
     public ResponseEntity<Object> updateAccount(@PathVariable Long accountId, @RequestBody Account account) {
+        logger.info("Updating account by ID: {}", accountId);
         Optional<Account> updatedAccount = accountService.updateAccount(accountId, account);
-        return updatedAccount
-                .map(a -> AccountResponse.putAccountBuilder(HttpStatus.OK))
-                .orElse(AccountResponse.putAccountBuilder(HttpStatus.NOT_FOUND));
+//        logger.info("Returning account by ID: {}", accountId);
+//        return updatedAccount
+//                .map(a -> AccountResponse.putAccountBuilder(HttpStatus.OK))
+//                .orElse(AccountResponse.putAccountBuilder(HttpStatus.NOT_FOUND));
+     if (updatedAccount != null) {
+            logger.info("Account Updated Successfully");
+            return AccountResponse.putAccountBuilder(HttpStatus.OK);
+        } else {
+            logger.warn("Account Not Found");
+            return AccountResponse.putAccountBuilder(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 
     @DeleteMapping("/accounts/{accountId}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId) {
+        logger.info("Deleting account with ID: {}", accountId);
         Optional<Account> account = accountService.deleteAccount(accountId);
 
+        logger.info("Account deletion status");
         return account.map(a -> new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.ACCEPTED, Optional.of(a)), HttpStatus.ACCEPTED))
                 .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NOT_FOUND, Optional.empty()), HttpStatus.NOT_FOUND));
     }
