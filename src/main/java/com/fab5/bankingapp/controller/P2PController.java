@@ -3,6 +3,8 @@ package com.fab5.bankingapp.controller;
 import com.fab5.bankingapp.model.P2PTransfer;
 import com.fab5.bankingapp.repository.P2PTransferRepository;
 import com.fab5.bankingapp.service.P2PTransferService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,23 @@ public class P2PController {
 
     @Autowired
     private P2PTransferService transferService;
+
+    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
     @PostMapping("/accounts/{account_id}/transfers")
     public ResponseEntity<?> createTransfer(@PathVariable Long account_id ,@RequestBody P2PTransfer transfer){
         HttpHeaders responseHeader = new HttpHeaders();
         //This next line builds the URI link from the deposit
+        logger.info("Creating new P2P URI");
         URI newPollUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(transfer.getTransfer_id()).toUri();
         responseHeader.setLocation(newPollUri);
+        logger.info("Attempting to add P2P transaction");
         transferService.createTransfer(account_id,transfer);
         return createP2PBuilder(HttpStatus.CREATED, transfer);
     }
 
     @GetMapping("/transfers/{transfer_id}")
     public ResponseEntity<?> getTransfer(@PathVariable Long transfer_id){
+        logger.info("Attempting to get P2P Transaction of id : "+ transfer_id);
         return getP2PBuilder(HttpStatus.OK, transferService.getTransfer(transfer_id));
     }
 
@@ -43,6 +50,7 @@ public class P2PController {
      */
     @DeleteMapping("/transfers/{transfer_id}")
     public ResponseEntity<?> deleteTransfer(@PathVariable Long transfer_id){
+        logger.info("Attempting to cancel/delete P2P transaction id of {}", transfer_id);
         return deleteP2PBuilder(HttpStatus.NO_CONTENT);
     }
 }
