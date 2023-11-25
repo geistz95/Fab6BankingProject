@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.controller.WithdrawController;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.DepositNotFoundException;
@@ -9,6 +10,8 @@ import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
 import com.fab5.bankingapp.validation.IDValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,22 +31,27 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
     @Autowired
     private TransactionService transactionService;
 
+    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+
 
     public void verifyID1(Long id) throws DepositNotFoundException {
         Optional<Deposit> checkDeposit = depositRepository.findById(id);
         if(checkDeposit.isEmpty()){
+            logger.error("Error, Deposit ID : " +id+" is not valid");
             throw new DepositNotFoundException(id);
         }
     }
     public void verifyID2(Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
+            logger.error("Account ID "+ id + " isn't in the database");
             throw new AccountNotFoundException(id);
         }
     }
 
     public void validateAmount(Double amount){
         if(amount<0){
+            logger.info("The amount is not a positive number");
             throw new InvalidDepositAmount("must be a positive number");
         }
     }
@@ -66,6 +74,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         verifyID1(id);
         verifyID2(depositRepository.findById(id).get().getAccount().getId());
         validateAmount(deposit.getAmount());
+        logger.info("Deposit, Account ID, amount are valid, attempting to edit the deposit");
         Deposit oldDeposit = depositRepository.findById(id).get();
         deposit.setAccount(oldDeposit.getAccount());
         oldDeposit.setAmount(deposit.getAmount());
@@ -81,13 +90,11 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         verifyID1(id);
         verifyID2(depositRepository.findById(id).get().getAccount().getId());
         transactionService.deleteDeposit(id);
-        Deposit deposit = depositRepository.findById(id).get();
-        deposit.setStatus(TransactionStatus.CANCELLED);
-        depositRepository.save(deposit);
     }
 
     public List<Deposit> getAllDepositsByAccountID(Long accountID){
         verifyID2(accountID);
+        logger.info("Running query for account id + " +accountID+ " to find all deposits relating to the account");
         List<Deposit> query = depositRepository.findAllDepositsByAccountID(accountID);
         return query;
 

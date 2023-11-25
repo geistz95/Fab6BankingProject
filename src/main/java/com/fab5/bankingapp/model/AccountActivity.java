@@ -17,7 +17,7 @@ public class AccountActivity {
     private Long accountId;
     private String activityType;
     private Double amount;
-    private LocalDateTime timestamp;
+    private String timestamp;
 
     private TransactionType type;
 
@@ -25,7 +25,7 @@ public class AccountActivity {
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, LocalDateTime timestamp, TransactionType type) {
+    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, String timestamp, TransactionType type) {
         this.activityId = activityId;
         this.accountId = accountId;
         this.activityType = activityType;
@@ -66,11 +66,11 @@ public class AccountActivity {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -80,17 +80,5 @@ public class AccountActivity {
 
     public void setType(TransactionType type) {
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "AccountActivity{" +
-                "activityId=" + activityId +
-                ", accountId=" + accountId +
-                ", activityType='" + activityType + '\'' +
-                ", amount=" + amount +
-                ", timestamp=" + timestamp +
-                ", transactionType=" + type +
-                '}';
     }
 }
