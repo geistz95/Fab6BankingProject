@@ -21,21 +21,12 @@ public class AccountActivityController {
     public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity){
         accountActivityService.saveAccountActivities(accountActivity);
        // return new ResponseEntity<>(HttpStatus.CREATED);
-        /*
-        private String activityType;
-    private Double amount;
-    private LocalDateTime timestamp;
-    private Deposit deposit;
-    private Withdraw withdraw;
-    private  P2PTransfer p2PTransfer;
-         */
+
 
         return new ResponseEntity<>("Activity (Type: " + accountActivity.getActivityType() +
                                 ", Amount: " + accountActivity.getAmount() +
                                 ", Timestamp: " + accountActivity.getTimestamp() +
-                                ", Deposit:  " + accountActivity.getDeposit() +
-                                ", Withdraw: " + accountActivity.getWithdraw() +
-                                ", P2PTransfer: " + accountActivity.getP2PTransfer() +
+                                ", Transaction:  " + accountActivity.getType() +
                                 ") added to the account.", HttpStatus.CREATED);
     }
 

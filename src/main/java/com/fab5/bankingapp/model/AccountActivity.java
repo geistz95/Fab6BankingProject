@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.TransactionType;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,25 +19,19 @@ public class AccountActivity {
     private Double amount;
     private LocalDateTime timestamp;
 
-    private Deposit deposit;
-
-    private Withdraw withdraw;
-
-    private  P2PTransfer p2PTransfer;
+    private TransactionType type;
 
     public AccountActivity(){
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, LocalDateTime timestamp, Deposit deposit, Withdraw withdraw, P2PTransfer p2PTransfer) {
+    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, LocalDateTime timestamp, TransactionType type) {
         this.activityId = activityId;
         this.accountId = accountId;
         this.activityType = activityType;
         this.amount = amount;
         this.timestamp = timestamp;
-        this.deposit = deposit;
-        this.withdraw = withdraw;
-        this.p2PTransfer = p2PTransfer;
+        this.type = type;
     }
 
     public Long getActivityId() {
@@ -78,28 +74,12 @@ public class AccountActivity {
         this.timestamp = timestamp;
     }
 
-    public Deposit getDeposit() {
-        return deposit;
+    public TransactionType getType() {
+        return type;
     }
 
-    public void setDeposit(Deposit deposit) {
-        this.deposit = deposit;
-    }
-
-    public Withdraw getWithdraw() {
-        return withdraw;
-    }
-
-    public void setWithdraw(Withdraw withdraw) {
-        this.withdraw = withdraw;
-    }
-
-    public P2PTransfer getP2PTransfer() {
-        return p2PTransfer;
-    }
-
-    public void setP2PTransfer(P2PTransfer p2PTransfer) {
-        this.p2PTransfer = p2PTransfer;
+    public void setType(TransactionType type) {
+        this.type = type;
     }
 
     @Override
@@ -110,9 +90,7 @@ public class AccountActivity {
                 ", activityType='" + activityType + '\'' +
                 ", amount=" + amount +
                 ", timestamp=" + timestamp +
-                ", deposit=" + deposit +
-                ", withdraw=" + withdraw +
-                ", p2PTransfer=" + p2PTransfer +
+                ", transactionType=" + type +
                 '}';
     }
 }
