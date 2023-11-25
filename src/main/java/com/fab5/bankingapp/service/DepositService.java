@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.controller.DepositController;
 import com.fab5.bankingapp.controller.WithdrawController;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
@@ -31,7 +32,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
     @Autowired
     private TransactionService transactionService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
 
     public void verifyID1(Long id) throws DepositNotFoundException {
@@ -51,7 +52,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
 
     public void validateAmount(Double amount){
         if(amount<0){
-            logger.info("The amount is not a positive number");
+            logger.error("The amount is not a positive number");
             throw new InvalidDepositAmount("must be a positive number");
         }
     }

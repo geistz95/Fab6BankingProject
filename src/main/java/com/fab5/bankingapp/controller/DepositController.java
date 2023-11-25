@@ -23,7 +23,7 @@ public class DepositController {
     @Autowired
     private DepositService depositService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositController.class);
 
     @PostMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> createDeposit(@PathVariable Long accountId ,@Valid @RequestBody Deposit deposit){
