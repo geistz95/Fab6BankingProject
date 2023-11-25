@@ -45,16 +45,16 @@ public class AccountController {
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId) {
         logger.info("Fetching account by ID: {}", accountId);
         Optional<Account> account = accountService.getAccountById(accountId);
-//        logger.info("Returning account by ID: {}", accountId);
-//        return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
-//                .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
-         if (account != null) {
-        logger.info("Returning account under ID: {}", accountId);
-            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, account), HttpStatus.OK);
-        } else {
-            logger.warn("Account Not Found");
-            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND);
-        }
+        logger.info("Returning account by ID: {}", accountId + "'s status");
+        return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
+//         if (account != null) {
+//        logger.info("Returning account under ID: {}", accountId);
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, account), HttpStatus.OK);
+//        } else {
+//            logger.warn("Account Not Found");
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND);
+//        }
 
     }
 

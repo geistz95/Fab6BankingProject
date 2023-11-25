@@ -15,7 +15,6 @@ public class AccountActivity {
     private Long activityId;
 
     private Long accountId;
-    private String activityType;
     private Double amount;
     private String timestamp;
 
@@ -25,10 +24,9 @@ public class AccountActivity {
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, Double amount, String timestamp, TransactionType type) {
+    public AccountActivity(Long activityId, Long accountId, Double amount, String timestamp, TransactionType type) {
         this.activityId = activityId;
         this.accountId = accountId;
-        this.activityType = activityType;
         this.amount = amount;
         this.timestamp = timestamp;
         this.type = type;
@@ -48,14 +46,6 @@ public class AccountActivity {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
-    }
-
-    public String getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
     }
 
     public Double getAmount() {
