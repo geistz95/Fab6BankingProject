@@ -32,7 +32,7 @@ public class TransactionService {
     @Autowired
     private AccountActivityService accountActivityService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     @Transactional
     public void processWithdraw(Withdraw withdraw)throws InsufficientFundsException {
@@ -75,7 +75,7 @@ public class TransactionService {
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(deposit.getAmount());
         depositAccount.setAccountId(deposit.getAccount().getId());
-        depositAccount.setActivityType(TransactionType.DEPOSIT.getString());
+        depositAccount.setType(TransactionType.DEPOSIT);
         depositAccount.setTimestamp(new Date().toString());
 
         accountActivityService.saveAccountActivities(depositAccount);
@@ -136,7 +136,7 @@ public class TransactionService {
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(amount);
         depositAccount.setAccountId(deposit.getAccount().getId());
-        depositAccount.setActivityType(TransactionType.DEPOSIT.getString());
+        depositAccount.setType(TransactionType.DEPOSIT);
         depositAccount.setTimestamp(new Date().toString());
 
         Withdraw withdraw = new Withdraw();
@@ -149,7 +149,7 @@ public class TransactionService {
         withdraw.setStatus(TransactionStatus.PENDING);
         withdraw.setType(TransactionType.P2P);
         AccountActivity withdrawAccount = new AccountActivity();
-        withdrawAccount.setActivityType(TransactionType.WITHDRAW.getString());
+        withdrawAccount.setType(TransactionType.WITHDRAW);
         withdrawAccount.setAccountId(withdraw.getAccount().getId());
         withdrawAccount.setAmount(amount);
         withdrawAccount.setTimestamp(new Date().toString());
