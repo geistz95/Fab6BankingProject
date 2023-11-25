@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -49,10 +50,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setTitle("Message Not Readable");
         errorDetail.setDetail(manve.getMessage());
         errorDetail.setDeveloperMessage(manve.getClass().getName());
+        errorDetail.setPath(request.getDescription(false));
         return handleExceptionInternal(manve, errorDetail, headers, status, request);
     }
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException manve, HttpHeaders headers,
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTitle("Validation Failed");
@@ -63,8 +65,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 //        } what is this doing here? need an explanation
         errorDetail.setDetail("Input validation failed");
         errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setDeveloperMessage(manve.getClass().getName());
-        List<FieldError> fieldErrors = manve.getBindingResult().getFieldErrors(); //retrieve information from suchException to use for our body (field errors include things such as notEmpty and size (2,6)
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //retrieve information from suchException to use for our body (field errors include things such as notEmpty and size (2,6)
         for (FieldError fe: fieldErrors) {
             List<ValidationError> validationErrorsList = errorDetail.getErrors().get(fe.getField()); //check if this error is within our collection
             if (validationErrorsList == null) { //if not there, create a new key value for it in the collection. String -> List<ValidationError)
@@ -73,9 +75,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             }
             ValidationError validationError = new ValidationError();
             validationError.setCode(fe.getCode()); //"code": "NotEmpty",
-            validationError.setMessage(messageSource.getMessage(fe, null)); //"message": "must not be empty"  *build the validation error from the current fieldError*
+            validationError.setMessage(fe.getDefaultMessage()); //"message": "must not be empty"  *build the validation error from the current fieldError*
             validationErrorsList.add(validationError); //add it to the arrayList, which is stored in the hashmap errorDetail.errors
         }
-        return handleExceptionInternal(manve, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
+        return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
 }

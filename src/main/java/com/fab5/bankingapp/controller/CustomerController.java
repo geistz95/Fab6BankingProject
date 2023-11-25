@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class CustomerController {
 
     // Create a new customer
     @PostMapping("/customers")
-    public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Object> createCustomer(@Valid @RequestBody Customer customer) {
         Customer createdCustomer = customerService.createCustomer(customer);
         return CustomerResponse.createdCustomerBuilder(HttpStatus.CREATED, createdCustomer);
     }
