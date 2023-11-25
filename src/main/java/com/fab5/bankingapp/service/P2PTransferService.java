@@ -53,5 +53,12 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
 
     }
 
+    public P2PTransfer getTransfer(Long transfer_id){
+        Optional<P2PTransfer> transfer = p2pTransferRepository.findById(transfer_id);
+        if(transfer.isEmpty()){
+            throw new TransferNotFoundException("There is no transfer of ID  : "+transfer_id);
+        }
+        return transfer.get();
+    }
 
 }

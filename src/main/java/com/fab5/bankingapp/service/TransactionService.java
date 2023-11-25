@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -29,7 +30,7 @@ public class TransactionService {
     private AccountActivityService accountActivityService;
 
     @Transactional
-    public void processWithdraw(Withdraw withdraw)throws InsufficientFundsException{
+    public void processWithdraw(Withdraw withdraw)throws InsufficientFundsException {
         Account account= withdraw.getAccount();
         if (withdraw.getAmount() > account.getBalance()){
             throw new InsufficientFundsException("Insufficient Funds in the Account");
@@ -67,7 +68,13 @@ public class TransactionService {
         accountActivity.setAccountId(account.getId());
         accountActivity.setActivityType(TransactionType.DEPOSIT.getString());
         accountActivity.setAmount(deposit.getAmount());
+        AccountActivity depositAccount = new AccountActivity();
+        depositAccount.setAmount(deposit.getAmount());
+        depositAccount.setAccountId(deposit.getAccount().getId());
+        depositAccount.setActivityType(TransactionType.DEPOSIT.getString());
+        depositAccount.setTimestamp(new Date().toString());
 
+        accountActivityService.saveAccountActivities(depositAccount);
         depositRepository.save(deposit);
         accountRepository.save(account);
     }
@@ -101,6 +108,8 @@ public class TransactionService {
         Deposit deposit = depositRepository.findById(id).get();
         Account account = deposit.getAccount();
         account.setBalance(account.getBalance()-deposit.getAmount());
+        deposit.setStatus(TransactionStatus.CANCELLED);
+        depositRepository.save(deposit);
     }
 
     public void processTransfer(P2PTransfer transfer) {
@@ -117,6 +126,11 @@ public class TransactionService {
         deposit.setTransaction_date(new Date().toString());
         deposit.setType(TransactionType.P2P);
         deposit.setStatus(TransactionStatus.PENDING);
+        AccountActivity depositAccount = new AccountActivity();
+        depositAccount.setAmount(amount);
+        depositAccount.setAccountId(deposit.getAccount().getId());
+        depositAccount.setActivityType(TransactionType.DEPOSIT.getString());
+        depositAccount.setTimestamp(new Date().toString());
 
         Withdraw withdraw = new Withdraw();
         withdraw.setAccount(giver);
@@ -127,7 +141,15 @@ public class TransactionService {
         withdraw.setMedium(Medium.BALANCE);
         withdraw.setStatus(TransactionStatus.PENDING);
         withdraw.setType(TransactionType.P2P);
+        AccountActivity withdrawAccount = new AccountActivity();
+        withdrawAccount.setActivityType(TransactionType.WITHDRAW.getString());
+        withdrawAccount.setAccountId(withdraw.getAccount().getId());
+        withdrawAccount.setAmount(amount);
+        withdrawAccount.setTimestamp(new Date().toString());
 
+
+        accountActivityService.saveAccountActivities(withdrawAccount);
+        accountActivityService.saveAccountActivities(depositAccount);
         transfer.setDeposit(deposit);
         transfer.setWithdraw(withdraw);
         withdrawRepository.save(withdraw);
@@ -149,5 +171,13 @@ public class TransactionService {
         depositRepository.save(deposit);
         accountRepository.save(receiver);
         accountRepository.save(giver);
+    }
+
+    private void deleteWithdraw(Long id) {
+        Withdraw withdraw = withdrawRepository.findById(id).get();
+        Account account = withdraw.getAccount();
+        account.setBalance(account.getBalance()+withdraw.getAmount());
+        withdraw.setStatus(TransactionStatus.CANCELLED);
+        withdrawRepository.save(withdraw);
     }
 }
