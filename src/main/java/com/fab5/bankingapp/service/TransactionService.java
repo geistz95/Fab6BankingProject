@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.controller.WithdrawController;
 import com.fab5.bankingapp.enums.Medium;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
@@ -8,6 +9,8 @@ import com.fab5.bankingapp.model.*;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
 import com.fab5.bankingapp.repository.WithdrawRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public class TransactionService {
 
     @Autowired
     private AccountActivityService accountActivityService;
+
+    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
 
     @Transactional
     public void processWithdraw(Withdraw withdraw)throws InsufficientFundsException {
@@ -63,11 +68,10 @@ public class TransactionService {
     @Transactional
     public void processDeposit(Deposit deposit){
         Account account= deposit.getAccount();
+        logger.info("Adding deposit to account balance");
         account.setBalance(account.getBalance() + deposit.getAmount());
-        AccountActivity accountActivity = new AccountActivity();
-        accountActivity.setAccountId(account.getId());
-        accountActivity.setActivityType(TransactionType.DEPOSIT.getString());
-        accountActivity.setAmount(deposit.getAmount());
+
+        logger.info("Creating activity for account");
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(deposit.getAmount());
         depositAccount.setAccountId(deposit.getAccount().getId());
@@ -92,6 +96,7 @@ public class TransactionService {
     @Transactional
     public void changeDeposit(Deposit deposit, Deposit oldDeposit){
         Account account = deposit.getAccount();
+        logger.info("Changing deposit info");
         account.setBalance(account.getBalance()+deposit.getAmount()-oldDeposit.getAmount());
         accountRepository.save(account);
     }
@@ -107,6 +112,7 @@ public class TransactionService {
     public void deleteDeposit(Long id) {
         Deposit deposit = depositRepository.findById(id).get();
         Account account = deposit.getAccount();
+        logger.info("Cancelling deposit");
         account.setBalance(account.getBalance()-deposit.getAmount());
         deposit.setStatus(TransactionStatus.CANCELLED);
         depositRepository.save(deposit);
@@ -117,6 +123,7 @@ public class TransactionService {
         Account giver = accountRepository.findById(transfer.getGiver().getId()).get();
         Double amount = transfer.getAmount();
 
+        logger.info("Transfering from account id" + giver.getId() + " amount of " + amount + " to acocunt id "+receiver.getId());
         Deposit deposit = new Deposit();
         deposit.setAccount(receiver);
         deposit.setPayee_id(receiver.getId());
@@ -147,7 +154,7 @@ public class TransactionService {
         withdrawAccount.setAmount(amount);
         withdrawAccount.setTimestamp(new Date().toString());
 
-
+        logger.info("Adding account activity to both accounts");
         accountActivityService.saveAccountActivities(withdrawAccount);
         accountActivityService.saveAccountActivities(depositAccount);
         transfer.setDeposit(deposit);
@@ -167,6 +174,7 @@ public class TransactionService {
         deleteDeposit(deposit.getDepositId());
         Withdraw withdraw = transfer.getWithdraw();
         deleteWithdraw(withdraw.getId());
+        logger.info("Undoing P2P transfer");
         withdrawRepository.save(withdraw);
         depositRepository.save(deposit);
         accountRepository.save(receiver);
