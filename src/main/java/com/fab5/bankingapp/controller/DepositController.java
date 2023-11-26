@@ -3,6 +3,7 @@ package com.fab5.bankingapp.controller;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.service.DepositService;
+import com.fab5.bankingapp.validation.DepositValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class DepositController {
     @Autowired
     private DepositService depositService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositController.class);
 
     @PostMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> createDeposit(@PathVariable Long accountId ,@Valid @RequestBody Deposit deposit){

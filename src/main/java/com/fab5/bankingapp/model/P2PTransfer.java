@@ -4,26 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+
 @Entity
+@Table(name = "p2p_transfer")
 public class P2PTransfer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long transfer_id;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
     private Account receiver;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "giver_id")
     private Account giver;
 
     @Column
     private Double amount;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "deposit_id")
     @JsonIgnore
     private Deposit deposit;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "withdraw_id")
     @JsonIgnore
     private Withdraw withdraw;
 

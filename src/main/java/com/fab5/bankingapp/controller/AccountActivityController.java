@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,9 @@ public class AccountActivityController {
     @Autowired
     private AccountActivityService accountActivityService;
 
-    @Autowired
-    private final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
 
+    private final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
+    @Autowired
     public AccountActivityController(AccountActivityService accountActivityService){
         this.accountActivityService = accountActivityService;
     }
@@ -31,8 +32,10 @@ public class AccountActivityController {
         logger.info(accountActivity + "Added to account: ");
         accountActivityService.saveAccountActivities(accountActivity);
 
+
         logger.info(accountActivity + "successful: ");
         return new ResponseEntity<>("Activity (" +
+
                                 ", Amount: " + accountActivity.getAmount() +
                                 ", Timestamp: " + accountActivity.getTimestamp() +
                                 ", Transaction:  " + accountActivity.getType() +

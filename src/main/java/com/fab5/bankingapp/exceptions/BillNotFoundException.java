@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BillNotFoundException extends NoSuchElementFoundException{
     public BillNotFoundException(Long billID) {
         super("Bill with id " + billID + " not found");
+        throwLogError(billID);
     }
 }

@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.controller.DepositController;
 import com.fab5.bankingapp.controller.WithdrawController;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
@@ -9,6 +10,7 @@ import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
+import com.fab5.bankingapp.validation.DepositValidation;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class DepositService implements IDValidation<DepositNotFoundException, AccountNotFoundException> {
+public class DepositService implements IDValidation<DepositNotFoundException, AccountNotFoundException>, DepositValidation {
 
     @Autowired
     private DepositRepository depositRepository;
@@ -31,7 +33,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
     @Autowired
     private TransactionService transactionService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
 
     public void verifyID1(Long id) throws DepositNotFoundException {
@@ -46,13 +48,6 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         if(checkAccount.isEmpty()){
             logger.error("Account ID "+ id + " isn't in the database");
             throw new AccountNotFoundException(id);
-        }
-    }
-
-    public void validateAmount(Double amount){
-        if(amount<0){
-            logger.info("The amount is not a positive number");
-            throw new InvalidDepositAmount("must be a positive number");
         }
     }
 

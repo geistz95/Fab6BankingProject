@@ -14,9 +14,12 @@ import com.fab5.bankingapp.validation.IDValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
+@Service
 public class P2PTransferService implements IDValidation<DepositNotFoundException,AccountNotFoundException> {
 
     @Autowired
@@ -28,7 +31,7 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
     @Autowired
     private TransactionService transactionService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(P2PTransfer.class);
     public void verifyID1(Long id) throws DepositNotFoundException {
     }
     public void verifyID2(Long id) throws AccountNotFoundException {

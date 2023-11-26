@@ -23,7 +23,7 @@ public class P2PController {
     @Autowired
     private P2PTransferService transferService;
 
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    private static final Logger logger = LoggerFactory.getLogger(P2PController.class);
     @PostMapping("/accounts/{account_id}/transfers")
     public ResponseEntity<?> createTransfer(@PathVariable Long account_id ,@RequestBody P2PTransfer transfer){
         HttpHeaders responseHeader = new HttpHeaders();
