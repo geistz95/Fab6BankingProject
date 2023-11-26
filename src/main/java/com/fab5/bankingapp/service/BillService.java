@@ -61,7 +61,10 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
         verifyIDCustomer(id);
         return billRepository.findByCustomerId(id);
     }
-    public void createBill(Bill bill){
+    public void createBill(Long account_id, Bill bill){
+        verifyID2(account_id);
+        Optional<Account> account = accountRepository.findById(account_id);
+        bill.setAccount(account.get());
         billRepository.save(bill);
     }
     public void updateBill(Bill bill, Long id){
