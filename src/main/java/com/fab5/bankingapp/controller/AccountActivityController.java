@@ -23,7 +23,7 @@ public class AccountActivityController {
        // return new ResponseEntity<>(HttpStatus.CREATED);
 
 
-        return new ResponseEntity<>("Activity (Type: " + accountActivity.getActivityType() +
+        return new ResponseEntity<>("Activity (Type: " + accountActivity.getType() +
                                 ", Amount: " + accountActivity.getAmount() +
                                 ", Timestamp: " + accountActivity.getTimestamp() +
                                 ", Transaction:  " + accountActivity.getType() +
