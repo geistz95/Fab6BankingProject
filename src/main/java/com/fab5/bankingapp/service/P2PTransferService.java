@@ -46,10 +46,10 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         verifyID2(account_id);
         transfer.setGiver(accountRepository.findById(account_id).get());
         verifyID2(transfer.getReceiver().getId());
+
         logger.info("Creating P2P Transfer");
         transactionService.processTransfer(transfer);
         p2pTransferRepository.save(transfer);
-
     }
 
     public void deleteTransfer(Long transfer_id){

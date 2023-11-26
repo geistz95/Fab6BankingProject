@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Deposit implements Serializable {
@@ -33,8 +34,8 @@ public class Deposit implements Serializable {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    @Column
-    private String transaction_date;
+
+    private Date transaction_date;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -60,10 +61,13 @@ public class Deposit implements Serializable {
     @JsonIgnore
     private Account account;
 
-    public Deposit(Long depositId, TransactionType type, String transcation_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description, Account account) {
+    public Deposit() {
+    }
+
+    public Deposit(Long depositId, TransactionType type, Date transaction_date, TransactionStatus status, Long payee_id, Medium medium, Double amount, String description, Account account) {
         this.depositId = depositId;
         this.type = type;
-        this.transaction_date = transcation_date;
+        this.transaction_date = transaction_date;
         this.status = status;
         this.payee_id = payee_id;
         this.medium = medium;
@@ -72,8 +76,6 @@ public class Deposit implements Serializable {
         this.account = account;
     }
 
-    public Deposit() {
-    }
 
     public Long getDepositId() {
         return depositId;
@@ -91,11 +93,11 @@ public class Deposit implements Serializable {
         this.type = type;
     }
 
-    public String getTransaction_date() {
+    public Date getTransaction_date() {
         return transaction_date;
     }
 
-    public void setTransaction_date(String transaction_date) {
+    public void setTransaction_date(Date transaction_date) {
         this.transaction_date = transaction_date;
     }
 
@@ -146,6 +148,4 @@ public class Deposit implements Serializable {
     public void setAccount(Account account) {
         this.account = account;
     }
-
-
 }
