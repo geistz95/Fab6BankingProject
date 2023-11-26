@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Object> createCustomer(@Valid @RequestBody Customer customer) {
         logger.info("Request received: Creating Customer");
         Customer createdCustomer = customerService.createCustomer(customer);
         logger.info("Customer Created Successfully");

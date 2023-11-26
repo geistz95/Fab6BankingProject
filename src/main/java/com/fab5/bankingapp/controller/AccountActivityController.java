@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class AccountActivityController {
        // return new ResponseEntity<>(HttpStatus.CREATED);
 
 
-        return new ResponseEntity<>("Activity (Type: " + accountActivity.getActivityType() +
+        return new ResponseEntity<>("Activity (Type: " + accountActivity.getType() +
                                 ", Amount: " + accountActivity.getAmount() +
                                 ", Timestamp: " + accountActivity.getTimestamp() +
                                 ", Transaction:  " + accountActivity.getType() +
