@@ -14,7 +14,8 @@ public interface BillRepository  extends JpaRepository<Bill, Long> {
     Iterable<Bill> findByAccountId(Long accountId);
     @Query(value = "SELECT bills.*\n" +
             "FROM bills\n" +
-            "JOIN customers ON bills.customer_id = customers.customer_id\n" +
-            "WHERE bills.customer_id = ?1", nativeQuery = true)
+            "JOIN accounts ON bills.account_id = accounts.account_id\n" +
+            "JOIN customers ON accounts.customer_id = customers.customer_id\n" +
+            "WHERE customers.customer_id = ?1", nativeQuery = true)
     Iterable<Bill> findByCustomerId(Long customerId);
 }
