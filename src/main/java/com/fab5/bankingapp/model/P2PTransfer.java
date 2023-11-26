@@ -26,13 +26,11 @@ public class P2PTransfer {
     @ManyToOne
     @JoinColumn(name = "deposit_id")
     @JsonIgnore
-    @JoinColumn(name = "deposit_id")
     private Deposit deposit;
 
     @ManyToOne
     @JoinColumn(name = "withdraw_id")
     @JsonIgnore
-    @JoinColumn(name = "withdraw_id")
     private Withdraw withdraw;
 
     public P2PTransfer(Long transfer_id, Account receiver, Account giver, Double amount) {
