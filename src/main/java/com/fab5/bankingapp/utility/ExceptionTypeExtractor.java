@@ -4,6 +4,9 @@ package com.fab5.bankingapp.utility;
 public interface ExceptionTypeExtractor {
     default String extractExceptionType() {
         String fullClassName = getClass().getSimpleName();
+        if (fullClassName.contains("Exception")) {
+            fullClassName = fullClassName.replace("Exception", "");
+        }
         StringBuilder generatedClassName = new StringBuilder();
         boolean capitalExists = false;
         for (char c : fullClassName.toCharArray()) {

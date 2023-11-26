@@ -79,3 +79,18 @@ CREATE TABLE withdraw
     account_id       INT,
     FOREIGN KEY (account_id) REFERENCES account (account_id)
 );
+
+-- P2PTransfer table
+CREATE TABLE p2p_transfer
+(
+    transfer_id  INT AUTO_INCREMENT PRIMARY KEY,
+    receiver_id  INT,
+    giver_id     INT,
+    amount       DECIMAL(10, 2),
+    deposit_id   INT,
+    withdraw_id  INT,
+    FOREIGN KEY (receiver_id) REFERENCES account (account_id),
+    FOREIGN KEY (giver_id) REFERENCES account (account_id),
+    FOREIGN KEY (deposit_id) REFERENCES deposit (deposit_id),
+    FOREIGN KEY (withdraw_id) REFERENCES withdraw (withdraw_id)
+);
