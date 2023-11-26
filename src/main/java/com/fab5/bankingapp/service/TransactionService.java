@@ -8,6 +8,7 @@ import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.model.*;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
+import com.fab5.bankingapp.repository.P2PTransferRepository;
 import com.fab5.bankingapp.repository.WithdrawRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,9 @@ public class TransactionService {
 
     @Autowired
     private AccountActivityService accountActivityService;
+
+    @Autowired
+    private P2PTransferRepository transferRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
@@ -76,7 +80,7 @@ public class TransactionService {
         depositAccount.setAmount(deposit.getAmount());
         depositAccount.setAccountId(deposit.getAccount().getId());
         depositAccount.setType(TransactionType.DEPOSIT);
-        depositAccount.setTimestamp(new Date().toString());
+        depositAccount.setTimestamp(new Date());
 
         accountActivityService.saveAccountActivities(depositAccount);
         depositRepository.save(deposit);
@@ -130,41 +134,45 @@ public class TransactionService {
         deposit.setAmount(amount);
         deposit.setDescription("Received payment of "+amount+" from account id : " + giver.getId());
         deposit.setMedium(Medium.BALANCE);
-        deposit.setTransaction_date(new Date().toString());
+        deposit.setTransaction_date(new Date());
         deposit.setType(TransactionType.P2P);
         deposit.setStatus(TransactionStatus.PENDING);
+       // deposit.setDepositId(depositRepository.count()+1);
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(amount);
         depositAccount.setAccountId(deposit.getAccount().getId());
         depositAccount.setType(TransactionType.DEPOSIT);
-        depositAccount.setTimestamp(new Date().toString());
+        depositAccount.setTimestamp(new Date());
+
 
         Withdraw withdraw = new Withdraw();
         withdraw.setAccount(giver);
         withdraw.setPayerId(giver.getId());
         withdraw.setAmount(amount);
         withdraw.setDescription("Giving payment of "+amount+" to account of : " + receiver.getId());
-        withdraw.setTransaction_date(new Date().toString());
+        withdraw.setTransaction_date(new Date());
         withdraw.setMedium(Medium.BALANCE);
         withdraw.setStatus(TransactionStatus.PENDING);
         withdraw.setType(TransactionType.P2P);
-        AccountActivity withdrawAccount = new AccountActivity();
-        withdrawAccount.setType(TransactionType.WITHDRAW);
-        withdrawAccount.setAccountId(withdraw.getAccount().getId());
-        withdrawAccount.setAmount(amount);
-        withdrawAccount.setTimestamp(new Date().toString());
+       // withdraw.setId(withdrawRepository.count()+1);
+        AccountActivity withdrawActivty = new AccountActivity();
+        withdrawActivty.setType(TransactionType.WITHDRAW);
+        withdrawActivty.setAccountId(withdraw.getAccount().getId());
+        withdrawActivty.setAmount(amount);
+        withdrawActivty.setTimestamp(new Date());
 
         logger.info("Adding account activity to both accounts");
-        accountActivityService.saveAccountActivities(withdrawAccount);
+        accountActivityService.saveAccountActivities(withdrawActivty);
         accountActivityService.saveAccountActivities(depositAccount);
         transfer.setDeposit(deposit);
         transfer.setWithdraw(withdraw);
-        withdrawRepository.save(withdraw);
         depositRepository.save(deposit);
+        withdrawRepository.save(withdraw);
         receiver.setBalance(receiver.getBalance()+amount);
         giver.setBalance(giver.getBalance()-amount);
         accountRepository.save(receiver);
         accountRepository.save(giver);
+        transferRepository.save(transfer);
     }
 
     public void undoTransfer(P2PTransfer transfer){
