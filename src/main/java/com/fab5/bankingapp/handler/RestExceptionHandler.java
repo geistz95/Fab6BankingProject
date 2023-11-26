@@ -2,6 +2,10 @@ package com.fab5.bankingapp.handler;
 
 import com.fab5.bankingapp.errors.ErrorDetail;
 import com.fab5.bankingapp.errors.ValidationError;
+import com.fab5.bankingapp.exceptions.InsufficientFundsException;
+import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
+import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.utility.ExceptionTypeExtractor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -28,31 +32,33 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException
-                                                                     rnfe, HttpServletRequest request) {
+    @ExceptionHandler(NoSuchElementFoundException.class)
+    public ResponseEntity<?> handleNoSuchElementFoundException(NoSuchElementFoundException
+                                                                       ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTimeStamp(new Date().getTime());
         errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
-        errorDetail.setTitle("Resource Not Found");
-        errorDetail.setDetail(rnfe.getMessage());
-        errorDetail.setDeveloperMessage(rnfe.getClass().getName());
+        errorDetail.setTitle(ex.getSimplifiedNameOfExceptionOfNotFound2() + " Not Found");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
+        errorDetail.setPath(request.getDescription(false));
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
-            HttpMessageNotReadableException manve, HttpHeaders headers,
+            HttpMessageNotReadableException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTimeStamp(new Date().getTime());
         errorDetail.setStatus(status.value());
         errorDetail.setTitle("Message Not Readable");
-        errorDetail.setDetail(manve.getMessage());
-        errorDetail.setDeveloperMessage(manve.getClass().getName());
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
         errorDetail.setPath(request.getDescription(false));
-        return handleExceptionInternal(manve, errorDetail, headers, status, request);
+        return handleExceptionInternal(ex, errorDetail, headers, status, request);
     }
+
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
@@ -67,7 +73,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setTimeStamp(new Date().getTime());
         errorDetail.setDeveloperMessage(ex.getClass().getName());
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //retrieve information from suchException to use for our body (field errors include things such as notEmpty and size (2,6)
-        for (FieldError fe: fieldErrors) {
+        for (FieldError fe : fieldErrors) {
             List<ValidationError> validationErrorsList = errorDetail.getErrors().get(fe.getField()); //check if this error is within our collection
             if (validationErrorsList == null) { //if not there, create a new key value for it in the collection. String -> List<ValidationError)
                 validationErrorsList = new ArrayList<>();
@@ -79,5 +85,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             validationErrorsList.add(validationError); //add it to the arrayList, which is stored in the hashmap errorDetail.errors
         }
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
+    }
+
+    @ExceptionHandler({InvalidDepositAmount.class, InsufficientFundsException.class})
+    public ResponseEntity<Object> handleDepositExceptions(RuntimeException ex, WebRequest request) {
+        ErrorDetail errorDetail = generateBasicErrorDetailEndingInException(ex, HttpStatus.BAD_REQUEST, request);
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.BAD_REQUEST);
+    }
+
+    private ErrorDetail generateBasicErrorDetailEndingInException(RuntimeException ex, HttpStatus status, WebRequest request) {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimeStamp(new Date().getTime());
+        errorDetail.setStatus(status.value());
+        errorDetail.setTitle(((ExceptionTypeExtractor)ex).extractExceptionType());
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
+        errorDetail.setPath(request.getDescription(false));
+        return errorDetail;
     }
 }

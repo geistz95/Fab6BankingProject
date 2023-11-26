@@ -8,6 +8,7 @@ public class CustomerNotFoundException extends NoSuchElementFoundException{
 
     public CustomerNotFoundException(Long customerId) {
         super("Customer with ID " + customerId + " not found");
+        throwLogError(customerId);
     }
 
 }

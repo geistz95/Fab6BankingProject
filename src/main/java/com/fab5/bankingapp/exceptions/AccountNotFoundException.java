@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class AccountNotFoundException extends NoSuchElementFoundException{
     public AccountNotFoundException(Long accountId) {
         super("Account with id " + accountId + " not found");
+        throwLogError(accountId);
     }
 }

@@ -7,6 +7,7 @@ import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.DepositRepository;
+import com.fab5.bankingapp.validation.DepositValidation;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class DepositService implements IDValidation<DepositNotFoundException, AccountNotFoundException> {
+public class DepositService implements IDValidation<DepositNotFoundException, AccountNotFoundException>, DepositValidation {
 
     @Autowired
     private DepositRepository depositRepository;
@@ -38,12 +39,6 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
             throw new AccountNotFoundException(id);
-        }
-    }
-
-    public void validateAmount(Double amount){
-        if(amount<0){
-            throw new InvalidDepositAmount("must be a positive number");
         }
     }
 
