@@ -57,7 +57,7 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private Long account_id;
+    private Account account;
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Customer customer;
@@ -66,7 +66,7 @@ public class Bill {
 
     }
 
-    public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Long account_id, Customer customer) {
+    public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Account account, Customer customer) {
         this.billId = billId;
         this.status = status;
         this.payee = payee;
@@ -76,16 +76,24 @@ public class Bill {
         this.recurring_date = reccuring_date;
         this.upcoming_payment_date = upcoming_payment_date;
         this.payment_amount = payment_amount;
-        this.account_id = account_id;
+        this.account = account;
         this.customer = customer;
     }
 
-    public Long getAccount_id() {
-        return account_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccount_id(Long account_id) {
-        this.account_id = account_id;
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Long getBillId() {
