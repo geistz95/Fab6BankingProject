@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.TransactionType;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,20 +15,21 @@ public class AccountActivity {
     private Long activityId;
 
     private Long accountId;
-    private String activityType;
-    private BigDecimal amount;
-    private LocalDateTime timestamp;
+    private Double amount;
+    private String timestamp;
+
+    private TransactionType type;
 
     public AccountActivity(){
 
     }
 
-    public AccountActivity(Long activityId, Long accountId, String activityType, BigDecimal amount, LocalDateTime timestamp) {
+    public AccountActivity(Long activityId, Long accountId, Double amount, String timestamp, TransactionType type) {
         this.activityId = activityId;
         this.accountId = accountId;
-        this.activityType = activityType;
         this.amount = amount;
         this.timestamp = timestamp;
+        this.type = type;
     }
 
     public Long getActivityId() {
@@ -45,38 +48,27 @@ public class AccountActivity {
         this.accountId = accountId;
     }
 
-    public String getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
-    }
-
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
-    @Override
-    public String toString() {
-        return "AccountActivity{" +
-                "activityId=" + activityId +
-                ", accountId=" + accountId +
-                ", activityType='" + activityType + '\'' +
-                ", amount=" + amount +
-                ", timestamp=" + timestamp +
-                '}';
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
     }
 }

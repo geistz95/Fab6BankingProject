@@ -3,6 +3,7 @@ package com.fab5.bankingapp.model;
 import com.fab5.bankingapp.enums.TransactionStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Bill {
@@ -25,6 +26,7 @@ public class Bill {
 
     @Column
     @Enumerated(EnumType.STRING)
+    @NotEmpty
     private TransactionStatus status;
 
     @Column

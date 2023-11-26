@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 @RestController
 public class CustomerController {
@@ -17,48 +21,67 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
     @GetMapping("/customers")
     public ResponseEntity<Object> getAllCustomers() {
+        logger.info("Request received: Getting All Customers");
         List<Customer> customers = customerService.getAllCustomers();
+        logger.info("All Customers Gotten Successfully");
         return CustomerResponse.getAllCustomersBuilder(HttpStatus.OK, customers);
     }
 
-    // Get customer by ID
     @GetMapping("/customers/{id}")
     public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
+        logger.info("Request received: Getting Customer By Id");
         Optional<Customer> customer = customerService.getCustomerById(id);
-        return customer.map(value -> CustomerResponse.getCustomerBuilder(HttpStatus.OK, value))
-                .orElseGet(() -> CustomerResponse.getCustomerBuilder(HttpStatus.NOT_FOUND, null));
+        if (customer.isPresent()) {
+            logger.info("Customer Gotten Successfully");
+            return CustomerResponse.getCustomerBuilder(HttpStatus.OK, customer.get());
+        } else {
+            logger.warn("Customer Not Found");
+            return CustomerResponse.getCustomerBuilder(HttpStatus.NOT_FOUND, null);
+        }
     }
 
-    // Create a new customer
     @PostMapping("/customers")
     public ResponseEntity<Object> createCustomer(@Valid @RequestBody Customer customer) {
+        logger.info("Request received: Creating Customer");
         Customer createdCustomer = customerService.createCustomer(customer);
+        logger.info("Customer Created Successfully");
         return CustomerResponse.createdCustomerBuilder(HttpStatus.CREATED, createdCustomer);
     }
 
-    // Update an existing customer
     @PutMapping("/customers/{id}")
     public ResponseEntity<Object> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+        logger.info("Request received: Updating Customer");
         Customer updated = customerService.updateCustomer(id, updatedCustomer);
         if (updated != null) {
+            logger.info("Updated Customer Successfully");
             return CustomerResponse.updateCustomerBuilder(HttpStatus.ACCEPTED);
         } else {
+            logger.warn("Customer Not Found");
             return CustomerResponse.updateCustomerBuilder(HttpStatus.NOT_FOUND);
         }
     }
+
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
+        logger.info("Request received: Deleting Customer");
         customerService.deleteCustomer(id);
+        logger.info("Customer Deleted Successfully");
         return CustomerResponse.deleteCustomerBuilder(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping("/accounts/{accountId}/customer")
     public ResponseEntity<Object> getCustomerByAccounts(@PathVariable Long accountId) {
+        logger.info("Request received: Getting Customer By Account Id");
         Iterable<Customer> customers = customerService.getCustomerByAccountId(accountId);
+        logger.info("Customers Gotten Successfully");
         return CustomerResponse.getAllCustomersBuilder(HttpStatus.OK, (List<Customer>) customers);
     }
 }
+
 
 /*uncomment only with below mentioned changes to account service and account repository
     @GetMapping("/accounts/{accountId}")
