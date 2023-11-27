@@ -1,8 +1,7 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.repository.AccountRepository;

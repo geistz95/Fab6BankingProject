@@ -1,18 +1,13 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
-import com.fab5.bankingapp.exceptions.DepositNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Customer;
-import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.CustomerRepository;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +43,6 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
     }
 
     public List<Account> getAllAccounts() {
-
         return accountRepository.findAll();
     }
 
