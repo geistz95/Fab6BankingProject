@@ -1,18 +1,15 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.AccountActivityNotFoundException;
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountActivityNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.repository.AccountActivityRepository;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.validation.IDValidation;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

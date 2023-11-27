@@ -1,4 +1,4 @@
-package com.fab5.bankingapp.exceptions;
+package com.fab5.bankingapp.exceptions.NotFoundExceptions;
 
 import com.fab5.bankingapp.utility.NotFoundTypeExtractor;
 import org.slf4j.Logger;

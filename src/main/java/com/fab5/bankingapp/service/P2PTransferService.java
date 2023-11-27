@@ -1,12 +1,9 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.controller.WithdrawController;
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.DepositNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
-import com.fab5.bankingapp.exceptions.TransferNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.TransferNotFoundException;
 import com.fab5.bankingapp.model.Account;
-import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.model.P2PTransfer;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.P2PTransferRepository;

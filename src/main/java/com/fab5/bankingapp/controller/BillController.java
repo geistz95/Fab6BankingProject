@@ -1,25 +1,18 @@
 package com.fab5.bankingapp.controller;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Bill;
-import com.fab5.bankingapp.exceptions.BillNotFoundException;
 import com.fab5.bankingapp.response.BillResponse;
 import com.fab5.bankingapp.service.BillService;
-import com.fab5.bankingapp.validation.IDValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.fab5.bankingapp.response.BillResponse.*;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 public class BillController {
