@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.exceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Customer;
@@ -33,6 +34,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    public void verifyIfCustomerHasAccounts(Long customerID) throws CustomerHasNoAccountsException {
+        List<Account> checkCustomerAccounts = accountService.getAccountsByCustomerId(customerID);
+        if (checkCustomerAccounts.isEmpty()) {
+            throw new CustomerHasNoAccountsException(customerID);
+        }
+    }
+
     @GetMapping("/accounts")
     public ResponseEntity<Object> getAllAccounts() {
         logger.info("Fetching all accounts");
@@ -61,6 +69,7 @@ public class AccountController {
     @GetMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Object> getAccountsByCustomerId(@PathVariable Long customerId) {
         logger.info("Fetching account by customer ID: {}", customerId);
+        verifyIfCustomerHasAccounts(customerId);
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
         logger.info("Accounts under: {}", customerId);
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);
