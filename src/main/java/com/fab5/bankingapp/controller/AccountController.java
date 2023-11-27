@@ -22,10 +22,6 @@ public class AccountController {
 
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    @Autowired
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     public void verifyIfCustomerHasAccounts(Long customerID) throws CustomerHasNoAccountsException {
         List<Account> checkCustomerAccounts = accountService.getAccountsByCustomerId(customerID);
@@ -89,7 +85,7 @@ public class AccountController {
             return AccountResponse.putAccountBuilder(HttpStatus.OK);
         } else {
             logger.warn("Account Not Found");
-            return AccountResponse.putAccountBuilder(HttpStatus.NOT_FOUND);
+            return AccountResponse.putAccountBuilder(HttpStatus.NO_CONTENT);
         }
 
     }
@@ -102,7 +98,7 @@ public class AccountController {
 
         logger.info("Account deletion status");
         return account.map(a -> new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.ACCEPTED, Optional.of(a)), HttpStatus.ACCEPTED))
-                .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NOT_FOUND, Optional.empty()), HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
     }
 
 }
