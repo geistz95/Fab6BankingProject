@@ -6,14 +6,14 @@ import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class Withdraw {
   
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "withdraw_id")
     private Long id;
 
 
@@ -22,7 +22,7 @@ public class Withdraw {
     private TransactionType type;
 
     @Column
-    private String transaction_date;
+    private Date transaction_date;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -49,7 +49,7 @@ public class Withdraw {
     public Withdraw() {
     }
 
-    public Withdraw(Long id, TransactionType type, String transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
+    public Withdraw(Long id, TransactionType type, Date transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
         this.id = id;
         this.type = type;
         this.transaction_date = transaction_date;
@@ -61,13 +61,6 @@ public class Withdraw {
         this.account = account;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     public Long getId() {
         return id;
@@ -75,27 +68,6 @@ public class Withdraw {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTransaction_date() {
-        return transaction_date;
-    }
-
-    public void setTransaction_date(String transaction_date) {
-        this.transaction_date = transaction_date;
-    }
-
-
-    public Long getPayerId() {
-        return payerId;
-    }
-
-    public void setPayerId(Long payeeId) {
-        this.payerId = payeeId;
-    }
-
-    public Medium getMedium() {
-        return medium;
     }
 
     public TransactionType getType() {
@@ -106,12 +78,32 @@ public class Withdraw {
         this.type = type;
     }
 
+    public Date getTransaction_date() {
+        return transaction_date;
+    }
+
+    public void setTransaction_date(Date transaction_date) {
+        this.transaction_date = transaction_date;
+    }
+
     public TransactionStatus getStatus() {
         return status;
     }
 
     public void setStatus(TransactionStatus status) {
         this.status = status;
+    }
+
+    public Long getPayerId() {
+        return payerId;
+    }
+
+    public void setPayerId(Long payerId) {
+        this.payerId = payerId;
+    }
+
+    public Medium getMedium() {
+        return medium;
     }
 
     public void setMedium(Medium medium) {
@@ -134,9 +126,13 @@ public class Withdraw {
         this.description = description;
     }
 
+    public Account getAccount() {
+        return account;
+    }
 
-
-
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
 
     /**

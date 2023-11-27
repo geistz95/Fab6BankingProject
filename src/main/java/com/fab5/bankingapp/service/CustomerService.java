@@ -64,6 +64,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
                 .map(existingCustomer -> {
                     existingCustomer.setFirstName(updatedCustomer.getFirstName());
                     existingCustomer.setLastName(updatedCustomer.getLastName());
+                    existingCustomer.setAddresses(updatedCustomer.getAddresses());
                     // Update other fields as needed
                     return customerRepository.save(existingCustomer);
                 })

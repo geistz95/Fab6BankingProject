@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class P2PTransfer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "transfer_id")
     private Long transfer_id;
 
     @ManyToOne

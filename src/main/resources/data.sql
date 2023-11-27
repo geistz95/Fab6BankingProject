@@ -19,6 +19,3 @@ VALUES ('DEPOSIT', '2023-01-12', 'completed', 3, 'BALANCE', 300.00, '300 dollars
 INSERT INTO withdraw (type, transaction_date, status, payer_id, medium, amount, description, account_id)
 VALUES ('WITHDRAW', '2023-01-12', 'completed', 5, 'BALANCE', 10.00, '300 dollars', 1),
        ('WITHDRAW', '2023-01-28', 'completed', 6, 'REWARDS', 20.00, '1000 dollars', 2);
-INSERT INTO p2p_transfer (receiver_id, giver_id, amount, deposit_id, withdraw_id)
-VALUES (1, 2, 50.00, 1, 1),
-       (2, 1, 30.00, 2, 2);
