@@ -28,13 +28,13 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType type;
 
-    @Column
+
     private String nickname;
 
-    @Column
+
     @Value("0")
     private Integer rewards;
-    @Column
+
     private Double balance;
 
     @ManyToOne

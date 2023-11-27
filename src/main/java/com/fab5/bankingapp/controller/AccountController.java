@@ -83,7 +83,7 @@ public class AccountController {
             return AccountResponse.putAccountBuilder(HttpStatus.OK);
         } else {
             logger.warn("Account Not Found");
-            return AccountResponse.putAccountBuilder(HttpStatus.NOT_FOUND);
+            return AccountResponse.putAccountBuilder(HttpStatus.NO_CONTENT);
         }
 
     }

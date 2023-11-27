@@ -2,6 +2,7 @@ package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.service.AccountActivityService;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 //@RequestBody("/api/account-activities")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountActivityController {
 
     @Autowired
@@ -24,7 +26,7 @@ public class AccountActivityController {
     private final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
 
 
-    @PostMapping("/{accountId}")
+    @PostMapping("account-activities/{accountId}")
     public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity){
         logger.info(accountActivity + "Added to account: ");
         accountActivityService.saveAccountActivities(accountActivity);
