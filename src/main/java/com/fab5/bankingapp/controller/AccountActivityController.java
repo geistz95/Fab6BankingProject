@@ -1,58 +1,81 @@
 package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.model.AccountActivity;
+import com.fab5.bankingapp.response.AccountActivityResponse;
 import com.fab5.bankingapp.service.AccountActivityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@RequestBody("/api/account-activities")
+//@RequestMapping("/api/account-activities")
 public class AccountActivityController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
 
     @Autowired
     private AccountActivityService accountActivityService;
 
-    @PostMapping("/{accountId}")
-    public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity){
+    @PostMapping("/account-activities/{accountId}")
+    public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity, @PathVariable Long accountId) {
+        logger.info("Received request to add account activity for account ID: {}", accountId);
+
         accountActivityService.saveAccountActivities(accountActivity);
-       // return new ResponseEntity<>(HttpStatus.CREATED);
 
-
-        return new ResponseEntity<>("Activity (Type: " + accountActivity.getType() +
-                                ", Amount: " + accountActivity.getAmount() +
-                                ", Timestamp: " + accountActivity.getTimestamp() +
-                                ", Transaction:  " + accountActivity.getType() +
-                                ") added to the account.", HttpStatus.CREATED);
+        logger.info("Account activity added successfully for account ID: {}", accountId);
+        return AccountActivityResponse.createdActivityBuilder(HttpStatus.CREATED, accountActivity);
     }
 
-    @GetMapping("activities/{accountId}")
-    public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId){
+    @GetMapping("/account-activities/{accountId}")
+    public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId) {
+        logger.info("Received request to fetch account activities for account ID: {}", accountId);
+
         Optional<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
-        return new ResponseEntity<>("Activities for account with ID " + activityList, HttpStatus.OK);
-//        if (activityList.isPresent()) {
-//            return new ResponseEntity<>("Activities for account with ID " + accountId + ": " + activityList.get(), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("No activities found for account with ID " + accountId, HttpStatus.OK);
-//        }
+
+        if (activityList.isPresent()) {
+            logger.info("Found account activities for account ID {}: {}", accountId, activityList.get());
+        } else {
+            logger.info("No account activities found for account ID: {}", accountId);
+        }
+
+        return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList.orElse(null));
     }
 
-    @PutMapping("activities/{accountId}")
-    public ResponseEntity<?> updateAccountActivities(@RequestBody AccountActivity activity, Long accountId){
+    @PutMapping("/account-activities/{accountId}")
+    public ResponseEntity<?> updateAccountActivities(@RequestBody AccountActivity activity, @PathVariable Long accountId) {
+        logger.info("Received request to update account activity for account ID: {}", accountId);
+
         accountActivityService.updateAccountActivities(activity, accountId);
-        return new ResponseEntity<>("Activity for account with ID " + accountId + " updated.", HttpStatus.OK);
-        //return new ResponseEntity<>(HttpStatus.OK);
+
+        logger.info("Account activity updated successfully for account ID: {}", accountId);
+        return AccountActivityResponse.putActivityBuilder(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{accountId}")
-    public ResponseEntity<?> deleteAccountActivities(@PathVariable Long accountId){
+    @DeleteMapping("{accountId}")
+    public ResponseEntity<?> deleteAccountActivities(@PathVariable Long accountId) {
+        logger.info("Received request to delete account activities for account ID: {}", accountId);
+
+        Optional<AccountActivity> activity = accountActivityService.getAccountActivities(accountId);
         accountActivityService.deleteAccountActivities(accountId);
-        return new ResponseEntity<>("All activities for account with ID " + accountId + " deleted.", HttpStatus.NO_CONTENT);
-        //return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        if (activity.isPresent()) {
+            logger.info("Deleted account activities successfully for account ID: {}", accountId);
+        } else {
+            logger.info("No account activities found for account ID: {}", accountId);
+        }
+
+        return AccountActivityResponse.deleteActivityBuilder(HttpStatus.NO_CONTENT, activity);
     }
 }
