@@ -56,9 +56,7 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
             AccountActivity existingActivity = activities.get();
           //  existingActivity.setAccountId(accountId).newAccountActivity.getAccountId;
             existingActivity.setAccountId(activity.getAccountId());
-
             existingActivity.setType(activity.getType());
-
             existingActivity.setAmount(activity.getAmount());
             existingActivity.setTimestamp(activity.getTimestamp());
             existingActivity.setActivityId(activity.getActivityId());

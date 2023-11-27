@@ -22,10 +22,7 @@ public class AccountActivityController {
 
 
     private final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
-    @Autowired
-    public AccountActivityController(AccountActivityService accountActivityService){
-        this.accountActivityService = accountActivityService;
-    }
+
 
     @PostMapping("/{accountId}")
     public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity){
@@ -35,7 +32,6 @@ public class AccountActivityController {
 
         logger.info(accountActivity + "successful: ");
         return new ResponseEntity<>("Activity (" +
-
                                 ", Amount: " + accountActivity.getAmount() +
                                 ", Timestamp: " + accountActivity.getTimestamp() +
                                 ", Transaction:  " + accountActivity.getType() +
