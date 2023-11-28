@@ -57,11 +57,11 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
     }
     public Iterable<Bill> getAllBillsFromAccountId(Long id){
         verifyID2(id);
-        return billRepository.findBillsByAccountId(id);
+        return billRepository.findByAccountId(id);
     }
     public Iterable<Bill> getAllBillsFromCustomerId(Long customer_id){
         verifyIDCustomer(customer_id);
-        return billRepository.findBillsByCustomerId(customer_id);
+        return billRepository.findByCustomerId(customer_id);
     }
     public void createBill(Long account_id, Bill bill){
         verifyID2(account_id);
