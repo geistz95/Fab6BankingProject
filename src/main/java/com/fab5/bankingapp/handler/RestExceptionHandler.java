@@ -4,9 +4,8 @@ import com.fab5.bankingapp.errors.ErrorDetail;
 import com.fab5.bankingapp.errors.ValidationError;
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.NoSuchElementFoundException;
 import com.fab5.bankingapp.utility.ExceptionTypeExtractor;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -20,11 +19,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {

@@ -1,23 +1,17 @@
 package com.fab5.bankingapp.controller;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
+import com.fab5.bankingapp.exceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Account;
-import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.response.AccountResponse;
 import com.fab5.bankingapp.service.AccountService;
-import com.fab5.bankingapp.validation.IDValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
 import java.util.Optional;
 
 @RestController
@@ -28,6 +22,13 @@ public class AccountController {
 
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
+
+    public void verifyIfCustomerHasAccounts(Long customerID) throws CustomerHasNoAccountsException {
+        List<Account> checkCustomerAccounts = accountService.getAccountsByCustomerId(customerID);
+        if (checkCustomerAccounts.isEmpty()) {
+            throw new CustomerHasNoAccountsException(customerID);
+        }
+    }
 
     @GetMapping("/accounts")
     public ResponseEntity<Object> getAllAccounts() {
@@ -57,6 +58,7 @@ public class AccountController {
     @GetMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Object> getAccountsByCustomerId(@PathVariable Long customerId) {
         logger.info("Fetching account by customer ID: {}", customerId);
+        verifyIfCustomerHasAccounts(customerId);
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
         logger.info("Accounts under: {}", customerId);
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);

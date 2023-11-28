@@ -1,8 +1,6 @@
 package com.fab5.bankingapp.controller;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
-import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.response.WithdrawResponse;
 import com.fab5.bankingapp.service.TransactionService;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
