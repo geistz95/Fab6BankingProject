@@ -19,6 +19,7 @@ public class AccountActivity {
 
     private Long accountId;
     private Double amount;
+
     private Date timestamp;
 
     private TransactionType type;
