@@ -43,8 +43,15 @@ public class AccountController {
         logger.info("Fetching account by ID: {}", accountId);
         Optional<Account> account = accountService.getAccountById(accountId);
         logger.info("Returning account by ID: {}", accountId + "'s status");
-        return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
+        return(AccountResponse.getAccountBuilder(HttpStatus.OK , account.get() ));
+               // .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
+//         if (account != null) {
+//        logger.info("Returning account under ID: {}", accountId);
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, account), HttpStatus.OK);
+//        } else {
+//            logger.warn("Account Not Found");
+//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND);
+//        }
 
     }
 
@@ -90,8 +97,8 @@ public class AccountController {
         Optional<Account> account = accountService.deleteAccount(accountId);
 
         logger.info("Account deletion status");
-        return account.map(a -> new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.ACCEPTED, Optional.of(a)), HttpStatus.ACCEPTED))
-                .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
+        return(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT));
+                //.orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
     }
 
 }
