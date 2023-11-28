@@ -3,6 +3,8 @@ package com.fab5.bankingapp.controller;
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.response.AccountActivityResponse;
 import com.fab5.bankingapp.service.AccountActivityService;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@RequestMapping("/api/account-activities")
+
+//@RequestBody("/api/account-activities")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class AccountActivityController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
@@ -29,20 +34,23 @@ public class AccountActivityController {
     private AccountActivityService accountActivityService;
 
 
-    @GetMapping("/account-activities/{accountId}")
+    @GetMapping("activities/{accountId}")
     public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId) {
-        logger.info("Received request to fetch account activities for account ID: {}", accountId);
-
+        logger.info("Fetching activities for account with ID: {}", accountId);
         Optional<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
+        // return new ResponseEntity<>("Activities for account with ID " + activityList, HttpStatus.OK);
 
         if (activityList.isPresent()) {
-            logger.info("Found account activities for account ID {}: {}", accountId, activityList.get());
+            logger.info("Activities found for account with ID: {}", accountId);
+            return new ResponseEntity<>("Activities for account with ID " + accountId + ": " + activityList.get(), HttpStatus.OK);
         } else {
-            logger.info("No account activities found for account ID: {}", accountId);
+            logger.info("No activities found for account with ID: {}", accountId);
+            return new ResponseEntity<>("No activities found for account with ID " + accountId, HttpStatus.OK);
         }
 
-        return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList.orElse(null));
     }
 
-
 }
+
+
+

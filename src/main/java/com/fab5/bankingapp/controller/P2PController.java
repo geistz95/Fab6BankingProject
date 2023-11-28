@@ -24,15 +24,15 @@ public class P2PController {
     private P2PTransferService transferService;
 
     private static final Logger logger = LoggerFactory.getLogger(P2PController.class);
-    @PostMapping("/accounts/{account_id}/transfers")
-    public ResponseEntity<?> createTransfer(@PathVariable Long account_id ,@RequestBody P2PTransfer transfer){
+    @PostMapping("/accounts/transfers/{payer_id}/{payee_id}")
+    public ResponseEntity<?> createTransfer(@PathVariable Long payer_id, @PathVariable Long payee_id, @RequestBody P2PTransfer transfer){
         HttpHeaders responseHeader = new HttpHeaders();
         //This next line builds the URI link from the deposit
         logger.info("Creating new P2P URI");
         URI newPollUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(transfer.getTransfer_id()).toUri();
         responseHeader.setLocation(newPollUri);
         logger.info("Attempting to add P2P transaction");
-        transferService.createTransfer(account_id,transfer);
+        transferService.createTransfer(payer_id,payee_id, transfer);
         return createP2PBuilder(HttpStatus.CREATED, transfer);
     }
 

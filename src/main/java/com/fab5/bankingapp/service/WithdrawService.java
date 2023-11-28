@@ -1,10 +1,8 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.CustomerNotFoundException;
-import com.fab5.bankingapp.exceptions.WithdrawNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.WithdrawNotFoundException;
 import com.fab5.bankingapp.model.Account;
-import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.WithdrawRepository;
@@ -12,7 +10,6 @@ import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service

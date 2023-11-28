@@ -1,12 +1,9 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.controller.WithdrawController;
-import com.fab5.bankingapp.exceptions.AccountNotFoundException;
-import com.fab5.bankingapp.exceptions.DepositNotFoundException;
-import com.fab5.bankingapp.exceptions.NoSuchElementFoundException;
-import com.fab5.bankingapp.exceptions.TransferNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.TransferNotFoundException;
 import com.fab5.bankingapp.model.Account;
-import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.model.P2PTransfer;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.repository.P2PTransferRepository;
@@ -42,10 +39,11 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         }
     }
 
-    public void createTransfer(Long account_id, P2PTransfer transfer){
-        verifyID2(account_id);
-        transfer.setGiver(accountRepository.findById(account_id).get());
-        verifyID2(transfer.getReceiver().getId());
+    public void createTransfer(Long payer_id, Long payee_id, P2PTransfer transfer){
+        verifyID2(payer_id);
+        transfer.setGiver(accountRepository.findById(payer_id).get());
+        verifyID2(payee_id);
+        transfer.setReceiver(accountRepository.findById(payee_id).get());
 
         logger.info("Creating P2P Transfer");
         transactionService.processTransfer(transfer);
