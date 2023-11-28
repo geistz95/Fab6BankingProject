@@ -45,13 +45,6 @@ public class AccountController {
         logger.info("Returning account by ID: {}", accountId + "'s status");
         return account.map(a -> new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, a), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND));
-//         if (account != null) {
-//        logger.info("Returning account under ID: {}", accountId);
-//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.OK, account), HttpStatus.OK);
-//        } else {
-//            logger.warn("Account Not Found");
-//            return new ResponseEntity<>(AccountResponse.getAccountBuilder(HttpStatus.NOT_FOUND, null), HttpStatus.NOT_FOUND);
-//        }
 
     }
 

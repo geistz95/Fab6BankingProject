@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.response.AccountActivityResponse;
 import com.fab5.bankingapp.service.AccountActivityService;
@@ -33,21 +34,18 @@ public class AccountActivityController {
     @Autowired
     private AccountActivityService accountActivityService;
 
-
     @GetMapping("activities/{accountId}")
-    public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId) {
+    public ResponseEntity<Object> getAccountActivities(@PathVariable Long accountId) {
         logger.info("Fetching activities for account with ID: {}", accountId);
         Optional<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
-        // return new ResponseEntity<>("Activities for account with ID " + activityList, HttpStatus.OK);
 
         if (activityList.isPresent()) {
             logger.info("Activities found for account with ID: {}", accountId);
-            return new ResponseEntity<>("Activities for account with ID " + accountId + ": " + activityList.get(), HttpStatus.OK);
+            return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList.get());
         } else {
             logger.info("No activities found for account with ID: {}", accountId);
-            return new ResponseEntity<>("No activities found for account with ID " + accountId, HttpStatus.OK);
+            return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, "No activities found for account with ID " + accountId);
         }
-
     }
 
 }

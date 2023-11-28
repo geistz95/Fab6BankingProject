@@ -20,7 +20,4 @@ public class AccountActivityResponse {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-
-
-
 }
