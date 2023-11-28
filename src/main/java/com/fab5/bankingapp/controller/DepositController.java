@@ -41,8 +41,8 @@ public class DepositController {
         return createdDepositBuilder(HttpStatus.CREATED, deposit);
     }
 
-    @GetMapping("/deposits/{accountID}/{depositID}")
-    public ResponseEntity<?> getDeposit(@PathVariable Long accountID, @PathVariable Long depositID){
+    @GetMapping("/deposits/{depositID}")
+    public ResponseEntity<?> getDeposit( @PathVariable Long depositID){
         logger.info("Getting Deposit @ "+depositID);
         return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID).get());
     }
