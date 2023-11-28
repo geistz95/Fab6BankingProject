@@ -26,20 +26,6 @@ public class AccountActivityController {
     private final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
 
 
-    @PostMapping("account-activities/{accountId}")
-    public ResponseEntity<?> addAccountActivities(@RequestBody AccountActivity accountActivity){
-        logger.info(accountActivity + "Added to account: ");
-        accountActivityService.saveAccountActivities(accountActivity);
-
-
-        logger.info(accountActivity + "successful: ");
-        return new ResponseEntity<>("Activity (" +
-                                ", Amount: " + accountActivity.getAmount() +
-                                ", Timestamp: " + accountActivity.getTimestamp() +
-                                ", Transaction:  " + accountActivity.getType() +
-                                ") added to the account.", HttpStatus.CREATED);
-    }
-
     @GetMapping("activities/{accountId}")
     public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId){
         logger.info("Fetching activities for account with ID: {}", accountId);
@@ -56,21 +42,4 @@ public class AccountActivityController {
 
     }
 
-    @PutMapping("activities/{accountId}")
-    public ResponseEntity<?> updateAccountActivities(@RequestBody AccountActivity activity, Long accountId){
-        logger.info("Updating activity for account with ID: {}", accountId);
-        accountActivityService.updateAccountActivities(activity, accountId);
-        logger.info("Activity updated successfully for account with ID: {}", accountId);
-        return new ResponseEntity<>("Activity for account with ID " + accountId + " updated.", HttpStatus.OK);
-        //return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{accountId}")
-    public ResponseEntity<?> deleteAccountActivities(@PathVariable Long accountId){
-        logger.info("Deleting all activities for account with ID: {}", accountId);
-        accountActivityService.deleteAccountActivities(accountId);
-        logger.info("All activities deleted successfully for account with ID: {}", accountId);
-        return new ResponseEntity<>("All activities for account with ID " + accountId + " deleted.", HttpStatus.NO_CONTENT);
-        //return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
