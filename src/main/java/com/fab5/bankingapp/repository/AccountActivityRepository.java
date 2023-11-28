@@ -7,6 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountActivityRepository extends JpaRepository<AccountActivity, Long> {
-
     Optional<AccountActivity> findByAccountId(Long accountId);
 }
