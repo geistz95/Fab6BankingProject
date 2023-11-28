@@ -29,14 +29,12 @@ public class Deposit implements Serializable {
     @Column(name = "deposit_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositId;
-
-
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
 
-    private Date transaction_date;
 
+    private Date transaction_date;
 
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
@@ -44,7 +42,6 @@ public class Deposit implements Serializable {
 
 
     private Long payee_id;
-
 
     @Enumerated(EnumType.STRING)
     private Medium medium;

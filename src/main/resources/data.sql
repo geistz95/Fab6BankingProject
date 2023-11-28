@@ -14,8 +14,8 @@ VALUES ('Pending', 'Power Company', 'Electric Bill', '2023-01-05',
        ('Paid', 'ISP', 'Internet Bill', '2023-01-10', '2023-01-30',
         'Monthly', '2023-02-28', 50.00, 2);
 INSERT INTO deposit (type, transaction_date, status, payee_id, medium, amount, description, account_id)
-VALUES ('DEPOSIT', '2023-01-12', 'completed', 3, 'BALANCE', 300.00, '300 dollars', 1),
-       ('DEPOSIT', '2023-01-28', 'completed', 4, 'REWARDS', 1000.00, '1000 dollars', 2);
+VALUES ('DEPOSIT', '2023-01-12', 'COMPLETED', 3, 'BALANCE', 300.00, '300 dollars', 1),
+       ('DEPOSIT', '2023-01-28', 'COMPLETED', 4, 'REWARDS', 1000.00, '1000 dollars', 2);
 INSERT INTO withdraw (type, transaction_date, status, payer_id, medium, amount, description, account_id)
 VALUES ('WITHDRAW', '2023-01-12', 'completed', 5, 'BALANCE', 10.00, '300 dollars', 1),
        ('WITHDRAW', '2023-01-28', 'completed', 6, 'REWARDS', 20.00, '1000 dollars', 2);

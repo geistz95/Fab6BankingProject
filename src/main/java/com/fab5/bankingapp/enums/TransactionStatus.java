@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public enum TransactionStatus {
     //This specifies the status of the transaction, Pending, Cancelled, Completed, (Bill will only use this) Recurring
 
-    PENDING("pending"),CANCELLED("cancelled"),COMPLETED("completed");
+    PENDING("PENDING"),CANCELLED("CANCELLED"),COMPLETED("COMPLETED");
 
     private final String status;
 
