@@ -1,6 +1,6 @@
 package com.fab5.bankingapp.controller;
 
-import com.fab5.bankingapp.exceptions.CustomerHasNoAccountsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.response.AccountResponse;
 import com.fab5.bankingapp.service.AccountService;

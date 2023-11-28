@@ -1,4 +1,4 @@
-package com.fab5.bankingapp.exceptions;
+package com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions;
 
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.NoSuchElementFoundException;
 
