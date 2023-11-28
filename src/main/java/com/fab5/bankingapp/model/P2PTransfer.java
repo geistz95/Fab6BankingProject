@@ -21,7 +21,7 @@ public class P2PTransfer {
     @JoinColumn(name = "giver_id")
     private Account giver;
 
-    @Column
+
     private Double amount;
 
     @ManyToOne

@@ -12,7 +12,7 @@ public enum AccountType {
          Savings("SAVINGS", Deposit.class),
          Credit("CREDIT", Withdraw.class),
         Cheque("CHEQUE", P2PTransfer.class),
-        JointAccount("JOINTACCOUNT", Deposit.class),
+        JointAccount("JOINT_ACCOUNT", Deposit.class),
         Rewards("REWARD", P2PTransfer.class);
 
          private final String accountType;
