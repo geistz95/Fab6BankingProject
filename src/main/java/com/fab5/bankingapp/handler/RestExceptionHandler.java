@@ -4,7 +4,7 @@ import com.fab5.bankingapp.errors.ErrorDetail;
 import com.fab5.bankingapp.errors.ValidationError;
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
-import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.NoSuchElementFoundException;
 import com.fab5.bankingapp.utility.ExceptionTypeExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
