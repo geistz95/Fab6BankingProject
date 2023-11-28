@@ -52,7 +52,6 @@ public class DepositController {
     @GetMapping("/deposits/{depositID}")
     public ResponseEntity<?> getDeposit( @PathVariable Long depositID){
         logger.info("Getting Deposit @ "+depositID);
-        verifyIfAccountHasDeposits(accountID);
         return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID).get());
     }
 
@@ -66,7 +65,7 @@ public class DepositController {
 
     @PutMapping("/deposits/{depositID}")
     public ResponseEntity<?> editDeposit(@Valid @RequestBody Deposit deposit,@PathVariable Long depositID){
-        logger.info("Editting deposit ID : "+depositID);
+        logger.info("Editing deposit ID : "+depositID);
         depositService.editDeposit(deposit,depositID);
         logger.info("Successfully Deleted deposit ID : "+depositID);
         return putDepositBuilder(HttpStatus.ACCEPTED);
