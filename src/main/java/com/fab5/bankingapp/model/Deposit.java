@@ -30,29 +30,27 @@ public class Deposit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositId;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
 
+
     private Date transaction_date;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
 
-    @Column
+
     private Long payee_id;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private Medium medium;
 
-    @Column
+
     private Double amount;
 
-    @Column
+
     private String description;
 
     @ManyToOne
