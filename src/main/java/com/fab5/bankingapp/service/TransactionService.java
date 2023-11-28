@@ -111,7 +111,8 @@ public class TransactionService {
         logger.info("Creating activity for account");
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(deposit.getAmount());
-        depositAccount.setAccountId(deposit.getAccount().getId());
+        //depositAccount.setAccountId(deposit.getAccount().getId());
+        depositAccount.setAccount(deposit.getAccount());
         depositAccount.setType(TransactionType.DEPOSIT);
         depositAccount.setTimestamp(new Date());
 
@@ -177,7 +178,8 @@ public class TransactionService {
        // deposit.setDepositId(depositRepository.count()+1);
         AccountActivity depositAccount = new AccountActivity();
         depositAccount.setAmount(amount);
-        depositAccount.setAccountId(deposit.getAccount().getId());
+        //depositAccount.setAccountId(deposit.getAccount().getId());
+        depositAccount.setAccount(deposit.getAccount());
         depositAccount.setType(TransactionType.DEPOSIT);
         depositAccount.setTimestamp(new Date());
 
@@ -194,7 +196,8 @@ public class TransactionService {
        // withdraw.setId(withdrawRepository.count()+1);
         AccountActivity withdrawActivty = new AccountActivity();
         withdrawActivty.setType(TransactionType.WITHDRAW);
-        withdrawActivty.setAccountId(withdraw.getAccount().getId());
+        //withdrawActivty.setAccountId(withdraw.getAccount().getId());
+        withdrawActivty.setAccount(deposit.getAccount());
         withdrawActivty.setAmount(amount);
         withdrawActivty.setTimestamp(new Date());
 

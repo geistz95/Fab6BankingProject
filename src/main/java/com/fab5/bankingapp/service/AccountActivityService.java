@@ -10,6 +10,7 @@ import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +42,7 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
         accountActivityRepository.save(accountActivity);
     }
 
-    public Optional<AccountActivity> getAccountActivities(Long accountId){
+    public List<AccountActivity> getAccountActivities(Long accountId){
         verifyID2(accountId);
         return accountActivityRepository.findByAccountId(accountId);
     }

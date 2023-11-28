@@ -22,6 +22,6 @@ public interface BillRepository  extends JpaRepository<Bill, Long> {
 
     Iterable<Bill> findByCustomerId(Long customer_Id);
 
-    Iterable<Bill> findBillsByCustomerId(Long customer_id);
-    Iterable<Bill> findBillsByAccountId(Long accountId);
+//    Iterable<Bill> findBillsByCustomerId(Long customer_id);
+//    Iterable<Bill> findBillsByAccountId(Long accountId);
 }
