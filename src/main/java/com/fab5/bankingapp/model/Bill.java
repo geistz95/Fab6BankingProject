@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.model;
 
 import com.fab5.bankingapp.enums.TransactionStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -24,42 +25,42 @@ public class Bill {
     @Column(name = "BILL_ID")
     private Long billId;
 
-    @Column
+
     @Enumerated(EnumType.STRING)
-    @NotEmpty
     private TransactionStatus status;
 
-    @Column
+
     private String payee;
 
-    @Column
+
     private String nickName;
 
-    @Column
+
     private String creation_date;
 
-    @Column
+
     private String payment_date;
 
-    @Column
+
     private String recurring_date;
 
-    @Column
+
     private String upcoming_payment_date;
 
-    @Column
+
     private Double payment_amount;
 
 
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "BILL_ID")
 //    private Long account_id;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Bill (){
