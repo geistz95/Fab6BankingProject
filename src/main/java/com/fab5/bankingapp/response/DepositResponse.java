@@ -13,7 +13,7 @@ public class DepositResponse {
         Map<String, Object> response = new HashMap<>();
         response.put("message","Successfully created the deposit and added to the account");
         response.put("data result", responseObject);
-        response.put("HttpStatus Code", httpStatus+);
+        response.put("HttpStatus Code", httpStatus);
         return new ResponseEntity<>(response,httpStatus);
     }
     public static  ResponseEntity<Object> getDepositBuilder(HttpStatus httpStatus, Object object){
@@ -37,7 +37,7 @@ public class DepositResponse {
     }
     public static ResponseEntity<Object> putDepositBuilder(HttpStatus httpStatus){
         Map<String,Object> response = new HashMap<>();
-        response.put("HttpStatus code", httpStatus+ " " + httpStatus.value());
+        response.put("HttpStatus code", httpStatus);
         response.put("message", "Accepted deposit modification");
         return new ResponseEntity<>(response, httpStatus);
     }
