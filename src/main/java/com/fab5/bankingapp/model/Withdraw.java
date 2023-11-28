@@ -17,29 +17,29 @@ public class Withdraw {
     private Long id;
 
 
-    @Column
+
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    @Column
+
     private Date transaction_date;
 
-    @Column
+
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
 
-    @Column
+
     private Long payerId;
 
-    @Column
+
     @Enumerated(EnumType.STRING)
     private Medium medium;
 
-    @Column
+
     private Double amount;
 
-    @Column
+
     private String description;
 
     @ManyToOne

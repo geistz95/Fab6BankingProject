@@ -29,7 +29,6 @@ public class Deposit implements Serializable {
     @Column(name = "deposit_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositId;
-
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 

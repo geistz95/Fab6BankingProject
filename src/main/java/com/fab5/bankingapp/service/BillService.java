@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.BillNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.CustomerNotFoundException;
@@ -23,8 +24,9 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
 
     @Autowired
     private BillRepository billRepository;
-
+   @Autowired
     private AccountRepository accountRepository;
+   @Autowired
     private CustomerRepository customerRepository;
 
     @Override
@@ -55,16 +57,19 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
     }
     public Iterable<Bill> getAllBillsFromAccountId(Long id){
         verifyID2(id);
-        return billRepository.findByAccountId(id);
+        return billRepository.findBillsByAccountId(id);
     }
-    public Iterable<Bill> getAllBillsFromCustomerId(Long id){
-        verifyIDCustomer(id);
-        return billRepository.findByCustomerId(id);
+    public Iterable<Bill> getAllBillsFromCustomerId(Long customer_id){
+        verifyIDCustomer(customer_id);
+        return billRepository.findBillsByCustomerId(customer_id);
     }
     public void createBill(Long account_id, Bill bill){
         verifyID2(account_id);
         Optional<Account> account = accountRepository.findById(account_id);
+        Customer customer = account.get().getCustomer();
+        bill.setCustomer(customer);
         bill.setAccount(account.get());
+        bill.setStatus(TransactionStatus.PENDING);
         billRepository.save(bill);
     }
     public void updateBill(Bill bill, Long id){
@@ -80,6 +85,9 @@ public class BillService implements IDValidation<BillNotFoundException, AccountN
         originalBill.setPayment_amount(bill.getPayment_amount());
         billRepository.save(originalBill);
 
+    }
+    public Iterable<Bill> getAllBills(){
+        return billRepository.findAll();
     }
     public void deleteBillById(Long id){
         verifyID1(id);

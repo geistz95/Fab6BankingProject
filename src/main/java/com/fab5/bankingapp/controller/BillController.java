@@ -36,6 +36,11 @@ public class BillController {
     public ResponseEntity<?> getBillsForSpecificCustomer(@PathVariable Long customerId){
         logger.info("Getting all bills from customer id  :" + customerId);
         return new ResponseEntity<>(billService.getAllBillsFromCustomerId(customerId), HttpStatus.OK);
+
+    }
+    @GetMapping("/bills")
+    public ResponseEntity<?> getAllBills(){
+        return new ResponseEntity<>(billService.getAllBills(),HttpStatus.OK);
     }
     @PostMapping("/accounts/{accountId}/bills")
     public ResponseEntity createBill(@PathVariable Long accountId, @RequestBody Bill bill){
