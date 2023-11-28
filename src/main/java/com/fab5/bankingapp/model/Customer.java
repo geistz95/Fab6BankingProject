@@ -15,8 +15,8 @@ public class Customer {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // private Long customer_id;
     private Long customer_id;
-
     @NotBlank(message = "{NotBlank.Customer.firstName}")
     @Column(name = "first_name")
     private String firstName;

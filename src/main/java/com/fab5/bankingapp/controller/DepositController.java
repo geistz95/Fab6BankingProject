@@ -35,13 +35,14 @@ public class DepositController {
         responseHeader.setLocation(newPollUri);
 
         logger.info("Post Request received : creating deposit");
-        depositService.createDeposit(accountId,deposit);
+        deposit=depositService.createDeposit(accountId,deposit);
         logger.info("Returning successful post request");
+
         return createdDepositBuilder(HttpStatus.CREATED, deposit);
     }
 
-    @GetMapping("/deposits/{accountID}/{depositID}")
-    public ResponseEntity<?> getDeposit(@PathVariable Long accountID, @PathVariable Long depositID){
+    @GetMapping("/deposits/{depositID}")
+    public ResponseEntity<?> getDeposit( @PathVariable Long depositID){
         logger.info("Getting Deposit @ "+depositID);
         return getDepositBuilder(HttpStatus.OK,depositService.getDepositByID(depositID).get());
     }
@@ -49,9 +50,9 @@ public class DepositController {
     @DeleteMapping("/deposits/{depositID}")
     public ResponseEntity<?> deleteDeposit(@PathVariable Long depositID){
         logger.info("Delete request received ID : "+depositID);
-        depositService.deleteDepositByID(depositID);
+        Deposit deposit = depositService.deleteDepositByID(depositID);
         logger.info("Deleted deposit ID  : "+depositID);
-        return deleteDepositBuilder(HttpStatus.NO_CONTENT);
+        return deleteDepositBuilder(HttpStatus.NO_CONTENT, deposit );
     }
 
     @PutMapping("/deposits/{depositID}")
@@ -64,7 +65,7 @@ public class DepositController {
 
     @GetMapping("/accounts/{accountID}/deposits")
     public ResponseEntity<?> getAllAccountDeposits(@PathVariable Long accountID){
-//        System.out.println("Hello World!");
+        System.out.println("Hello World!");
         logger.info("Getting all deposits from account id  :" + accountID);
         return getAllDepositsBuilder(HttpStatus.OK, depositService.getAllDepositsByAccountID(accountID));
     }

@@ -34,19 +34,20 @@ public class AccountActivityController {
     @Autowired
     private AccountActivityService accountActivityService;
 
-    @GetMapping("activities/{accountId}")
+    @GetMapping("/activities/{accountId}")
     public ResponseEntity<Object> getAccountActivities(@PathVariable Long accountId) {
         logger.info("Fetching activities for account with ID: {}", accountId);
-        Optional<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
+        List<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
 
-        if (activityList.isPresent()) {
+        if (activityList.isEmpty()) {
             logger.info("Activities found for account with ID: {}", accountId);
-            return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList.get());
+            return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList);
         } else {
             logger.info("No activities found for account with ID: {}", accountId);
             return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, "No activities found for account with ID " + accountId);
         }
     }
+
 
 }
 

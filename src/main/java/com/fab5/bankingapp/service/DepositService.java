@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
+import com.fab5.bankingapp.enums.TransactionType;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
 import com.fab5.bankingapp.model.Account;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,13 +53,18 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         return depositRepository.findById(id);
     }
 
-    public void createDeposit(Long account, Deposit deposit) {
+    public Deposit createDeposit(Long account, Deposit deposit) {
         verifyID2(account);
         validateAmount(deposit.getAmount());
         Optional<Account> a = accountRepository.findById(account);
         deposit.setAccount(a.get());
+        deposit.setPayee_id(a.get().getId());
+        deposit.setStatus(TransactionStatus.PENDING);
+        deposit.setTransaction_date(new Date());
+        deposit.setType(TransactionType.DEPOSIT);
         depositRepository.save(deposit);
         transactionService.processDeposit(deposit);
+        return deposit;
     }
 
     public void editDeposit(Deposit deposit, Long id){
@@ -75,10 +83,12 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         transactionService.changeDeposit(deposit,oldDeposit);
         depositRepository.save(oldDeposit);
     }
-    public void deleteDepositByID(Long id){
+    public Deposit deleteDepositByID(Long id){
         verifyID1(id);
-        verifyID2(depositRepository.findById(id).get().getAccount().getId());
+        Deposit deposit = depositRepository.findById(id).get();
+        verifyID2(deposit.getAccount().getId());
         transactionService.deleteDeposit(id);
+        return deposit;
     }
 
     public List<Deposit> getAllDepositsByAccountID(Long accountID){

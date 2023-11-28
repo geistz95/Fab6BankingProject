@@ -11,7 +11,7 @@ import java.util.List;
 public interface DepositRepository extends JpaRepository<Deposit,Long> {
     //Query may be wrong, will check again when Customer is done
     @Query(value = "select d.* from deposit d join account a on d.account_id = a.account_id where a.account_id = ?1", nativeQuery = true)
-    List<Deposit> findAllDepositsByAccountID(Long accountid);
+    List<Deposit> findAllDepositsByAccountID(Long account_id);
 
     //List<Deposit> findAllDepositsByAccountID(Long accountID);
 
