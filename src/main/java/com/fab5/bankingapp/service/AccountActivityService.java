@@ -10,6 +10,7 @@ import com.fab5.bankingapp.validation.IDValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,36 +42,9 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
         accountActivityRepository.save(accountActivity);
     }
 
-    public Optional<AccountActivity> getAccountActivities(Long accountId){
+    public List<AccountActivity> getAccountActivities(Long accountId){
         verifyID2(accountId);
         return accountActivityRepository.findByAccountId(accountId);
-    }
-
-    public void updateAccountActivities(AccountActivity activity, Long accountId){
-        verifyID2(accountId);
-        Optional<AccountActivity> activities = accountActivityRepository.findByAccountId(accountId);
-        if (activities.isPresent()){
-            AccountActivity existingActivity = activities.get();
-          //  existingActivity.setAccountId(accountId).newAccountActivity.getAccountId;
-            existingActivity.setAccountId(activity.getAccountId());
-            existingActivity.setType(activity.getType());
-            existingActivity.setAmount(activity.getAmount());
-            existingActivity.setTimestamp(activity.getTimestamp());
-            existingActivity.setActivityId(activity.getActivityId());
-
-            accountActivityRepository.save(existingActivity);
-            Optional.of(existingActivity);
-
-            // accountActivity.setAccountId()
-        }   else {
-        // Return empty optional if the account with the given ID doesn't exist
-         Optional.empty();
-    }
-    }
-
-    public void deleteAccountActivities(Long activityId){
-        verifyID1(activityId);
-        accountActivityRepository.deleteById(activityId);
     }
 
 }

@@ -15,8 +15,8 @@ public class Customer {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // private Long customer_id;
     private Long customer_id;
-
     @NotBlank(message = "{NotBlank.Customer.firstName}")
     @Column(name = "first_name")
     private String firstName;
@@ -77,13 +77,12 @@ public class Customer {
         this.addresses = addresses;
     }
 
-//    public List<Account> getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(List<Account> account) {
-//        this.account = account;
-//    }
+    /*public List<Account> getAccount() {
+       return account;
+   }
+
+    public void setAccount(List<Account> account) {
+        this.account = account; }*/
 
     @Override
     public String toString() {

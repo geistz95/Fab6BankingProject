@@ -17,18 +17,25 @@ public class AccountActivity {
     @JsonIgnoreProperties
     private Long activityId;
 
-    private Long accountId;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private  Account account;
     private Double amount;
+
+
     private Date timestamp;
 
     private TransactionType type;
 
-    public AccountActivity(Long activityId, Long accountId, Double amount, Date timestamp, TransactionType type) {
+
+
+    public AccountActivity(Account account, Long accountId, Double amount, Date timestamp, TransactionType type) {
         this.activityId = activityId;
-        this.accountId = accountId;
+        //this.accountId = accountId;
         this.amount = amount;
         this.timestamp = timestamp;
         this.type = type;
+        this.account = account;
     }
 
     public AccountActivity(){
@@ -43,12 +50,20 @@ public class AccountActivity {
         this.activityId = activityId;
     }
 
-    public Long getAccountId() {
-        return accountId;
+//    public Long getAccountId() {
+//        return accountId;
+//    }
+//
+//    public void setAccountId(Long accountId) {
+//        this.accountId = accountId;
+//    }
+
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Double getAmount() {
