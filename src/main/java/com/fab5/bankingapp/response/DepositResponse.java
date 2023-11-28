@@ -13,18 +13,18 @@ public class DepositResponse {
         Map<String, Object> response = new HashMap<>();
         response.put("message","Successfully created the deposit and added to the account");
         response.put("data result", responseObject);
-        response.put("HttpStatus Code", httpStatus+" "+httpStatus.value());
+        response.put("HttpStatus Code", httpStatus+);
         return new ResponseEntity<>(response,httpStatus);
     }
     public static  ResponseEntity<Object> getDepositBuilder(HttpStatus httpStatus, Object object){
         Map<String,Object> response  = new HashMap<>();
-        response.put("HttpStatus Code", httpStatus+" "+httpStatus.value());
+        response.put("HttpStatus Code", httpStatus);
         response.put("data result", object);
         return new ResponseEntity<>(response,httpStatus);
     }
     public static ResponseEntity<Object> getAllDepositsBuilder(HttpStatus httpStatus, List<?> object){
         Map<String,Object> response = new HashMap<>();
-        response.put("HttpStatus Code", httpStatus+ " " + httpStatus.value());
+        response.put("HttpStatus Code", httpStatus);
         response.put("data", object);
         return new ResponseEntity<>(response, httpStatus);
     }
@@ -32,7 +32,7 @@ public class DepositResponse {
         Map<String,Object> response  = new HashMap<>();
         response.put("message", "The deposit has been successfully cancelled");
         response.put("object", deposit);
-        response.put("HttpStatus Code", httpStatus + " " + httpStatus.value());
+        response.put("HttpStatus Code", httpStatus);
         return new ResponseEntity<>(response, httpStatus);
     }
     public static ResponseEntity<Object> putDepositBuilder(HttpStatus httpStatus){
