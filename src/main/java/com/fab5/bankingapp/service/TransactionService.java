@@ -75,8 +75,16 @@ public class TransactionService {
         if (withdraw.getAmount() > account.getBalance()){
             throw new InsufficientFundsException("Insufficient Funds in the Account");
         }
-        System.out.println("Where is my money?");
         account.setBalance(account.getBalance() - withdraw.getAmount());
+
+        AccountActivity withdrawalAccount = new AccountActivity();
+        withdrawalAccount.setAmount(withdraw.getAmount());
+        withdrawalAccount.setAccount(withdraw.getAccount());
+        withdrawalAccount.setType(TransactionType.WITHDRAW);
+        withdrawalAccount.setTimestamp(new Date());
+
+        accountActivityService.saveAccountActivities(withdrawalAccount);
+
         withdrawRepository.save(withdraw);
         accountRepository.save(account);
         processWithdrawList.add(withdraw);
@@ -166,7 +174,7 @@ public class TransactionService {
         Account giver = accountRepository.findById(transfer.getGiver().getId()).get();
         Double amount = transfer.getAmount();
 
-        logger.info("Transfering from account id" + giver.getId() + " amount of " + amount + " to acocunt id "+receiver.getId());
+        logger.info("Transferring from account id" + giver.getId() + " amount of " + amount + " to account id "+receiver.getId());
         Deposit deposit = new Deposit();
         deposit.setAccount(receiver);
         deposit.setPayee_id(receiver.getId());
