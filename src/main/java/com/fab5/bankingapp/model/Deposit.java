@@ -4,6 +4,7 @@ import com.fab5.bankingapp.enums.Medium;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

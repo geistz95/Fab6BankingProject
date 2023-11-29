@@ -71,14 +71,28 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         verifyID1(id);
         verifyID2(depositRepository.findById(id).get().getAccount().getId());
         validateAmount(deposit.getAmount());
-        logger.info("Deposit, Account ID, amount are valid, attempting to edit the deposit");
+
         Deposit oldDeposit = depositRepository.findById(id).get();
-        deposit.setAccount(oldDeposit.getAccount());
-        oldDeposit.setAmount(deposit.getAmount());
-        oldDeposit.setDescription(deposit.getDescription());
-        oldDeposit.setStatus(deposit.getStatus());
-        oldDeposit.setPayee_id(deposit.getPayee_id());
-        oldDeposit.setTransaction_date(deposit.getTransaction_date());
+        if(oldDeposit.getStatus()==TransactionStatus.PENDING) {
+            if (deposit.getAmount() < 0) {
+                oldDeposit.setAmount(deposit.getAmount());
+            }
+            if (!deposit.getDescription().equals(null)) {
+                oldDeposit.setDescription(deposit.getDescription());
+            }
+            if (!deposit.getType().equals(null)) {
+                oldDeposit.setStatus(deposit.getStatus());
+            }
+            if (!deposit.getAccount().equals(null)) {
+                deposit.setAccount(oldDeposit.getAccount());
+            }
+            if (!deposit.getPayee_id().equals(null)) {
+                oldDeposit.setPayee_id(deposit.getPayee_id());
+            }
+            logger.info("Deposit, Account ID, amount are valid, attempting to edit the deposit");
+        }else{
+            throw new RuntimeException("Deposit already went through, cannot edit");
+        }
         //We use transactionService here to edit the bank information here and save the information
         transactionService.changeDeposit(deposit,oldDeposit);
         depositRepository.save(oldDeposit);
