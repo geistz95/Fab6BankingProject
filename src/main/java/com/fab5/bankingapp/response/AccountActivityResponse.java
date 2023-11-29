@@ -20,4 +20,11 @@ public class AccountActivityResponse {
         return new ResponseEntity<>(response, httpStatus);
     }
 
+    public static ResponseEntity<Object> getAllActivityBuilder(HttpStatus httpStatus, Object object){
+        Map<String, Object> response = new HashMap<>();
+        response.put("HttpStatus Code", httpStatus);
+        response.put("data result", object);
+        return new ResponseEntity<>(response, httpStatus);
+    }
+
 }

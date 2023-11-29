@@ -48,6 +48,19 @@ public class AccountActivityController {
         }
     }
 
+    @GetMapping("/activities")
+    public ResponseEntity<?> getAllActivities(){
+        logger.info("Fetching all account activities ");
+        List<AccountActivity> activityList = accountActivityService.getAllActivities();
+        if (!activityList.isEmpty()) {
+            logger.info("Activities found: " );
+            return AccountActivityResponse.getAllActivityBuilder(HttpStatus.OK, activityList);
+        } else {
+            logger.info("No activities found: " );
+            return AccountActivityResponse.getAllActivityBuilder(HttpStatus.OK, "No activities found " + activityList);
+        }
+    }
+
 
 
 }
