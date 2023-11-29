@@ -1,5 +1,7 @@
 package com.fab5.bankingapp.controller;
 
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.AccountHasNoDepositsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.service.DepositService;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.InvalidPropertiesFormatException;
+import java.util.List;
 
 import static com.fab5.bankingapp.response.DepositResponse.*;
 
@@ -25,7 +28,12 @@ public class DepositController {
     private DepositService depositService;
 
     private static final Logger logger = LoggerFactory.getLogger(DepositController.class);
-
+    public void verifyIfAccountHasDeposits(Long accountID) throws AccountHasNoDepositsException {
+        List<Deposit> checkAccountDeposits = depositService.getAllDepositsByAccountID(accountID);
+        if (checkAccountDeposits.isEmpty()) {
+            throw new AccountHasNoDepositsException(accountID);
+        }
+    }
     @PostMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> createDeposit(@PathVariable Long accountId ,@Valid @RequestBody Deposit deposit){
         HttpHeaders responseHeader = new HttpHeaders();
@@ -57,7 +65,7 @@ public class DepositController {
 
     @PutMapping("/deposits/{depositID}")
     public ResponseEntity<?> editDeposit(@Valid @RequestBody Deposit deposit,@PathVariable Long depositID){
-        logger.info("Editting deposit ID : "+depositID);
+        logger.info("Editing deposit ID : "+depositID);
         depositService.editDeposit(deposit,depositID);
         logger.info("Successfully Deleted deposit ID : "+depositID);
         return putDepositBuilder(HttpStatus.ACCEPTED);
@@ -67,6 +75,7 @@ public class DepositController {
     public ResponseEntity<?> getAllAccountDeposits(@PathVariable Long accountID){
         System.out.println("Hello World!");
         logger.info("Getting all deposits from account id  :" + accountID);
+        verifyIfAccountHasDeposits(accountID);
         return getAllDepositsBuilder(HttpStatus.OK, depositService.getAllDepositsByAccountID(accountID));
     }
 

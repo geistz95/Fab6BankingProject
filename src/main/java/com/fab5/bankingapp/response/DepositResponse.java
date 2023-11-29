@@ -37,7 +37,7 @@ public class DepositResponse {
     }
     public static ResponseEntity<Object> putDepositBuilder(HttpStatus httpStatus){
         Map<String,Object> response = new HashMap<>();
-        response.put("HttpStatus code", httpStatus+ " " + httpStatus.value());
+        response.put("HttpStatus code", httpStatus);
         response.put("message", "Accepted deposit modification");
         return new ResponseEntity<>(response, httpStatus);
     }

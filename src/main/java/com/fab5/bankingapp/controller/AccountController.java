@@ -1,6 +1,6 @@
 package com.fab5.bankingapp.controller;
 
-import com.fab5.bankingapp.exceptions.CustomerHasNoAccountsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.response.AccountResponse;
 import com.fab5.bankingapp.service.AccountService;
@@ -97,8 +97,14 @@ public class AccountController {
         Optional<Account> account = accountService.deleteAccount(accountId);
 
         logger.info("Account deletion status");
-        return(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT));
+
+//        return account.map(a -> new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.of(a)), HttpStatus.NO_CONTENT))
+//                .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
+
+        return AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT);
+     //   return(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT));
                 //.orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
+
     }
 
 }
