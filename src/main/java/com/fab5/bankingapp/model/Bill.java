@@ -56,7 +56,7 @@ public class Bill {
 //    private Long account_id;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    @JoinColumn(name = "account_id")
     private Account account;
     @JsonIgnore
     @ManyToOne
