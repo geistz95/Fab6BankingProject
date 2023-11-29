@@ -75,6 +75,7 @@ public class TransactionService {
         if (withdraw.getAmount() > account.getBalance()){
             throw new InsufficientFundsException("Insufficient Funds in the Account");
         }
+        System.out.println("Where is my money?");
         account.setBalance(account.getBalance() - withdraw.getAmount());
         withdrawRepository.save(withdraw);
         accountRepository.save(account);

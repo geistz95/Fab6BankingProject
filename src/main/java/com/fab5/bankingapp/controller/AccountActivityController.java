@@ -39,7 +39,7 @@ public class AccountActivityController {
         logger.info("Fetching activities for account with ID: {}", accountId);
         List<AccountActivity> activityList = accountActivityService.getAccountActivities(accountId);
 
-        if (activityList.isEmpty()) {
+        if (!activityList.isEmpty()) {
             logger.info("Activities found for account with ID: {}", accountId);
             return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, activityList);
         } else {
@@ -47,6 +47,7 @@ public class AccountActivityController {
             return AccountActivityResponse.getActivityBuilder(HttpStatus.OK, "No activities found for account with ID " + accountId);
         }
     }
+
 
 
 }

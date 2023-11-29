@@ -7,6 +7,7 @@ import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.repository.AccountActivityRepository;
 import com.fab5.bankingapp.repository.AccountRepository;
 import com.fab5.bankingapp.validation.IDValidation;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,23 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     public List<AccountActivity> getAccountActivities(Long accountId){
         verifyID2(accountId);
         return accountActivityRepository.findByAccountId(accountId);
+    }
+
+    public void updateAccountActivities(AccountActivity updatedActivity, Long accountId) {
+        // Assuming the accountId is used to identify the account associated with the activity
+        // You may need additional logic depending on your requirements
+
+        // Fetch the existing activity by its ID
+        AccountActivity existingActivity = accountActivityRepository.findById(updatedActivity.getActivityId())
+                .orElseThrow(() -> new ResourceNotFoundException("Activity not found with ID: " + updatedActivity.getActivityId()));
+
+        // Update the fields with new values
+        existingActivity.setAmount(updatedActivity.getAmount());
+        existingActivity.setTimestamp(updatedActivity.getTimestamp());
+        existingActivity.setType(updatedActivity.getType());
+
+        // Save the updated activity
+        accountActivityRepository.save(existingActivity);
     }
 
 }
