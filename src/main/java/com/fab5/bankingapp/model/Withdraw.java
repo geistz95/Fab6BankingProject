@@ -5,7 +5,6 @@ import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -14,7 +13,7 @@ public class Withdraw {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "withdraw_id")
-    private Long id;
+    private Long withdrawId;
 
 
 
@@ -49,8 +48,8 @@ public class Withdraw {
     public Withdraw() {
     }
 
-    public Withdraw(Long id, TransactionType type, Date transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
-        this.id = id;
+    public Withdraw(Long withdrawId, TransactionType type, Date transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
+        this.withdrawId = withdrawId;
         this.type = type;
         this.transaction_date = transaction_date;
         this.status = status;
@@ -62,12 +61,12 @@ public class Withdraw {
     }
 
 
-    public Long getId() {
-        return id;
+    public Long getWithdrawId() {
+        return withdrawId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setWithdrawId(Long withdrawId) {
+        this.withdrawId = withdrawId;
     }
 
     public TransactionType getType() {

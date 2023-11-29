@@ -1,6 +1,5 @@
 package com.fab5.bankingapp.service;
 
-import com.fab5.bankingapp.controller.WithdrawController;
 import com.fab5.bankingapp.enums.Medium;
 import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
@@ -18,7 +17,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -231,7 +229,7 @@ public class TransactionService {
         Deposit deposit = transfer.getDeposit();
         deleteDeposit(deposit.getDepositId());
         Withdraw withdraw = transfer.getWithdraw();
-        deleteWithdraw(withdraw.getId());
+        deleteWithdraw(withdraw.getWithdrawId());
         logger.info("Undoing P2P transfer");
         withdrawRepository.save(withdraw);
         depositRepository.save(deposit);
