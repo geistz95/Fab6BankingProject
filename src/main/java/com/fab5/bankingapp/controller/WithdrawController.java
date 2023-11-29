@@ -54,14 +54,14 @@ public class WithdrawController {
     @PostMapping(value = "/accounts/{accountId}/withdrawals")
     public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdraw withdrawal){
         logger.info("Request received: Creating Withdrawal");
-        withdrawService.createWithdraw(accountId, withdrawal);
+
         try{
-            transactionService.processWithdraw(withdrawal);
+            withdrawService.createWithdraw(accountId, withdrawal);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().path("/{id}").buildAndExpand(withdrawal.getId()).toUri());
         logger.info("Withdrawal Created Successfully");
-        return WithdrawResponse.createdWithdrawBuilder(HttpStatus.CREATED, responseHeaders);
+        return WithdrawResponse.createdWithdrawBuilder(HttpStatus.CREATED, withdrawal);
         }catch (InsufficientFundsException e){
             return new ResponseEntity<>("Insufficient Funds in Account", HttpStatus.BAD_REQUEST);
         }
