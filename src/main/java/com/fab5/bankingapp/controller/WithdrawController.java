@@ -1,6 +1,8 @@
 package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.AccountHasNoWithdrawalsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.response.WithdrawResponse;
 import com.fab5.bankingapp.service.TransactionService;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class WithdrawController {
@@ -24,10 +26,18 @@ public class WithdrawController {
     @Autowired
     private TransactionService transactionService;
      private static final Logger logger = LoggerFactory.getLogger(WithdrawController.class);
+    public void verifyIfAccountHasWithdrawals(Long accountID) throws AccountHasNoWithdrawalsException {
 
+        Iterable<Withdraw> checkAccountWithdrawals = withdrawService.getAllWithdrawalsByAccount(accountID);
+        List<Withdraw> withdrawList = new ArrayList<>((Collection) checkAccountWithdrawals);
+        if (withdrawList.isEmpty()) {
+            throw new AccountHasNoWithdrawalsException(accountID);
+        }
+    }
     @GetMapping(value = "/accounts/{accountId}/withdrawals")
     public ResponseEntity<?> getAllWithdrawals(@PathVariable Long accountId) {
         logger.info("Request received: Getting All Withdrawals");
+        verifyIfAccountHasWithdrawals(accountId);
         Iterable<Withdraw> withdraws = withdrawService.getAllWithdrawalsByAccount(accountId);
         logger.info("All Withdrawals Gotten Successfully");
         return WithdrawResponse.getAllWithdrawalsBuilder(HttpStatus.OK, withdraws);
