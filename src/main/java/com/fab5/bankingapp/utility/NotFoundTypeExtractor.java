@@ -43,4 +43,26 @@ public interface NotFoundTypeExtractor {
         return cutClassName.toString();
     }
 
+    default String getSimplifiedNameOfDataNotFoundException(){
+        String fullClassName = getClass().getSimpleName();
+        StringBuilder cutClassName = new StringBuilder();
+        boolean capitalExists = false;
+        if(fullClassName.contains("Exception")) {
+            fullClassName = fullClassName.replace("Exception", "");
+        }
+        for (char c : fullClassName.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                if (capitalExists) {
+                    cutClassName.append(" ").append(c);
+                    continue;
+                }
+                cutClassName.append(c);
+                capitalExists = true;
+            } else {
+                break;
+            }
+        }
+        return cutClassName.toString();
+    }
+
 }
