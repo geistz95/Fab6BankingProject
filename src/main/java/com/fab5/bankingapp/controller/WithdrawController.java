@@ -2,7 +2,6 @@ package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.AccountHasNoWithdrawalsException;
-import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
 import com.fab5.bankingapp.model.Withdraw;
 import com.fab5.bankingapp.response.WithdrawResponse;
 import com.fab5.bankingapp.service.TransactionService;
@@ -59,7 +58,7 @@ public class WithdrawController {
             withdrawService.createWithdraw(accountId, withdrawal);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
-                fromCurrentRequest().path("/{id}").buildAndExpand(withdrawal.getId()).toUri());
+                fromCurrentRequest().path("/{id}").buildAndExpand(withdrawal.getWithdrawId()).toUri());
         logger.info("Withdrawal Created Successfully");
         return WithdrawResponse.createdWithdrawBuilder(HttpStatus.CREATED, withdrawal);
         }catch (InsufficientFundsException e){
