@@ -35,12 +35,14 @@ public class AccountResponse {
 
     public static ResponseEntity<Object> deleteAccountBuilder(HttpStatus httpStatus) {
         Map<String, Object> response = new HashMap<>();
+
        /* if (account.isPresent()) {
             response.put("message", "Account has been successfully deleted");
         } else {
             response.put("message", "Account does not exist");
         }
         response.put("HttpStatus Code", httpStatus);*/
+
         response.put("message", "Account has been successfully deleted");
         return new ResponseEntity<>(response, httpStatus);
     }

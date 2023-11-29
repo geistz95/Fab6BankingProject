@@ -97,8 +97,14 @@ public class AccountController {
         Optional<Account> account = accountService.deleteAccount(accountId);
 
         logger.info("Account deletion status");
-        return(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT));
+
+//        return account.map(a -> new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.of(a)), HttpStatus.NO_CONTENT))
+//                .orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
+
+        return AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT);
+     //   return(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT));
                 //.orElse(new ResponseEntity<>(AccountResponse.deleteAccountBuilder(HttpStatus.NO_CONTENT, Optional.empty()), HttpStatus.NO_CONTENT));
+
     }
 
 }
