@@ -4,6 +4,7 @@ import com.fab5.bankingapp.errors.ErrorDetail;
 import com.fab5.bankingapp.errors.ValidationError;
 import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.NoSuchElementFoundException;
 import com.fab5.bankingapp.utility.ExceptionTypeExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setTimeStamp(new Date().getTime());
         errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
         errorDetail.setTitle(ex.getSimplifiedNameOfExceptionOfNotFound2() + " Not Found");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
+        errorDetail.setPath(request.getDescription(false));
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<?> handleDataNotFoundException(DataNotFoundException
+                                                                       ex, WebRequest request) {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimeStamp(new Date().getTime());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        errorDetail.setTitle(ex.extractExceptionType());
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setDeveloperMessage(ex.getClass().getName());
         errorDetail.setPath(request.getDescription(false));
