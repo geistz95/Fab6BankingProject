@@ -1,4 +1,5 @@
 package com.fab5.bankingapp.controller;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.NoCustomersException;
 import com.fab5.bankingapp.response.CustomerResponse;
 import com.fab5.bankingapp.model.Customer;
 import com.fab5.bankingapp.service.CustomerService;;
@@ -22,9 +23,15 @@ public class CustomerController {
     private CustomerService customerService;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-
+    public void checkIfCustomersExist(String message) throws NoCustomersException {
+        List<Customer> checkCustomers = customerService.getAllCustomers();
+        if (checkCustomers.isEmpty()) {
+            throw new NoCustomersException("error fetching customers");
+        }
+    }
     @GetMapping("/customers")
     public ResponseEntity<Object> getAllCustomers() {
+        checkIfCustomersExist("error fetching customers");
         logger.info("Request received: Getting All Customers");
         List<Customer> customers = customerService.getAllCustomers();
         logger.info("All Customers Gotten Successfully");
