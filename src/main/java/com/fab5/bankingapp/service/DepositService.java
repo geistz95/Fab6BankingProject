@@ -110,4 +110,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
 
     }
 
+    public List<Deposit> getAllDeposits() {
+        return depositRepository.findAll();
+    }
 }

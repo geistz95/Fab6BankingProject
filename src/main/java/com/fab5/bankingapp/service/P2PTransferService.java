@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -58,6 +59,10 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         logger.info("Deleting/Undoing P2P Transfer ID : "+transfer_id);
         transactionService.undoTransfer(transfer.get());
 
+    }
+
+    public List<P2PTransfer> getAllP2PTransfers(){
+        return p2pTransferRepository.findAll();
     }
 
     public P2PTransfer getTransfer(Long transfer_id){
