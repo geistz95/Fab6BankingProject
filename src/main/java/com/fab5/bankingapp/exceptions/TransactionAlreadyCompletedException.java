@@ -1,4 +1,9 @@
 package com.fab5.bankingapp.exceptions;
 
-public class TransactionAlreadyCompletedException {
+import com.fab5.bankingapp.enums.TransactionStatus;
+
+public class TransactionAlreadyCompletedException extends RuntimeException {
+    public TransactionAlreadyCompletedException(){
+        super("Transaction status is already completed");
+    }
 }

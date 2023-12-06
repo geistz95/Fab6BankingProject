@@ -4,6 +4,7 @@ import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
+import com.fab5.bankingapp.exceptions.TransactionAlreadyCompletedException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.Deposit;
 import com.fab5.bankingapp.repository.AccountRepository;
@@ -83,7 +84,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
             }
             logger.info("amount is valid, attempting to edit the deposit");
         }else{
-            throw new RuntimeException("Deposit already went through, cannot edit");
+            throw new TransactionAlreadyCompletedException();
         }
         //We use transactionService here to edit the bank information here and save the information
         transactionService.changeDeposit(deposit,oldDeposit);
@@ -98,7 +99,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         if(deposit.getStatus().equals(TransactionStatus.PENDING)) {
             transactionService.deleteDeposit(id);
         }else{
-            throw new RuntimeException("Deposit already went throw, you need to withdraw");
+            throw new TransactionAlreadyCompletedException();
         }
         return deposit;
     }
