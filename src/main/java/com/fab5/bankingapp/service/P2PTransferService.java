@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.TransferNotFoundException;
@@ -56,8 +57,12 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         if(transfer.isEmpty()){
             throw new TransferNotFoundException("There is no transfer of ID  : "+transfer_id);
         }
-        logger.info("Deleting/Undoing P2P Transfer ID : "+transfer_id);
-        transactionService.undoTransfer(transfer.get());
+        if(transfer.get().getStatus()== TransactionStatus.PENDING) {
+            logger.info("Deleting/Undoing P2P Transfer ID : " + transfer_id);
+            transactionService.undoTransfer(transfer.get());
+        }else{
+            throw new TransactionAlready
+        }
 
     }
 
