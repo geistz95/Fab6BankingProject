@@ -67,8 +67,8 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     public void createWithdraw(Long accountId, Withdraw withdraw){
         verifyID2(accountId);
         Optional<Account> a = accountRepository.findById(accountId);
+        withdraw.setPayerId(a.get().getId());
         withdraw.setAccount(a.get());
-        withdraw.setWithdrawId(a.get().getId());
         withdraw.setStatus(TransactionStatus.PENDING);
         withdraw.setTransaction_date(new Date());
         withdraw.setType(TransactionType.WITHDRAW);
