@@ -26,34 +26,34 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     private TransactionService transactionService;
 
     @Override
-    public void verifyID1(Long id) throws WithdrawNotFoundException {
+    public void verifyID1(String message, Long id) throws WithdrawNotFoundException {
         Optional<Withdraw> checkWithdraw = withdrawRepository.findById(id);
         if(checkWithdraw.isEmpty()){
-            throw new WithdrawNotFoundException(id);
+            throw new WithdrawNotFoundException(message, id);
         }
     }
 
     @Override
-    public void verifyID2(Long id) throws AccountNotFoundException {
+    public void verifyID2(String message, Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
-            throw new AccountNotFoundException(id);
+            throw new AccountNotFoundException(message, id);
         }
     }
 
     public Iterable<Withdraw> getAllWithdrawalsByAccount(Long id){
-        verifyID2(id);
+        verifyID2("Account not found", id);
         return withdrawRepository.findByAccount(id);
     }
 
     public Optional<Withdraw> getWithdrawById(Long id){
-        verifyID1(id);
+        verifyID1("error fetching withdrawal with id:" + id, id);
         return withdrawRepository.findById(id);
     }
 
     public void updateWithdraw(Long id, Withdraw withdraw){
-        verifyID1(id);
-        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
+        verifyID1("Withdrawal ID does not exist", id);
+//        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
         Withdraw existingWithdrawal = withdrawRepository.findById(id).get();
         existingWithdrawal.setAmount(withdraw.getAmount());
         existingWithdrawal.setDescription(withdraw.getDescription());
@@ -65,7 +65,7 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     }
 
     public void createWithdraw(Long accountId, Withdraw withdraw){
-        verifyID2(accountId);
+        verifyID2("Error creating withdrawal: Account not found", accountId);
         Optional<Account> a = accountRepository.findById(accountId);
         withdraw.setPayerId(a.get().getId());
         withdraw.setAccount(a.get());
@@ -77,8 +77,8 @@ public class WithdrawService implements IDValidation<WithdrawNotFoundException, 
     }
 
     public void deleteWithdrawById(Long id){
-        verifyID1(id);
-        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
+        verifyID1("This id does not exist in withdrawals", id);
+//        verifyID2(withdrawRepository.findById(id).get().getAccount().getId());
         transactionService.deleteWithdrawal(id);
         withdrawRepository.deleteById(id);
     }

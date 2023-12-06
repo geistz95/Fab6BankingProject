@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class WithdrawNotFoundException extends NoSuchElementFoundException {
-    public WithdrawNotFoundException(Long withdrawId) {
-        super("Withdraw with id " + withdrawId + " not found");
+    public WithdrawNotFoundException(String message, Long withdrawId) {
+        super(message);
+        throwLogError(withdrawId);
     }
 }

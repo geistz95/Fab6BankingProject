@@ -4,8 +4,8 @@ import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.NoSuchElementFoundException;
 
 public class CustomerHasNoAccountsException extends DataNotFoundException {
-    public CustomerHasNoAccountsException(Long customerID) {
-        super("Customer with ID " + customerID + " has no accounts.");
+    public CustomerHasNoAccountsException(String message, Long customerID) {
+        super("Error fetching customers accounts");
         throwLogError(customerID);
     }
 }

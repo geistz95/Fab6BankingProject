@@ -10,6 +10,10 @@ public abstract class DataNotFoundException extends RuntimeException implements 
         super(message);
     }
 
+    protected void throwLogError() {
+        logger.error("{} thrown: {} not found", getClass().getSimpleName(), extractExceptionType());
+    }
+
     protected void throwLogError(Long ID) {
         logger.error("{} thrown: {} with ID {} not found", getClass().getSimpleName(), extractExceptionType(), ID);
     }
