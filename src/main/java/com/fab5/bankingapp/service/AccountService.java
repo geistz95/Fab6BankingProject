@@ -22,18 +22,18 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
     private CustomerRepository customerRepository;
 
     @Override
-    public void verifyID1(Long id) throws AccountNotFoundException {
+    public void verifyID1(String message, Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
-            throw new AccountNotFoundException(id);
+            throw new AccountNotFoundException(message, id);
         }
     }
 
     @Override
-    public void verifyID2(Long id) throws CustomerNotFoundException {
+    public void verifyID2(String message, Long id) throws CustomerNotFoundException {
         Optional<Customer> checkCustomer = customerRepository.findById(id);
         if(checkCustomer.isEmpty()){
-            throw new CustomerNotFoundException(id);
+            throw new CustomerNotFoundException(message, id);
         }
     }
 
@@ -47,17 +47,17 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
     }
 
     public Optional<Account> getAccountById(Long accountId) {
-        verifyID1(accountId);
+        verifyID1("error fetching account",accountId);
         return accountRepository.findById(accountId);
     }
 
     public List<Account> getAccountsByCustomerId(Long customerId) {
-        verifyID2(customerId);
+        verifyID2("error fetching account",customerId);
         return accountRepository.findByCustomerId(customerId);
     }
 
     public Account createAccount(Account account, Long customerId) {
-        verifyID2(customerId);
+        verifyID2("error fetching creating customers account", customerId);
         Customer editCustomer = customerRepository.findById(customerId).get();
         account.setCustomer(editCustomer);
         return accountRepository.save(account);
@@ -71,7 +71,7 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
 
 
     public Optional<Account> updateAccount(Long accountId, Account newAccount) {
-        verifyID1(accountId);
+        verifyID1("Error", accountId);
         Optional<Account> existingAccount = accountRepository.findById(accountId);
 
         if (existingAccount.isPresent()) {
@@ -95,7 +95,7 @@ public class AccountService implements IDValidation<AccountNotFoundException, Cu
 
 
     public Optional<Account> deleteAccount(Long accountId) {
-        verifyID1(accountId);
+        verifyID1("Account does not exist", accountId);
         Optional<Account> account = accountRepository.findById(accountId);
         account.ifPresent(accountRepository::delete);
         return account;

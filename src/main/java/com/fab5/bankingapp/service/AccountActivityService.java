@@ -24,7 +24,7 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     private AccountRepository accountRepository;
 
     @Override
-    public void verifyID1(Long id) throws AccountActivityNotFoundException {
+    public void verifyID1(String message, Long id) throws AccountActivityNotFoundException {
         Optional<AccountActivity> checkAccountActivity = accountActivityRepository.findById(id);
         if(checkAccountActivity.isEmpty()) {
             throw new AccountActivityNotFoundException(id);
@@ -32,10 +32,10 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     }
 
     @Override
-    public void verifyID2(Long id) throws AccountNotFoundException {
+    public void verifyID2(String message, Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()) {
-            throw new AccountNotFoundException(id);
+            throw new AccountNotFoundException(message, id);
         }
     }
 
@@ -44,7 +44,7 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     }
 
     public List<AccountActivity> getAccountActivities(Long accountId){
-        verifyID2(accountId);
+        verifyID2("error fetching account for account activities", accountId);
         return accountActivityRepository.findByAccountId(accountId);
     }
 
