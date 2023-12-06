@@ -6,6 +6,7 @@ import com.fab5.bankingapp.exceptions.InsufficientFundsException;
 import com.fab5.bankingapp.exceptions.InvalidDepositAmount;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.NoSuchElementFoundException;
+import com.fab5.bankingapp.exceptions.TransactionAlreadyCompletedException;
 import com.fab5.bankingapp.utility.ExceptionTypeExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -79,4 +80,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setMessage(ex.getMessage());
         return errorDetail;
     }
+    @ExceptionHandler({TransactionAlreadyCompletedException.class})
+    public ResponseEntity<Object> handleDepositExceptions(TransactionAlreadyCompletedException ex, WebRequest request) {
+        ErrorDetail errorDetail = generateBasicErrorDetailEndingInException(ex, HttpStatus.NOT_ACCEPTABLE, request);
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }
