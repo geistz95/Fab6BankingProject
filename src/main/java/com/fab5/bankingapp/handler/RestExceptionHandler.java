@@ -34,12 +34,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleNoSuchElementFoundException(NoSuchElementFoundException
                                                                        ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
-        errorDetail.setTitle(ex.getSimplifiedNameOfExceptionOfNotFound2() + " Not Found");
-        errorDetail.setDetail(ex.getMessage());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
-        errorDetail.setPath(request.getDescription(false));
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(ex.getMessage());
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
@@ -47,12 +43,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleDataNotFoundException(DataNotFoundException
                                                                        ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
-        errorDetail.setTitle(ex.extractExceptionType());
-        errorDetail.setDetail(ex.getMessage());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
-        errorDetail.setPath(request.getDescription(false));
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(ex.getMessage());
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
@@ -61,12 +53,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpMessageNotReadableException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(status.value());
-        errorDetail.setTitle("Message Not Readable");
-        errorDetail.setDetail(ex.getMessage());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
-        errorDetail.setPath(request.getDescription(false));
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage("Error");
         return handleExceptionInternal(ex, errorDetail, headers, status, request);
     }
 
@@ -74,27 +62,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTitle("Validation Failed");
-        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
-//        String requestPath = (String) request.getAttribute("javax.servlet.error.request_uri");
-//        if(requestPath == null) {
-//            requestPath = request.getRequestURI();
-//        } what is this doing here? need an explanation
-        errorDetail.setDetail("Input validation failed");
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
-        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //retrieve information from suchException to use for our body (field errors include things such as notEmpty and size (2,6)
-        for (FieldError fe : fieldErrors) {
-            List<ValidationError> validationErrorsList = errorDetail.getErrors().get(fe.getField()); //check if this error is within our collection
-            if (validationErrorsList == null) { //if not there, create a new key value for it in the collection. String -> List<ValidationError)
-                validationErrorsList = new ArrayList<>();
-                errorDetail.getErrors().put(fe.getField(), validationErrorsList);
-            }
-            ValidationError validationError = new ValidationError();
-            validationError.setCode(fe.getCode()); //"code": "NotEmpty",
-            validationError.setMessage(fe.getDefaultMessage()); //"message": "must not be empty"  *build the validation error from the current fieldError*
-            validationErrorsList.add(validationError); //add it to the arrayList, which is stored in the hashmap errorDetail.errors
-        }
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage("Error");
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
 
@@ -106,12 +75,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ErrorDetail generateBasicErrorDetailEndingInException(RuntimeException ex, HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(status.value());
-        errorDetail.setTitle(((ExceptionTypeExtractor)ex).extractExceptionType());
-        errorDetail.setDetail(ex.getMessage());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
-        errorDetail.setPath(request.getDescription(false));
+        errorDetail.setCode(HttpStatus.NOT_FOUND.value());
+        errorDetail.setMessage(ex.getMessage());
         return errorDetail;
     }
 }

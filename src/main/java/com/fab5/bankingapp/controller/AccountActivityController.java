@@ -1,6 +1,11 @@
 package com.fab5.bankingapp.controller;
 
+<<<<<<< HEAD
 import com.fab5.bankingapp.enums.TransactionType;
+=======
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.NoAccountActivitiesException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountActivityNotFoundException;
+>>>>>>> development
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.model.Deposit;
@@ -37,9 +42,18 @@ public class AccountActivityController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountActivityController.class);
 
+<<<<<<< HEAD
 
     @Autowired
+=======
+>>>>>>> development
     private AccountActivityService accountActivityService;
+    public void verifyIfAccountActivitiesExist(String message) throws NoAccountActivitiesException {
+        List<AccountActivity> checkAccountActivities = accountActivityService.getAllActivities();
+        if(checkAccountActivities.isEmpty()) {
+            throw new NoAccountActivitiesException(message);
+        }
+    }
 
 
     @GetMapping("/activities/{accountId}")
@@ -123,6 +137,7 @@ public ResponseEntity<?> getAccountActivities(@PathVariable Long accountId) {
 
     @GetMapping("/activities")
     public ResponseEntity<?> getAllActivities(){
+        verifyIfAccountActivitiesExist("error fetching account activities");
         logger.info("Fetching all account activities ");
         List<AccountActivity> activityList = accountActivityService.getAllActivities();
         if (!activityList.isEmpty()) {

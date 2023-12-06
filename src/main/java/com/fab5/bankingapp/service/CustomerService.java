@@ -26,18 +26,18 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
 
 
     @Override
-    public void verifyID1(Long id) throws CustomerNotFoundException {
+    public void verifyID1(String message, Long id) throws CustomerNotFoundException {
         Optional<Customer> checkCustomer = customerRepository.findById(id);
         if(checkCustomer.isEmpty()){
-            throw new CustomerNotFoundException(id);
+            throw new CustomerNotFoundException(message, id);
         }
     }
 
     @Override
-    public void verifyID2(Long id) throws AccountNotFoundException {
+    public void verifyID2(String message, Long id) throws AccountNotFoundException {
         Optional<Account> checkAccount = accountRepository.findById(id);
         if(checkAccount.isEmpty()){
-            throw new AccountNotFoundException(id);
+            throw new AccountNotFoundException(message, id);
         }
 
     }
@@ -48,7 +48,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
 
     // Get customer by ID
     public Optional<Customer> getCustomerById(Long customerId) {
-        verifyID1(customerId);
+        verifyID1("error fetching customer",customerId);
         return customerRepository.findById(customerId);
     }
 
@@ -58,7 +58,7 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
         return customerRepository.save(customer);
     }
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
-        verifyID1(id);
+        verifyID1("Error", id);
         return customerRepository.findById(id)
                 .map(existingCustomer -> {
                     existingCustomer.setFirstName(updatedCustomer.getFirstName());
@@ -70,11 +70,11 @@ public class CustomerService implements IDValidation<CustomerNotFoundException, 
                 .orElse(null); // Handle the case where the customer with the given id is not found
     }
     public void deleteCustomer(Long id) {
-        verifyID1(id);
+        verifyID1("Customer does not exist", id);
         customerRepository.deleteById(id);
     }
     public Iterable<Customer> getCustomerByAccountId(Long id){
-        verifyID2(id);
+        verifyID2("error fetching customers accounts" ,id);
         return customerRepository.findCustomerByAccountId(id);
 
     }

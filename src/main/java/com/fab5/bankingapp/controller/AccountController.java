@@ -1,6 +1,7 @@
 package com.fab5.bankingapp.controller;
 
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.CustomerHasNoAccountsException;
+import com.fab5.bankingapp.exceptions.NotFoundExceptions.DataNotFoundExceptions.NoAccountsException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.response.AccountResponse;
 import com.fab5.bankingapp.service.AccountService;
@@ -23,15 +24,23 @@ public class AccountController {
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 
-    public void verifyIfCustomerHasAccounts(Long customerID) throws CustomerHasNoAccountsException {
+    public void verifyIfCustomerHasAccounts(String message, Long customerID) throws CustomerHasNoAccountsException {
         List<Account> checkCustomerAccounts = accountService.getAccountsByCustomerId(customerID);
         if (checkCustomerAccounts.isEmpty()) {
-            throw new CustomerHasNoAccountsException(customerID);
+            throw new CustomerHasNoAccountsException(message, customerID);
+        }
+    }
+
+    public void verifyIfAccountsExist(String message) throws NoAccountsException {
+        List<Account> checkAllAccounts = accountService.getAllAccounts();
+        if (checkAllAccounts.isEmpty()) {
+            throw new NoAccountsException(message);
         }
     }
 
     @GetMapping("/accounts")
     public ResponseEntity<Object> getAllAccounts() {
+        verifyIfAccountsExist("error fetching accounts");
         logger.info("Fetching all accounts");
         List<Account> accounts = accountService.getAllAccounts();
         logger.info("Returning all accounts");
@@ -59,7 +68,7 @@ public class AccountController {
     @GetMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Object> getAccountsByCustomerId(@PathVariable Long customerId) {
         logger.info("Fetching account by customer ID: {}", customerId);
-        verifyIfCustomerHasAccounts(customerId);
+        verifyIfCustomerHasAccounts("Error fetching customers accounts",customerId);
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
         logger.info("Accounts under: {}", customerId);
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);

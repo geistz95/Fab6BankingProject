@@ -79,7 +79,7 @@ public class WithdrawController {
         logger.info("Request received: Deleting Withdrawal");
         withdrawService.deleteWithdrawById(withdrawalId);
         logger.info("Withdrawal Deleted Successfully");
-        return WithdrawResponse.deleteWithdrawalBuilder(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
