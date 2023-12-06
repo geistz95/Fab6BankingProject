@@ -57,7 +57,6 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         }
         logger.info("Deleting/Undoing P2P Transfer ID : "+transfer_id);
         transactionService.undoTransfer(transfer.get());
-        p2pTransferRepository.delete(transfer.get());
 
     }
 
