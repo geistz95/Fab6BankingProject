@@ -42,6 +42,10 @@ public class P2PController {
         return getP2PBuilder(HttpStatus.OK, transferService.getTransfer(transfer_id));
     }
 
+    @GetMapping("transfers")
+    public ResponseEntity<?> getAllTransfers(){
+        return new ResponseEntity<>(transferService.getAllP2PTransfers(),HttpStatus.OK);
+    }
 
     /**
      * This does not delete it, however it will revert the p2p process and cancel deposit and withdraw
