@@ -54,7 +54,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
-        errorDetail.setMessage(ex.getMessage());
+        errorDetail.setMessage("Error");
         return handleExceptionInternal(ex, errorDetail, headers, status, request);
     }
 
@@ -63,7 +63,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
-        errorDetail.setMessage(ex.getMessage());
+        errorDetail.setMessage("Error");
         return handleExceptionInternal(ex, errorDetail, headers, status, request); //what is handleExceptionInternal? Seems like a method used to return a body for any exception handling?
     }
 
