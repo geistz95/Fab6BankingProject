@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "account_activity")
@@ -20,6 +21,12 @@ public class AccountActivity {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private  Account account;
+
+
+//    private List<Withdraw> withdraws;
+//
+//    private  List<Deposit> deposits;
+
     private Double amount;
 
 

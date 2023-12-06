@@ -6,6 +6,8 @@ import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.AccountActivity;
 import com.fab5.bankingapp.repository.AccountActivityRepository;
 import com.fab5.bankingapp.repository.AccountRepository;
+import com.fab5.bankingapp.repository.DepositRepository;
+import com.fab5.bankingapp.repository.WithdrawRepository;
 import com.fab5.bankingapp.validation.IDValidation;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
 
     @Autowired
     private AccountRepository accountRepository;
+
 
     @Override
     public void verifyID1(Long id) throws AccountActivityNotFoundException {
@@ -44,11 +47,12 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     }
 
     public List<AccountActivity> getAccountActivities(Long accountId){
-        verifyID2(accountId);
+       // verifyID2(accountId);
         return accountActivityRepository.findByAccountId(accountId);
     }
 
    public List<AccountActivity> getAllActivities(){
+
         return accountActivityRepository.findAll();
    }
 

@@ -38,6 +38,7 @@ public class AccountController {
         return AccountResponse.getAllAccountsBuilder(HttpStatus.OK, accounts);
     }
 
+
     @GetMapping("/accounts/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId) {
         logger.info("Fetching account by ID: {}", accountId);
