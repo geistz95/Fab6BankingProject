@@ -45,7 +45,7 @@ public class TransactionService {
 
     private List<Withdraw> processWithdrawList = new ArrayList<>();
 
-    @Scheduled(fixedRate = 300000)
+//    @Scheduled(fixedRate = 3000000)
     public void processTransactions(){
         List<Deposit> copyDepositList = processDepositList;
         List<Withdraw> copyWithdrawList = processWithdrawList;
@@ -141,9 +141,10 @@ public class TransactionService {
      */
     @Transactional
     public void changeDeposit(Deposit deposit, Deposit oldDeposit){
-        Account account = deposit.getAccount();
+        Account account = oldDeposit.getAccount();
         logger.info("Changing deposit info");
         account.setBalance(account.getBalance()+deposit.getAmount()-oldDeposit.getAmount());
+        processDepositList.add(deposit);
         accountRepository.save(account);
     }
 

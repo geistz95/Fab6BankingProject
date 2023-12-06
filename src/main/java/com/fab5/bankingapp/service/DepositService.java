@@ -74,34 +74,32 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
         validateAmount(deposit.getAmount());
 
         Deposit oldDeposit = depositRepository.findById(id).get();
-        if(oldDeposit.getStatus()==TransactionStatus.PENDING) {
-            if (deposit.getAmount() < 0) {
-                oldDeposit.setAmount(deposit.getAmount());
-            }
+        if(oldDeposit!=null && oldDeposit.getStatus()==TransactionStatus.PENDING) {
             if (!deposit.getDescription().equals(null)) {
                 oldDeposit.setDescription(deposit.getDescription());
-            }
-            if (!deposit.getType().equals(null)) {
-                oldDeposit.setStatus(deposit.getStatus());
-            }
-            if (!deposit.getAccount().equals(null)) {
-                deposit.setAccount(oldDeposit.getAccount());
             }
             if (!deposit.getPayee_id().equals(null)) {
                 oldDeposit.setPayee_id(deposit.getPayee_id());
             }
-            logger.info("Deposit, Account ID, amount are valid, attempting to edit the deposit");
+            logger.info("amount is valid, attempting to edit the deposit");
         }else{
             throw new RuntimeException("Deposit already went through, cannot edit");
         }
         //We use transactionService here to edit the bank information here and save the information
         transactionService.changeDeposit(deposit,oldDeposit);
+        oldDeposit.setAmount(deposit.getAmount());
+        oldDeposit.setStatus(TransactionStatus.PENDING);
         depositRepository.save(oldDeposit);
     }
     public Deposit deleteDepositByID(Long id){
         verifyID1("This id does not exist in deposits", id);
         Deposit deposit = depositRepository.findById(id).get();
-        transactionService.deleteDeposit(id);
+//        verifyID2(deposit.getAccount().getId());
+        if(deposit.getStatus().equals(TransactionStatus.PENDING)) {
+            transactionService.deleteDeposit(id);
+        }else{
+            throw new RuntimeException("Deposit already went throw, you need to withdraw");
+        }
         return deposit;
     }
 
@@ -113,4 +111,7 @@ public class DepositService implements IDValidation<DepositNotFoundException, Ac
 
     }
 
+    public List<Deposit> getAllDeposits() {
+        return depositRepository.findAll();
+    }
 }

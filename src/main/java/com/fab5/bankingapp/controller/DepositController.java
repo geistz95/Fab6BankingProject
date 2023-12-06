@@ -63,6 +63,11 @@ public class DepositController {
         return deleteDepositBuilder(HttpStatus.NO_CONTENT, deposit );
     }
 
+    @GetMapping("/deposits")
+    public ResponseEntity<?> getAllDeposits(){
+        return new ResponseEntity<>(depositService.getAllDeposits(),HttpStatus.OK);
+    }
+
     @PutMapping("/deposits/{depositID}")
     public ResponseEntity<?> editDeposit(@Valid @RequestBody Deposit deposit,@PathVariable Long depositID){
         logger.info("Editing deposit ID : "+depositID);
