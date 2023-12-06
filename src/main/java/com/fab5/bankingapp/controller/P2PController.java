@@ -51,6 +51,7 @@ public class P2PController {
     @DeleteMapping("/transfers/{transfer_id}")
     public ResponseEntity<?> deleteTransfer(@PathVariable Long transfer_id){
         logger.info("Attempting to cancel/delete P2P transaction id of {}", transfer_id);
+        transferService.deleteTransfer(transfer_id);
         return deleteP2PBuilder(HttpStatus.NO_CONTENT);
     }
 }
