@@ -1,46 +1,55 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.Medium;
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.enums.TransactionType;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Withdraw {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long id;
+    @Column(name = "withdraw_id")
+    private Long withdrawId;
 
 
-    @Column
-    private String type = TransactionType.WITHDRAW.getString();
 
-    @Column
-    private String transaction_date;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
-    @Column
-    private String status;
 
-    @Column
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="accountID",nullable = false)
+    private Date transaction_date;
+
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+
+
+
     private Long payerId;
 
-    @Column
-    private String medium;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    private Medium medium;
+
+
     private Double amount;
 
-    @Column
+
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name="account_id")
+    private Account account;
 
     public Withdraw() {
     }
 
-    public Withdraw(Long id, String type, String transaction_date, String status, Long payerId, String medium, Double amount, String description) {
-        this.id = id;
+    public Withdraw(Long withdrawId, TransactionType type, Date transaction_date, TransactionStatus status, Long payerId, Medium medium, Double amount, String description, Account account) {
+        this.withdrawId = withdrawId;
         this.type = type;
         this.transaction_date = transaction_date;
         this.status = status;
@@ -48,29 +57,39 @@ public class Withdraw {
         this.medium = medium;
         this.amount = amount;
         this.description = description;
+        this.account = account;
     }
 
-    public Long getId() {
-        return id;
+
+    public Long getWithdrawId() {
+        return withdrawId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setWithdrawId(Long withdrawId) {
+        this.withdrawId = withdrawId;
     }
 
-    public String getTransaction_date() {
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public Date getTransaction_date() {
         return transaction_date;
     }
 
-    public void setTransaction_date(String transaction_date) {
+    public void setTransaction_date(Date transaction_date) {
         this.transaction_date = transaction_date;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
@@ -78,15 +97,15 @@ public class Withdraw {
         return payerId;
     }
 
-    public void setPayerId(Long payeeId) {
-        this.payerId = payeeId;
+    public void setPayerId(Long payerId) {
+        this.payerId = payerId;
     }
 
-    public String getMedium() {
+    public Medium getMedium() {
         return medium;
     }
 
-    public void setMedium(String medium) {
+    public void setMedium(Medium medium) {
         this.medium = medium;
     }
 
@@ -106,11 +125,13 @@ public class Withdraw {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
+    public Account getAccount() {
+        return account;
     }
 
-
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
 
     /**

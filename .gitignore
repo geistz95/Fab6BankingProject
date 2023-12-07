@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### UNIQUE SQLDATABASES ###
+src/main/resources/application.properties
+!src/main/resources/data.sql
+!src/main/resources/schema.sql
+pom.xml
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,7 +37,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-
-### UNIQUE SQLDATABASES ### 
-/src/main/resources/application.properties

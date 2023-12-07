@@ -1,6 +1,10 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Bill {
@@ -21,49 +25,76 @@ public class Bill {
     @Column(name = "BILL_ID")
     private Long billId;
 
-    @Column
-    private String status;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+
+
     private String payee;
 
-    @Column
+
     private String nickName;
 
-    @Column
+
     private String creation_date;
 
-    @Column
+
     private String payment_date;
 
-    @Column
-    private String reccuring_date;
 
-    @Column
+    private String recurring_date;
+
+
     private String upcoming_payment_date;
 
-    @Column
+
     private Double payment_amount;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Column
-    @JoinColumn(name = "BILL_ID")
-    private String account_id;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "BILL_ID")
+//    private Long account_id;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public Bill (){
 
     }
-    public Bill(Long billId, String status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, String account_id) {
+
+    public Bill(Long billId, TransactionStatus status, String payee, String nickName, String creation_date, String payment_date, String reccuring_date, String upcoming_payment_date, Double payment_amount, Account account, Customer customer) {
         this.billId = billId;
         this.status = status;
         this.payee = payee;
         this.nickName = nickName;
         this.creation_date = creation_date;
         this.payment_date = payment_date;
-        this.reccuring_date = reccuring_date;
+        this.recurring_date = reccuring_date;
         this.upcoming_payment_date = upcoming_payment_date;
         this.payment_amount = payment_amount;
-        this.account_id = account_id;
+        this.account = account;
+        this.customer = customer;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Long getBillId() {
@@ -74,11 +105,11 @@ public class Bill {
         this.billId = billId;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
@@ -114,12 +145,12 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public String getReccuring_date() {
-        return reccuring_date;
+    public String getRecurring_date() {
+        return recurring_date;
     }
 
-    public void setReccuring_date(String reccuring_date) {
-        this.reccuring_date = reccuring_date;
+    public void setRecurring_date(String reccuring_date) {
+        this.recurring_date = reccuring_date;
     }
 
     public String getUpcoming_payment_date() {
@@ -138,11 +169,4 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public String getAccount_id() {
-        return account_id;
-    }
-
-    public void setAccount_id(String account_id) {
-        this.account_id = account_id;
-    }
 }

@@ -1,9 +1,9 @@
 package com.fab5.bankingapp.model;
 import javax.persistence.*;
-import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 @Entity
-public class Address {
+public class Address  {
     /**
      * Long id
      * String streetName
@@ -25,10 +25,6 @@ public class Address {
     private String city;
     private String state;
     private String zip;
-
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 
     public Long getId() {
         return id;
@@ -78,13 +74,6 @@ public class Address {
         this.zip = zip;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     @Override
     public String toString() {
@@ -95,8 +84,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
-                ", customer=" + customer +
+
                 '}';
     }
 }
-
