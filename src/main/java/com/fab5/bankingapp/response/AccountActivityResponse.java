@@ -19,7 +19,8 @@ public class AccountActivityResponse {
 
     public static ResponseEntity<Object> getAllActivityBuilder(HttpStatus httpStatus, Object object){
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("HttpStatus Code", httpStatus);
+        response.put("HttpStatus Code", httpStatus.value());
+        response.put("message", "Fetching All Account Activities");
         response.put("data result", object);
         return new ResponseEntity<>(response, httpStatus);
     }

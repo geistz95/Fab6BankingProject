@@ -47,11 +47,11 @@ public class AccountActivityService implements IDValidation<AccountActivityNotFo
     }
 
     public List<AccountActivity> getAccountActivities(Long accountId){
-<<<<<<< HEAD
+
        // verifyID2(accountId);
-=======
+
         verifyID2("error fetching account for account activities", accountId);
->>>>>>> development
+
         return accountActivityRepository.findByAccountId(accountId);
     }
 
