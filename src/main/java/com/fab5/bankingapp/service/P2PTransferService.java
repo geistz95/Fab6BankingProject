@@ -1,9 +1,11 @@
 package com.fab5.bankingapp.service;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.AccountNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.DepositNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.P2PTransferNotFoundException;
 import com.fab5.bankingapp.exceptions.NotFoundExceptions.ModelNotFoundExceptions.TransferNotFoundException;
+import com.fab5.bankingapp.exceptions.TransactionAlreadyCompletedException;
 import com.fab5.bankingapp.model.Account;
 import com.fab5.bankingapp.model.P2PTransfer;
 import com.fab5.bankingapp.repository.AccountRepository;
@@ -54,7 +56,7 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         transfer.setGiver(accountRepository.findById(payer_id).get());
         verifyID2("error fetching payee_id", payee_id);
         transfer.setReceiver(accountRepository.findById(payee_id).get());
-
+        transfer.setStatus(TransactionStatus.PENDING);
         logger.info("Creating P2P Transfer");
         transactionService.processTransfer(transfer);
         p2pTransferRepository.save(transfer);
@@ -66,8 +68,12 @@ public class P2PTransferService implements IDValidation<DepositNotFoundException
         if(transfer.isEmpty()){
             throw new TransferNotFoundException("There is no transfer of ID  : "+transfer_id);
         }
-        logger.info("Deleting/Undoing P2P Transfer ID : "+transfer_id);
-        transactionService.undoTransfer(transfer.get());
+        if(transfer.get().getStatus()== TransactionStatus.PENDING) {
+            logger.info("Deleting/Undoing P2P Transfer ID : " + transfer_id);
+            transactionService.undoTransfer(transfer.get());
+        }else{
+            throw new TransactionAlreadyCompletedException();
+        }
 
     }
 

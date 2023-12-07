@@ -1,5 +1,6 @@
 package com.fab5.bankingapp.model;
 
+import com.fab5.bankingapp.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,6 +22,8 @@ public class P2PTransfer {
     @JoinColumn(name = "giver_id")
     private Account giver;
 
+    @JsonIgnore
+    private TransactionStatus status;
 
     private Double amount;
 
@@ -34,12 +37,17 @@ public class P2PTransfer {
     @JsonIgnore
     private Withdraw withdraw;
 
-    public P2PTransfer(Long transfer_id, Account receiver, Account giver, Double amount) {
+    public P2PTransfer(Long transfer_id, Account receiver, Account giver, TransactionStatus status, Double amount, Deposit deposit, Withdraw withdraw) {
         this.transfer_id = transfer_id;
         this.receiver = receiver;
         this.giver = giver;
+        this.status = status;
         this.amount = amount;
+        this.deposit = deposit;
+        this.withdraw = withdraw;
     }
+
+
 
     public P2PTransfer() {
     }
@@ -90,5 +98,13 @@ public class P2PTransfer {
 
     public void setWithdraw(Withdraw withdraw) {
         this.withdraw = withdraw;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
     }
 }

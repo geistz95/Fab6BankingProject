@@ -90,7 +90,7 @@ public class TransactionService {
 
     @Transactional
     public void changeWithdrawal(Withdraw withdrawal, Withdraw oldWithdrawal){
-        Account account = withdrawal.getAccount();
+        Account account = oldWithdrawal.getAccount();
         account.setBalance(account.getBalance()-withdrawal.getAmount()+oldWithdrawal.getAmount());
         accountRepository.save(account);
     }
